@@ -35,11 +35,15 @@ class PlayState extends FlxState
             cards.push(card);
             add(card);
         }
-        for(i in 0...2) {
-            var card = new TurnCard(cards.length * 100, 352, robot);
-            cards.push(card);
-            add(card);
-        }
+        var left = new TurnCard(cards.length * 100, 352, robot, 'left');
+        cards.push(left);
+        add(left);
+        var right = new TurnCard(cards.length * 100, 352, robot, 'right');
+        cards.push(right);
+        add(right);
+        var uturn = new TurnCard(cards.length * 100, 352, robot, 'uturn');
+        cards.push(uturn);
+        add(uturn);
 	}
 
 	override public function update(elapsed:Float):Void

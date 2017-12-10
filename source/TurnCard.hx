@@ -4,13 +4,16 @@ import flixel.*;
 
 class TurnCard extends Card
 {
-    public function new(x:Int, y:Int, robot:Robot) {
+    private var direction:String;
+
+    public function new(x:Int, y:Int, robot:Robot, direction:String) {
         super(x, y, robot);
-        loadGraphic('assets/images/turnleft.png');
+        this.direction = direction;
+        loadGraphic('assets/images/turn' + direction + '.png');
     }
 
     override public function action() {
-        robot.turn('left');
+        robot.turn(direction);
         super.action();
     }
 }

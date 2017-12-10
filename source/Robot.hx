@@ -62,6 +62,36 @@ class Robot extends FlxSprite
                 facing = FlxObject.DOWN;
             }
         }
+
+        if(direction == 'right') {
+            if(facing == FlxObject.UP) {
+                facing = FlxObject.RIGHT;
+            }
+            else if(facing == FlxObject.RIGHT) {
+                facing = FlxObject.DOWN;
+            }
+            else if(facing == FlxObject.DOWN) {
+                facing = FlxObject.LEFT;
+            }
+            else if(facing == FlxObject.LEFT) {
+                facing = FlxObject.UP;
+            }
+        }
+
+        if(direction == 'uturn') {
+            if(facing == FlxObject.UP) {
+                facing = FlxObject.DOWN;
+            }
+            else if(facing == FlxObject.RIGHT) {
+                facing = FlxObject.LEFT;
+            }
+            else if(facing == FlxObject.DOWN) {
+                facing = FlxObject.UP;
+            }
+            else if(facing == FlxObject.LEFT) {
+                facing = FlxObject.RIGHT;
+            }
+        }
     }
 }
 
