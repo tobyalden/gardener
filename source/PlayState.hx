@@ -26,23 +26,20 @@ class PlayState extends FlxState
         grid.alpha = 0.5;
         add(grid);
 
-        robot = new Robot(0, 0);
+        robot = new Robot(160, 160);
         add(robot);
 
         cards = new Array<Card>();
         for(i in 0...3) {
-            var card = new MoveCard(i * 100, 352, robot);
+            var card = new MoveCard(cards.length * 100, 352, robot, i + 1);
             cards.push(card);
             add(card);
         }
         for(i in 0...2) {
-            var card = new TurnCard((3 + i) * 100, 352, robot);
+            var card = new TurnCard(cards.length * 100, 352, robot);
             cards.push(card);
             add(card);
         }
-        var card = new MoveCard(5 * 100, 352, robot);
-        cards.push(card);
-        add(card);
 	}
 
 	override public function update(elapsed:Float):Void
