@@ -6,8 +6,8 @@ class TurnCard extends Card
 {
     private var direction:String;
 
-    public function new(x:Int, y:Int, robot:Robot, direction:String) {
-        super(x, y, robot);
+    public function new(direction:String) {
+        super();
         this.direction = direction;
         loadGraphic('assets/images/turn' + direction + '.png');
     }

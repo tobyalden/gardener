@@ -7,8 +7,8 @@ class PlayState extends FlxState
     public static inline var FIELD_SIZE = 10;
     public static inline var TILE_SIZE = 32;
 
-    private var robot:Robot;
-    private var cards:Array<Card>;
+    public static var stack:Array<Card> = new Array<Card>();
+    public static var robot:Robot;
 
 	override public function create():Void
 	{
@@ -26,31 +26,24 @@ class PlayState extends FlxState
         grid.alpha = 0.5;
         add(grid);
 
-        robot = new Robot(3, 0);
+        robot = new Robot(3, 2);
         add(robot);
 
-        cards = new Array<Card>();
-        var till = new TillCard(cards.length * 100, 352, robot, 1);
-        cards.push(till);
+        var till = new TillCard(5);
+        stack.push(till);
         add(till);
 
         for(i in 0...3) {
-            var card = new MoveCard(cards.length * 100, 352, robot, i + 1);
-            cards.push(card);
+            var card = new MoveCard(1);
+            stack.push(card);
             add(card);
         }
-        var till = new TillCard(cards.length * 100, 352, robot, 1);
-        cards.push(till);
-        add(till);
-        var left = new TurnCard(cards.length * 100, 352, robot, 'left');
-        cards.push(left);
+        var left = new TurnCard('left');
+        stack.push(left);
         add(left);
-        var right = new TurnCard(cards.length * 100, 352, robot, 'right');
-        cards.push(right);
-        add(right);
-        var uturn = new TurnCard(cards.length * 100, 352, robot, 'uturn');
-        cards.push(uturn);
-        add(uturn);
+        var till = new TillCard(5);
+        stack.push(till);
+        add(till);
 	}
 
 	override public function update(elapsed:Float):Void
@@ -58,7 +51,7 @@ class PlayState extends FlxState
 		super.update(elapsed);
 
         if(FlxG.mouse.justPressed) {
-            var card = cards.shift();
+            var card = stack.shift();
             if(card != null) {
                 card.action();
             }

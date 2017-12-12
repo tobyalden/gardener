@@ -6,8 +6,8 @@ class TillCard extends Card
 {
     private var patternNum:Int;
 
-    public function new(x:Int, y:Int, robot:Robot, patternNum:Int) {
-        super(x, y, robot);
+    public function new(patternNum:Int) {
+        super();
         this.patternNum = patternNum;
         loadGraphic('assets/images/till' + patternNum + '.png');
     }
