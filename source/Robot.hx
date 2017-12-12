@@ -100,14 +100,37 @@ class Robot extends FlxSprite
         }
     }
 
-    public function till(pattern:Int) {
-        var tiles = [];
-        if(pattern == 1) {
-            tiles.push(FieldTile.getTile(tileX + 1, tileY));
-            tiles.push(FieldTile.getTile(tileX - 1, tileY));
-            tiles.push(FieldTile.getTile(tileX, tileY + 1));
-            tiles.push(FieldTile.getTile(tileX, tileY - 1));
+    public function getRelativeTiles(pattern:Array<Array<Int>>) {
+        var surroundingTiles = new Array<Array<FieldTile>>();
+        surroundingTiles.push([
+            FieldTile.getTile(tileX - 1, tileY - 1),
+            FieldTile.getTile(tileX - 1, tileY),
+            FieldTile.getTile(tileX - 1, tileY + 1)
+        ]);
+        surroundingTiles.push([
+            FieldTile.getTile(tileX, tileY - 1),
+            FieldTile.getTile(tileX, tileY),
+            FieldTile.getTile(tileX, tileY + 1)
+        ]);
+        surroundingTiles.push([
+            FieldTile.getTile(tileX + 1, tileY - 1),
+            FieldTile.getTile(tileX + 1, tileY),
+            FieldTile.getTile(tileX + 1, tileY + 1)
+        ]);
+
+        var relativeTiles = new Array<FieldTile>();
+        for(patternX in 0...3) {
+            for(patternY in 0...3) {
+                if(pattern[patternX][patternY] == 1) {
+                    relativeTiles.push(surroundingTiles[patternX][patternY]);
+                }
+            }
         }
+        return relativeTiles;
+    }
+
+    public function till(pattern:Array<Array<Int>>) {
+        var tiles = getRelativeTiles(pattern);
         for(tile in tiles) {
             if(tile != null) {
                 tile.animation.play('tilleddry');
@@ -115,4 +138,3 @@ class Robot extends FlxSprite
         }
     }
 }
-
