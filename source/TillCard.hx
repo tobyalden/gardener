@@ -27,6 +27,13 @@ class TillCard extends Card
                 [1, 0, 1]
             ]);
         }
+        else if(patternNum == 5) {
+            robot.till([
+                [1, 1, 1],
+                [0, 0, 1],
+                [0, 0, 1]
+            ]);
+        }
         super.action();
     }
 }

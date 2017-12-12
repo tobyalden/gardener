@@ -102,26 +102,29 @@ class Robot extends FlxSprite
 
     public function getRelativeTiles(pattern:Array<Array<Int>>) {
         var surroundingTiles = new Array<Array<FieldTile>>();
-        surroundingTiles.push([
-            FieldTile.getTile(tileX - 1, tileY - 1),
-            FieldTile.getTile(tileX - 1, tileY),
-            FieldTile.getTile(tileX - 1, tileY + 1)
-        ]);
-        surroundingTiles.push([
-            FieldTile.getTile(tileX, tileY - 1),
-            FieldTile.getTile(tileX, tileY),
-            FieldTile.getTile(tileX, tileY + 1)
-        ]);
-        surroundingTiles.push([
-            FieldTile.getTile(tileX + 1, tileY - 1),
-            FieldTile.getTile(tileX + 1, tileY),
-            FieldTile.getTile(tileX + 1, tileY + 1)
-        ]);
+        surroundingTiles = [
+            [
+                FieldTile.getTile(tileX + 1, tileY + 1),
+                FieldTile.getTile(tileX + 1, tileY),
+                FieldTile.getTile(tileX + 1, tileY - 1)
+            ],
+            [
+                FieldTile.getTile(tileX, tileY + 1),
+                FieldTile.getTile(tileX, tileY),
+                FieldTile.getTile(tileX, tileY - 1)
+            ],
+            [
+                FieldTile.getTile(tileX - 1, tileY + 1),
+                FieldTile.getTile(tileX - 1, tileY),
+                FieldTile.getTile(tileX - 1, tileY - 1)
+            ]
+        ];
 
         var relativeTiles = new Array<FieldTile>();
         for(patternX in 0...3) {
             for(patternY in 0...3) {
                 if(pattern[patternX][patternY] == 1) {
+                    trace('till at (${patternX}, ${patternY})');
                     relativeTiles.push(surroundingTiles[patternX][patternY]);
                 }
             }
