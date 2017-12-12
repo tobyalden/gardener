@@ -121,15 +121,50 @@ class Robot extends FlxSprite
         ];
 
         var relativeTiles = new Array<FieldTile>();
+        if(facing == FlxObject.RIGHT) {
+            pattern = rotatePattern(pattern);
+        }
+        else if(facing == FlxObject.DOWN) {
+            pattern = rotatePattern(pattern);
+            pattern = rotatePattern(pattern);
+        }
+        else if(facing == FlxObject.LEFT) {
+            pattern = rotatePattern(pattern);
+            pattern = rotatePattern(pattern);
+            pattern = rotatePattern(pattern);
+        }
         for(patternX in 0...3) {
             for(patternY in 0...3) {
                 if(pattern[patternX][patternY] == 1) {
-                    trace('till at (${patternX}, ${patternY})');
-                    relativeTiles.push(surroundingTiles[patternX][patternY]);
+                    relativeTiles.push(
+                        surroundingTiles[patternX][patternY]
+                    );
                 }
             }
         }
         return relativeTiles;
+    }
+
+    public function rotatePattern(pattern:Array<Array<Int>>) {
+        var rotatedPattern = [
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]
+        ];
+        for(copyX in 0...3) {
+            for(copyY in 0...3) {
+                rotatedPattern[copyX][copyY] = pattern[copyX][copyY];
+            }
+        }
+
+
+        for(i in 0...3) {
+            for (j in 0...3) {
+                var a = Std.int(Math.abs(i - 2));
+                rotatedPattern[i][j] = pattern[j][a];
+            }
+        }
+        return rotatedPattern;
     }
 
     public function till(pattern:Array<Array<Int>>) {
