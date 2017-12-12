@@ -25,7 +25,7 @@ class Card extends FlxSprite
 
     public function action() {
         // Overridden in child classes
-        kill();
+        alpha = 0.5;
     }
 }
 

@@ -10,6 +10,8 @@ class PlayState extends FlxState
     public static var stack:Array<Card> = new Array<Card>();
     public static var robot:Robot;
 
+    private var stackPosition = 0;
+
 	override public function create():Void
 	{
 		super.create();
@@ -51,9 +53,9 @@ class PlayState extends FlxState
 		super.update(elapsed);
 
         if(FlxG.mouse.justPressed) {
-            var card = stack.shift();
-            if(card != null) {
-                card.action();
+            if(stackPosition < stack.length) {
+                stack[stackPosition].action();
+                stackPosition++;
             }
         }
 	}
