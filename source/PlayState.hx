@@ -16,7 +16,7 @@ class PlayState extends FlxState
 
         for(x in 0...FIELD_SIZE) {
             for(y in 0...FIELD_SIZE) {
-                var tile = new FieldTile(x * TILE_SIZE, y * TILE_SIZE);
+                var tile = new FieldTile(x, y);
                 add(tile);
             }
         }
@@ -26,15 +26,22 @@ class PlayState extends FlxState
         grid.alpha = 0.5;
         add(grid);
 
-        robot = new Robot(160, 160);
+        robot = new Robot(3, 0);
         add(robot);
 
         cards = new Array<Card>();
+        var till = new TillCard(cards.length * 100, 352, robot, 1);
+        cards.push(till);
+        add(till);
+
         for(i in 0...3) {
             var card = new MoveCard(cards.length * 100, 352, robot, i + 1);
             cards.push(card);
             add(card);
         }
+        var till = new TillCard(cards.length * 100, 352, robot, 1);
+        cards.push(till);
+        add(till);
         var left = new TurnCard(cards.length * 100, 352, robot, 'left');
         cards.push(left);
         add(left);

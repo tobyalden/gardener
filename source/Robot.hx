@@ -5,8 +5,13 @@ import flixel.math.*;
 
 class Robot extends FlxSprite
 {
-    public function new(x:Int, y:Int) {
-        super(x, y);
+    private var tileX:Int;
+    private var tileY:Int;
+
+    public function new(tileX:Int, tileY:Int) {
+        super(tileX * PlayState.TILE_SIZE, tileY * PlayState.TILE_SIZE);
+        this.tileX = tileX;
+        this.tileY = tileY;
         loadGraphic('assets/images/robot.png', true, 32, 32);
         animation.add('up', [0]);
         animation.add('right', [1]);
@@ -34,17 +39,18 @@ class Robot extends FlxSprite
 
     public function move(steps:Int) {
         if(facing == FlxObject.UP) {
-            y -= PlayState.TILE_SIZE * steps;
+            tileY -= steps;
         }
         else if(facing == FlxObject.RIGHT) {
-            x += PlayState.TILE_SIZE * steps;
+            tileX += steps;
         }
         else if(facing == FlxObject.DOWN) {
-            y += PlayState.TILE_SIZE * steps;
+            tileY += steps;
         }
         else if(facing == FlxObject.LEFT) {
-            x -= PlayState.TILE_SIZE * steps;
+            tileX -= steps;
         }
+        setPosition(tileX * PlayState.TILE_SIZE, tileY * PlayState.TILE_SIZE);
     }
 
     public function turn(direction:String) {
@@ -90,6 +96,21 @@ class Robot extends FlxSprite
             }
             else if(facing == FlxObject.LEFT) {
                 facing = FlxObject.RIGHT;
+            }
+        }
+    }
+
+    public function till(pattern:Int) {
+        var tiles = [];
+        if(pattern == 1) {
+            tiles.push(FieldTile.getTile(tileX + 1, tileY));
+            tiles.push(FieldTile.getTile(tileX - 1, tileY));
+            tiles.push(FieldTile.getTile(tileX, tileY + 1));
+            tiles.push(FieldTile.getTile(tileX, tileY - 1));
+        }
+        for(tile in tiles) {
+            if(tile != null) {
+                tile.animation.play('tilleddry');
             }
         }
     }

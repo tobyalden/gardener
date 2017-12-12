@@ -17,5 +17,3 @@ class MoveCard extends Card
         super.action();
     }
 }
-
-
