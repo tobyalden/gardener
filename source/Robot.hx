@@ -18,7 +18,7 @@ class Robot extends FlxSprite
         animation.add('down', [2]);
         animation.add('left', [3]);
         animation.play('up');
-        facing = FlxObject.DOWN;
+        facing = FlxObject.UP;
     }
 
     override public function update(elapsed:Float):Void
@@ -101,24 +101,70 @@ class Robot extends FlxSprite
     }
 
     public function getRelativeTiles(pattern:Array<Array<Int>>) {
+        var size = pattern[0].length;
         var surroundingTiles = new Array<Array<FieldTile>>();
-        surroundingTiles = [
-            [
-                FieldTile.getTile(tileX + 1, tileY + 1),
-                FieldTile.getTile(tileX + 1, tileY),
-                FieldTile.getTile(tileX + 1, tileY - 1)
-            ],
-            [
-                FieldTile.getTile(tileX, tileY + 1),
-                FieldTile.getTile(tileX, tileY),
-                FieldTile.getTile(tileX, tileY - 1)
-            ],
-            [
-                FieldTile.getTile(tileX - 1, tileY + 1),
-                FieldTile.getTile(tileX - 1, tileY),
-                FieldTile.getTile(tileX - 1, tileY - 1)
-            ]
-        ];
+        if(size == 3) {
+            surroundingTiles = [
+                [
+                    FieldTile.getTile(tileX + 1, tileY + 1),
+                    FieldTile.getTile(tileX + 1, tileY),
+                    FieldTile.getTile(tileX + 1, tileY - 1)
+                ],
+                [
+                    FieldTile.getTile(tileX, tileY + 1),
+                    FieldTile.getTile(tileX, tileY),
+                    FieldTile.getTile(tileX, tileY - 1)
+                ],
+                [
+                    FieldTile.getTile(tileX - 1, tileY + 1),
+                    FieldTile.getTile(tileX - 1, tileY),
+                    FieldTile.getTile(tileX - 1, tileY - 1)
+                ]
+            ];
+        }
+        else if(size == 5) {
+            surroundingTiles = [
+                [
+                    FieldTile.getTile(tileX + 2, tileY + 2),
+                    FieldTile.getTile(tileX + 2, tileY + 1),
+                    FieldTile.getTile(tileX + 2, tileY),
+                    FieldTile.getTile(tileX + 2, tileY - 1),
+                    FieldTile.getTile(tileX + 2, tileY - 2)
+                ],
+                [
+                    FieldTile.getTile(tileX + 1, tileY + 2),
+                    FieldTile.getTile(tileX + 1, tileY + 1),
+                    FieldTile.getTile(tileX + 1, tileY),
+                    FieldTile.getTile(tileX + 1, tileY - 1),
+                    FieldTile.getTile(tileX + 1, tileY - 2)
+                ],
+                [
+                    FieldTile.getTile(tileX, tileY + 2),
+                    FieldTile.getTile(tileX, tileY + 1),
+                    FieldTile.getTile(tileX, tileY),
+                    FieldTile.getTile(tileX, tileY - 1),
+                    FieldTile.getTile(tileX, tileY - 2)
+                ],
+                [
+                    FieldTile.getTile(tileX - 1, tileY + 2),
+                    FieldTile.getTile(tileX - 1, tileY + 1),
+                    FieldTile.getTile(tileX - 1, tileY),
+                    FieldTile.getTile(tileX - 1, tileY - 1),
+                    FieldTile.getTile(tileX - 1, tileY - 2)
+                ],
+                [
+                    FieldTile.getTile(tileX - 2, tileY + 2),
+                    FieldTile.getTile(tileX - 2, tileY + 1),
+                    FieldTile.getTile(tileX - 2, tileY),
+                    FieldTile.getTile(tileX - 2, tileY - 1),
+                    FieldTile.getTile(tileX - 2, tileY - 2)
+                ]
+            ];
+            // Don't know why I need to do this but I do ^^;;
+            pattern = rotatePattern(pattern);
+            pattern = rotatePattern(pattern);
+            pattern = rotatePattern(pattern);
+        }
 
         var relativeTiles = new Array<FieldTile>();
         if(facing == FlxObject.RIGHT) {
@@ -133,8 +179,8 @@ class Robot extends FlxSprite
             pattern = rotatePattern(pattern);
             pattern = rotatePattern(pattern);
         }
-        for(patternX in 0...3) {
-            for(patternY in 0...3) {
+        for(patternX in 0...size) {
+            for(patternY in 0...size) {
                 if(pattern[patternX][patternY] == 1) {
                     relativeTiles.push(
                         surroundingTiles[patternX][patternY]
@@ -146,21 +192,18 @@ class Robot extends FlxSprite
     }
 
     public function rotatePattern(pattern:Array<Array<Int>>) {
-        var rotatedPattern = [
-            [0, 0, 0],
-            [0, 0, 0],
-            [0, 0, 0]
-        ];
-        for(copyX in 0...3) {
-            for(copyY in 0...3) {
+        var size = pattern[0].length;
+        var rotatedPattern = [for (x in 0...size) [for (y in 0...size) 0]];
+        for(copyX in 0...size) {
+            for(copyY in 0...size) {
                 rotatedPattern[copyX][copyY] = pattern[copyX][copyY];
             }
         }
 
 
-        for(i in 0...3) {
-            for (j in 0...3) {
-                var a = Std.int(Math.abs(i - 2));
+        for(i in 0...size) {
+            for (j in 0...size) {
+                var a = Std.int(Math.abs(i - (size - 1)));
                 rotatedPattern[i][j] = pattern[j][a];
             }
         }
@@ -172,6 +215,15 @@ class Robot extends FlxSprite
         for(tile in tiles) {
             if(tile != null) {
                 tile.animation.play('tilleddry');
+            }
+        }
+    }
+
+    public function water(pattern:Array<Array<Int>>) {
+        var tiles = getRelativeTiles(pattern);
+        for(tile in tiles) {
+            if(tile != null) {
+                tile.animation.play('wet');
             }
         }
     }
