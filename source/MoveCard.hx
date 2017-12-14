@@ -13,7 +13,7 @@ class MoveCard extends Card
     }
 
     override public function action() {
-        robot.move(steps);
+        PlayState.robot.move(steps);
         super.action();
     }
 }

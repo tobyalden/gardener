@@ -13,7 +13,7 @@ class TurnCard extends Card
     }
 
     override public function action() {
-        robot.turn(direction);
+        PlayState.robot.turn(direction);
         super.action();
     }
 }

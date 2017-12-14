@@ -5,11 +5,8 @@ import flixel.math.*;
 
 class Card extends FlxSprite
 {
-    private var robot:Robot;
-
     public function new() {
         super(0, 0);
-        this.robot = PlayState.robot;
     }
 
     override public function update(elapsed:Float) {
