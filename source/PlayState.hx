@@ -1,7 +1,10 @@
 package;
 
+using flixel.util.FlxSpriteUtil;
+
 import flixel.*;
 import flixel.math.*;
+import flixel.util.*;
 
 class PlayState extends FlxState
 {
@@ -82,7 +85,22 @@ class PlayState extends FlxState
             new CopyCard(6),
             new CopyCard(7)
         ];
+        trace(deck.length);
         new FlxRandom().shuffle(deck);
+
+        var canvas = new FlxSprite();
+        canvas.makeGraphic(
+            FlxG.width, FlxG.height, FlxColor.TRANSPARENT, true
+        );
+        add(canvas);
+        var lineStyle:LineStyle = { color: FlxColor.WHITE, thickness: 3 };
+        var drawStyle:DrawStyle = { smoothing: false };
+        for(i in 0...5) {
+            canvas.drawRect(
+                i * 100, 352, 100, 200,
+                FlxColor.TRANSPARENT, lineStyle, drawStyle
+            );
+        }
 
         for(x in 0...FIELD_SIZE) {
             for(y in 0...FIELD_SIZE) {
@@ -100,13 +118,11 @@ class PlayState extends FlxState
         add(robot);
 
         for(i in 0...5) {
-            //var card = deck.pop();
-            var card = new CopyCard(1);
+            var card = deck.pop();
             stack.push(card);
             add(card);
         }
-
-        for(i in 0...25) {
+        for(i in 0...10) {
             var card = deck.pop();
             hand.push(card);
             add(card);
