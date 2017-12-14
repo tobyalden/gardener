@@ -18,6 +18,7 @@ class PlayState extends FlxState
     public static var recursionCount = 0;
 
     private var deck:Array<Card>;
+    private var runButton:RunButton;
 
 	override public function create():Void
 	{
@@ -88,6 +89,7 @@ class PlayState extends FlxState
         trace(deck.length);
         new FlxRandom().shuffle(deck);
 
+        // Add borders around hand
         var canvas = new FlxSprite();
         canvas.makeGraphic(
             FlxG.width, FlxG.height, FlxColor.TRANSPARENT, true
@@ -122,11 +124,14 @@ class PlayState extends FlxState
             stack.push(card);
             add(card);
         }
-        for(i in 0...10) {
+        for(i in 0...25) {
             var card = deck.pop();
             hand.push(card);
             add(card);
         }
+
+        runButton = new RunButton(500, 352);
+        add(runButton);
 	}
 
 	override public function update(elapsed:Float):Void
