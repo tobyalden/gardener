@@ -39,16 +39,16 @@ class Robot extends FlxSprite
 
     public function move(steps:Int) {
         if(facing == FlxObject.UP) {
-            tileY -= steps;
+            tileY = Std.int(Math.max(0, tileY - steps));
         }
         else if(facing == FlxObject.RIGHT) {
-            tileX += steps;
+            tileX = Std.int(Math.min(PlayState.FIELD_SIZE, tileX + steps));
         }
         else if(facing == FlxObject.DOWN) {
-            tileY += steps;
+            tileY = Std.int(Math.min(PlayState.FIELD_SIZE, tileY + steps));
         }
         else if(facing == FlxObject.LEFT) {
-            tileX -= steps;
+            tileX = Std.int(Math.max(0, tileX - steps));
         }
         setPosition(tileX * PlayState.TILE_SIZE, tileY * PlayState.TILE_SIZE);
     }
@@ -106,68 +106,66 @@ class Robot extends FlxSprite
         if(size == 3) {
             surroundingTiles = [
                 [
-                    FieldTile.getTile(tileX + 1, tileY + 1),
-                    FieldTile.getTile(tileX + 1, tileY),
+                    FieldTile.getTile(tileX - 1, tileY - 1),
+                    FieldTile.getTile(tileX, tileY - 1),
                     FieldTile.getTile(tileX + 1, tileY - 1)
                 ],
                 [
-                    FieldTile.getTile(tileX, tileY + 1),
+                    FieldTile.getTile(tileX - 1, tileY),
                     FieldTile.getTile(tileX, tileY),
-                    FieldTile.getTile(tileX, tileY - 1)
+                    FieldTile.getTile(tileX + 1, tileY)
                 ],
                 [
                     FieldTile.getTile(tileX - 1, tileY + 1),
-                    FieldTile.getTile(tileX - 1, tileY),
-                    FieldTile.getTile(tileX - 1, tileY - 1)
+                    FieldTile.getTile(tileX, tileY + 1),
+                    FieldTile.getTile(tileX + 1, tileY + 1)
                 ]
             ];
         }
         else if(size == 5) {
             surroundingTiles = [
                 [
-                    FieldTile.getTile(tileX + 2, tileY + 2),
-                    FieldTile.getTile(tileX + 2, tileY + 1),
-                    FieldTile.getTile(tileX + 2, tileY),
-                    FieldTile.getTile(tileX + 2, tileY - 1),
+                    FieldTile.getTile(tileX - 2, tileY - 2),
+                    FieldTile.getTile(tileX - 1, tileY - 2),
+                    FieldTile.getTile(tileX, tileY - 2),
+                    FieldTile.getTile(tileX + 1, tileY - 2),
                     FieldTile.getTile(tileX + 2, tileY - 2)
                 ],
                 [
-                    FieldTile.getTile(tileX + 1, tileY + 2),
-                    FieldTile.getTile(tileX + 1, tileY + 1),
-                    FieldTile.getTile(tileX + 1, tileY),
-                    FieldTile.getTile(tileX + 1, tileY - 1),
-                    FieldTile.getTile(tileX + 1, tileY - 2)
-                ],
-                [
-                    FieldTile.getTile(tileX, tileY + 2),
-                    FieldTile.getTile(tileX, tileY + 1),
-                    FieldTile.getTile(tileX, tileY),
-                    FieldTile.getTile(tileX, tileY - 1),
-                    FieldTile.getTile(tileX, tileY - 2)
-                ],
-                [
-                    FieldTile.getTile(tileX - 1, tileY + 2),
-                    FieldTile.getTile(tileX - 1, tileY + 1),
-                    FieldTile.getTile(tileX - 1, tileY),
+                    FieldTile.getTile(tileX - 2, tileY - 1),
                     FieldTile.getTile(tileX - 1, tileY - 1),
-                    FieldTile.getTile(tileX - 1, tileY - 2)
+                    FieldTile.getTile(tileX, tileY - 1),
+                    FieldTile.getTile(tileX + 1, tileY - 1),
+                    FieldTile.getTile(tileX + 2, tileY - 1)
+                ],
+                [
+                    FieldTile.getTile(tileX - 2, tileY),
+                    FieldTile.getTile(tileX - 1, tileY),
+                    FieldTile.getTile(tileX, tileY),
+                    FieldTile.getTile(tileX + 1, tileY),
+                    FieldTile.getTile(tileX + 2, tileY)
+                ],
+                [
+                    FieldTile.getTile(tileX - 2, tileY + 1),
+                    FieldTile.getTile(tileX - 1, tileY + 1),
+                    FieldTile.getTile(tileX, tileY + 1),
+                    FieldTile.getTile(tileX + 1, tileY + 1),
+                    FieldTile.getTile(tileX + 2, tileY + 1)
                 ],
                 [
                     FieldTile.getTile(tileX - 2, tileY + 2),
-                    FieldTile.getTile(tileX - 2, tileY + 1),
-                    FieldTile.getTile(tileX - 2, tileY),
-                    FieldTile.getTile(tileX - 2, tileY - 1),
-                    FieldTile.getTile(tileX - 2, tileY - 2)
+                    FieldTile.getTile(tileX - 1, tileY + 2),
+                    FieldTile.getTile(tileX, tileY + 2),
+                    FieldTile.getTile(tileX + 1, tileY + 2),
+                    FieldTile.getTile(tileX + 2, tileY + 2)
                 ]
             ];
-            // Don't know why I need to do this but I do ^^;;
-            pattern = rotatePattern(pattern);
-            pattern = rotatePattern(pattern);
-            pattern = rotatePattern(pattern);
         }
 
         var relativeTiles = new Array<FieldTile>();
         if(facing == FlxObject.RIGHT) {
+            pattern = rotatePattern(pattern);
+            pattern = rotatePattern(pattern);
             pattern = rotatePattern(pattern);
         }
         else if(facing == FlxObject.DOWN) {
@@ -175,8 +173,6 @@ class Robot extends FlxSprite
             pattern = rotatePattern(pattern);
         }
         else if(facing == FlxObject.LEFT) {
-            pattern = rotatePattern(pattern);
-            pattern = rotatePattern(pattern);
             pattern = rotatePattern(pattern);
         }
         for(patternX in 0...size) {
