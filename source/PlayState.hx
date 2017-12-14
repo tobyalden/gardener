@@ -12,6 +12,7 @@ class PlayState extends FlxState
     public static var hand:Array<Card> = new Array<Card>();
     public static var robot:Robot;
     public static var stackPosition = 0;
+    public static var recursionCount = 0;
 
     private var deck:Array<Card>;
 
@@ -99,7 +100,8 @@ class PlayState extends FlxState
         add(robot);
 
         for(i in 0...5) {
-            var card = deck.pop();
+            //var card = deck.pop();
+            var card = new CopyCard(1);
             stack.push(card);
             add(card);
         }
@@ -117,6 +119,7 @@ class PlayState extends FlxState
 
         if(FlxG.mouse.justPressed) {
             if(stackPosition < stack.length) {
+                recursionCount = 0;
                 stack[stackPosition].action(false);
                 stackPosition++;
             }

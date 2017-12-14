@@ -24,6 +24,11 @@ class CopyCard extends Card
     }
 
     override public function action(copy:Bool) {
+        if(PlayState.recursionCount > 100) {
+            trace("breaking out of infinite loop...");
+            return;
+        }
+        PlayState.recursionCount += 1;
         var copyStackPosition:Int;
         if(copyNum == COPY_LEFT) {
             copyStackPosition = PlayState.stackPosition - 1;
@@ -41,7 +46,6 @@ class CopyCard extends Card
             PlayState.stack[copyStackPosition].action(true);
         }
 
-        // TODO: Prevent recursion
         super.action(copy);
     }
 }
