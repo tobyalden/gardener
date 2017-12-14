@@ -12,8 +12,8 @@ class MoveCard extends Card
         loadGraphic('assets/images/move' + steps + '.png');
     }
 
-    override public function action() {
+    override public function action(copy:Bool) {
         PlayState.robot.move(steps);
-        super.action();
+        super.action(copy);
     }
 }

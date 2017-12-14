@@ -12,7 +12,7 @@ class WaterCard extends Card
         loadGraphic('assets/images/water' + patternNum + '.png');
     }
 
-    override public function action() {
+    override public function action(copy:Bool) {
         if(patternNum == 1) {
             PlayState.robot.water([
                 [0, 0, 0, 0, 0],
@@ -112,6 +112,6 @@ class WaterCard extends Card
                 [0, 0, 0, 0, 0]
             ]);
         }
-        super.action();
+        super.action(copy);
     }
 }

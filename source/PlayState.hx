@@ -11,10 +11,9 @@ class PlayState extends FlxState
     public static var stack:Array<Card> = new Array<Card>();
     public static var hand:Array<Card> = new Array<Card>();
     public static var robot:Robot;
+    public static var stackPosition = 0;
 
     private var deck:Array<Card>;
-
-    private var stackPosition = 0;
 
 	override public function create():Void
 	{
@@ -60,15 +59,27 @@ class PlayState extends FlxState
             new TillCard(10),
             new WaterCard(1),
             new WaterCard(2),
+            new WaterCard(2),
             new WaterCard(3),
+            new WaterCard(3),
+            new WaterCard(4),
             new WaterCard(4),
             new WaterCard(5),
             new WaterCard(6),
             new WaterCard(7),
+            new WaterCard(7),
+            new WaterCard(8),
             new WaterCard(8),
             new WaterCard(9),
             new WaterCard(10),
-            new WaterCard(11)
+            new WaterCard(11),
+            new CopyCard(1),
+            new CopyCard(2),
+            new CopyCard(3),
+            new CopyCard(4),
+            new CopyCard(5),
+            new CopyCard(6),
+            new CopyCard(7)
         ];
         new FlxRandom().shuffle(deck);
 
@@ -84,7 +95,7 @@ class PlayState extends FlxState
         grid.alpha = 0.5;
         add(grid);
 
-        robot = new Robot(3, 2);
+        robot = new Robot(5, 5);
         add(robot);
 
         for(i in 0...5) {
@@ -106,7 +117,7 @@ class PlayState extends FlxState
 
         if(FlxG.mouse.justPressed) {
             if(stackPosition < stack.length) {
-                stack[stackPosition].action();
+                stack[stackPosition].action(false);
                 stackPosition++;
             }
         }
@@ -116,6 +127,7 @@ class PlayState extends FlxState
     {
         stack = new Array<Card>();
         hand = new Array<Card>();
+        stackPosition = 0;
         return true;
     }
 }

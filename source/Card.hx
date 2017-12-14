@@ -30,9 +30,11 @@ class Card extends FlxSprite
         super.update(elapsed);
     }
 
-    public function action() {
+    public function action(copy:Bool) {
         // Overridden in child classes
-        alpha = 0.5;
+        if(!copy) {
+            alpha = 0.5;
+        }
     }
 }
 
