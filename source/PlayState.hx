@@ -8,6 +8,7 @@ class PlayState extends FlxState
     public static inline var TILE_SIZE = 32;
 
     public static var stack:Array<Card> = new Array<Card>();
+    public static var hand:Array<Card> = new Array<Card>();
     public static var robot:Robot;
 
     private var stackPosition = 0;
@@ -30,6 +31,12 @@ class PlayState extends FlxState
 
         robot = new Robot(3, 2);
         add(robot);
+
+        for(i in 0...25) {
+            var card = new MoveCard(1);
+            hand.push(card);
+            add(card);
+        }
 
         var till = new TillCard(5);
         stack.push(till);
