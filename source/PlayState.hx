@@ -111,4 +111,11 @@ class PlayState extends FlxState
             }
         }
 	}
+
+    override public function switchTo(nextState:FlxState):Bool
+    {
+        stack = new Array<Card>();
+        hand = new Array<Card>();
+        return true;
+    }
 }

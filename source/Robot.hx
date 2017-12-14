@@ -23,6 +23,9 @@ class Robot extends FlxSprite
 
     override public function update(elapsed:Float):Void
     {
+        if (FlxG.keys.justPressed.R) {
+            FlxG.switchState(new PlayState());
+        }
         if(facing == FlxObject.UP) {
             animation.play('up');
         }
