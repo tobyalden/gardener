@@ -157,9 +157,19 @@ class PlayState extends FlxState
                 if(clicked(card) && stack.length < 5) {
                     hand.remove(card);
                     stack.push(card);
-                    break;
+                    return;
                 }
             }
+
+            // Check if any cards in the stack were pressed
+            for(card in stack) {
+                if(clicked(card)) {
+                    stack.remove(card);
+                    hand.push(card);
+                    return;
+                }
+            }
+
         }
 	}
 
