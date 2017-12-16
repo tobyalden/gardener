@@ -21,8 +21,7 @@ class Robot extends FlxSprite
         facing = FlxObject.UP;
     }
 
-    override public function update(elapsed:Float):Void
-    {
+    override public function update(elapsed:Float):Void {
         if (FlxG.keys.justPressed.R) {
             FlxG.switchState(new PlayState());
         }
@@ -213,7 +212,7 @@ class Robot extends FlxSprite
         var tiles = getRelativeTiles(pattern);
         for(tile in tiles) {
             if(tile != null) {
-                tile.animation.play('tilleddry');
+                tile.till();
             }
         }
     }
@@ -222,7 +221,7 @@ class Robot extends FlxSprite
         var tiles = getRelativeTiles(pattern);
         for(tile in tiles) {
             if(tile != null) {
-                tile.animation.play('wet');
+                tile.water();
             }
         }
     }
