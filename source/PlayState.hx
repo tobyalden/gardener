@@ -10,6 +10,7 @@ class PlayState extends FlxState
 {
     public static inline var FIELD_SIZE = 10;
     public static inline var TILE_SIZE = 32;
+    public static inline var EXECUTION_TIME = 1;
 
     public static var stack:Array<Card> = new Array<Card>();
     public static var hand:Array<Card> = new Array<Card>();
@@ -19,6 +20,7 @@ class PlayState extends FlxState
 
     private var deck:Array<Card>;
     private var runButton:RunButton;
+    private var stackExecution:FlxTimer;
 
 	override public function create():Void
 	{
@@ -132,20 +134,38 @@ class PlayState extends FlxState
 
         runButton = new RunButton(500, 352);
         add(runButton);
+
+        stackExecution = new FlxTimer();
 	}
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
 
-        if(FlxG.mouse.justPressed) {
-            if(stackPosition < stack.length) {
-                recursionCount = 0;
-                stack[stackPosition].action(false);
-                stackPosition++;
-            }
+        // Check if run button was pressed
+        if(
+            FlxG.mouse.justPressed
+            && runButton.pixelsOverlapPoint(
+                new FlxPoint(FlxG.mouse.screenX, FlxG.mouse.screenY)
+            )
+        ) {
+            runButton.animation.play('inactive');
+            recursionCount = 0;
+            stackPosition = 0;
+            executeStack();
         }
 	}
+
+    public function executeStack() {
+        if(stackPosition >= stack.length) {
+            return;
+        }
+        stack[stackPosition].action(false);
+        stackPosition++;
+        stackExecution.start(EXECUTION_TIME, function(_:FlxTimer) {
+            executeStack();
+        });
+    }
 
     override public function switchTo(nextState:FlxState):Bool
     {
