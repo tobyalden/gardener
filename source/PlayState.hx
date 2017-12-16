@@ -121,11 +121,6 @@ class PlayState extends FlxState
         robot = new Robot(5, 5);
         add(robot);
 
-        for(i in 0...5) {
-            var card = deck.pop();
-            stack.push(card);
-            add(card);
-        }
         for(i in 0...25) {
             var card = deck.pop();
             hand.push(card);
@@ -142,22 +137,43 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 
-        // Check if run button was pressed
-        if(
-            FlxG.mouse.justPressed
-            && runButton.pixelsOverlapPoint(
-                new FlxPoint(FlxG.mouse.screenX, FlxG.mouse.screenY)
-            )
-        ) {
+        if(stackExecution.active || stack.length != 5) {
             runButton.animation.play('inactive');
-            recursionCount = 0;
-            stackPosition = 0;
-            executeStack();
+        }
+        else {
+            runButton.animation.play('active');
+        }
+
+        if(FlxG.mouse.justPressed) {
+            // Check if run button was pressed
+            if(clicked(runButton) && stack.length == 5) {
+                recursionCount = 0;
+                stackPosition = 0;
+                executeStack();
+            }
+
+            // Check if any cards in the hand were pressed
+            for(card in hand) {
+                if(clicked(card) && stack.length < 5) {
+                    hand.remove(card);
+                    stack.push(card);
+                    break;
+                }
+            }
         }
 	}
 
+    private function clicked(e:FlxSprite) {
+        if(stackExecution.active) {
+            return false;
+        }
+        return e.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y));
+    }
+
     public function executeStack() {
         if(stackPosition >= stack.length) {
+            stack = new Array<Card>();
+            stackExecution.cancel();
             return;
         }
         stack[stackPosition].action(false);

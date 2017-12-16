@@ -45,10 +45,10 @@ class Robot extends FlxSprite
             tileY = Std.int(Math.max(0, tileY - steps));
         }
         else if(facing == FlxObject.RIGHT) {
-            tileX = Std.int(Math.min(PlayState.FIELD_SIZE, tileX + steps));
+            tileX = Std.int(Math.min(PlayState.FIELD_SIZE - 1, tileX + steps));
         }
         else if(facing == FlxObject.DOWN) {
-            tileY = Std.int(Math.min(PlayState.FIELD_SIZE, tileY + steps));
+            tileY = Std.int(Math.min(PlayState.FIELD_SIZE - 1, tileY + steps));
         }
         else if(facing == FlxObject.LEFT) {
             tileX = Std.int(Math.max(0, tileX - steps));
