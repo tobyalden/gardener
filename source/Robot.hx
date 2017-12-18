@@ -40,19 +40,22 @@ class Robot extends FlxSprite
     }
 
     public function move(steps:Int) {
-        if(facing == FlxObject.UP) {
-            tileY = Std.int(Math.max(0, tileY - steps));
+        for(i in 0...steps) {
+            if(facing == FlxObject.UP) {
+                tileY = Std.int(Math.max(0, tileY - 1));
+            }
+            else if(facing == FlxObject.RIGHT) {
+                tileX = Std.int(Math.min(PlayState.FIELD_SIZE - 1, tileX + 1));
+            }
+            else if(facing == FlxObject.DOWN) {
+                tileY = Std.int(Math.min(PlayState.FIELD_SIZE - 1, tileY + 1));
+            }
+            else if(facing == FlxObject.LEFT) {
+                tileX = Std.int(Math.max(0, tileX - 1));
+            }
+            setPosition(tileX * PlayState.TILE_SIZE, tileY * PlayState.TILE_SIZE);
+            FieldTile.getTile(tileX, tileY).plant();
         }
-        else if(facing == FlxObject.RIGHT) {
-            tileX = Std.int(Math.min(PlayState.FIELD_SIZE - 1, tileX + steps));
-        }
-        else if(facing == FlxObject.DOWN) {
-            tileY = Std.int(Math.min(PlayState.FIELD_SIZE - 1, tileY + steps));
-        }
-        else if(facing == FlxObject.LEFT) {
-            tileX = Std.int(Math.max(0, tileX - steps));
-        }
-        setPosition(tileX * PlayState.TILE_SIZE, tileY * PlayState.TILE_SIZE);
     }
 
     public function turn(direction:String) {

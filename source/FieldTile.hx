@@ -14,6 +14,7 @@ class FieldTile extends FlxSprite
 
     private var isWet:Bool;
     private var isTilled:Bool;
+    private var plantProgress:Int;
 
     public function new(x:Int, y:Int) {
         super(x * PlayState.TILE_SIZE, y * PlayState.TILE_SIZE);
@@ -22,29 +23,46 @@ class FieldTile extends FlxSprite
         animation.add('wet', [1]);
         animation.add('tilleddry', [2]);
         animation.add('tilledwet', [3]);
+        animation.add('plant1dry', [4]); // seeded
+        animation.add('plant1wet', [5]); // seeded
+        animation.add('plant2dry', [6]);
+        animation.add('plant2wet', [7]);
+        animation.add('plant3dry', [8]);
+        animation.add('plant3wet', [9]);
+        animation.add('plant4dry', [10]);
+        animation.add('plant4wet', [11]);
+        animation.add('plant5dry', [12]);
+        animation.add('plant5wet', [13]);
+        animation.add('deadplant2dry', [24]);
+        animation.add('deadplant2wet', [25]);
+        animation.add('deadplant3dry', [16]);
+        animation.add('deadplant3wet', [17]);
+        animation.add('deadplant4dry', [18]);
+        animation.add('deadplant4wet', [19]);
+        animation.add('deadplant5dry', [20]);
+        animation.add('deadplant5wet', [21]);
         animation.play('dry');
         all.set(Std.string(x) + '-' + Std.string(y), this);
         isWet = false;
         isTilled = false;
+        plantProgress = 0;
     }
 
     override public function update(elapsed:Float):Void {
+        var animationName:String;
         if(isWet) {
-            if(isTilled) {
-                animation.play('tilledwet');
-            }
-            else {
-                animation.play('wet');
-            }
+            animationName = 'wet';
         }
         else {
-            if(isTilled) {
-                animation.play('tilleddry');
-            }
-            else {
-                animation.play('dry');
-            }
+            animationName = 'dry';
         }
+        if(plantProgress > 0) {
+            animationName = 'plant' + plantProgress + animationName;
+        }
+        else if(isTilled) {
+            animationName = 'tilled' + animationName;
+        }
+        animation.play(animationName);
     }
 
     public function water() {
@@ -54,4 +72,11 @@ class FieldTile extends FlxSprite
     public function till() {
         isTilled = true;
     }
+
+    public function plant() {
+        if(isTilled && plantProgress == 0) {
+            plantProgress = 1;
+        }
+    }
+
 }
