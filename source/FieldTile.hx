@@ -71,6 +71,7 @@ class FieldTile extends FlxSprite
 
     public function till() {
         isTilled = true;
+        plantProgress = 0;
     }
 
     public function plant() {
