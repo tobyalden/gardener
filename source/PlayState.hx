@@ -11,6 +11,7 @@ class PlayState extends FlxState
     public static inline var FIELD_SIZE = 10;
     public static inline var TILE_SIZE = 32;
     public static inline var EXECUTION_TIME = 1;
+    public static inline var HAND_SIZE = 25;
 
     public static var stack:Array<Card> = new Array<Card>();
     public static var hand:Array<Card> = new Array<Card>();
@@ -22,11 +23,52 @@ class PlayState extends FlxState
     private var runButton:RunButton;
     private var stackExecution:FlxTimer;
 
-	override public function create():Void
+    override public function create():Void
 	{
 		super.create();
 
-        deck = [
+        deck = getNewDeck();
+
+        // Add borders around hand
+        var canvas = new FlxSprite();
+        canvas.makeGraphic(
+            FlxG.width, FlxG.height, FlxColor.TRANSPARENT, true
+        );
+        add(canvas);
+        var lineStyle:LineStyle = { color: FlxColor.WHITE, thickness: 3 };
+        var drawStyle:DrawStyle = { smoothing: false };
+        for(i in 0...5) {
+            canvas.drawRect(
+                i * 100, 352, 100, 200,
+                FlxColor.TRANSPARENT, lineStyle, drawStyle
+            );
+        }
+
+        for(x in 0...FIELD_SIZE) {
+            for(y in 0...FIELD_SIZE) {
+                var tile = new FieldTile(x, y);
+                add(tile);
+            }
+        }
+
+        var grid = new FlxSprite(0, 0);
+        grid.loadGraphic('assets/images/grid.png');
+        grid.alpha = 0.5;
+        add(grid);
+
+        robot = new Robot(5, 5);
+        add(robot);
+
+        runButton = new RunButton(500, 352);
+        add(runButton);
+
+        dealHand();
+
+        stackExecution = new FlxTimer();
+	}
+
+    public function getNewDeck() {
+        var newDeck = [
             new MoveCard(1),
             new MoveCard(1),
             new MoveCard(1),
@@ -88,54 +130,18 @@ class PlayState extends FlxState
             new CopyCard(6),
             new CopyCard(7)
         ];
-        trace(deck.length);
-        new FlxRandom().shuffle(deck);
+        new FlxRandom().shuffle(newDeck);
+        return newDeck;
+    }
 
-        // Add borders around hand
-        var canvas = new FlxSprite();
-        canvas.makeGraphic(
-            FlxG.width, FlxG.height, FlxColor.TRANSPARENT, true
-        );
-        add(canvas);
-        var lineStyle:LineStyle = { color: FlxColor.WHITE, thickness: 3 };
-        var drawStyle:DrawStyle = { smoothing: false };
-        for(i in 0...5) {
-            canvas.drawRect(
-                i * 100, 352, 100, 200,
-                FlxColor.TRANSPARENT, lineStyle, drawStyle
-            );
-        }
-
-        for(x in 0...FIELD_SIZE) {
-            for(y in 0...FIELD_SIZE) {
-                var tile = new FieldTile(x, y);
-                add(tile);
-            }
-        }
-
-        var grid = new FlxSprite(0, 0);
-        grid.loadGraphic('assets/images/grid.png');
-        grid.alpha = 0.5;
-        add(grid);
-
-        robot = new Robot(5, 5);
-        add(robot);
-
-        for(i in 0...25) {
-            var card = deck.pop();
-            hand.push(card);
-            add(card);
-        }
-
-        runButton = new RunButton(500, 352);
-        add(runButton);
-
-        stackExecution = new FlxTimer();
-	}
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+
+        if(FlxG.keys.justPressed.N) {
+            advanceDay();
+        }
 
         if(stackExecution.active || stack.length != 5) {
             runButton.animation.play('inactive');
@@ -191,6 +197,26 @@ class PlayState extends FlxState
         stackExecution.start(EXECUTION_TIME, function(_:FlxTimer) {
             executeStack();
         });
+    }
+
+    private function advanceDay() {
+        stack = new Array<Card>();
+        hand = new Array<Card>();
+        deck = getNewDeck();
+        dealHand();
+        stackPosition = 0;
+    }
+
+    private function dealHand() {
+        for(i in 0...HAND_SIZE) {
+            var card = deck.pop();
+            hand.push(card);
+            add(card);
+        }
+    }
+
+    private function getNewDeckAndDeal() {
+        new FlxRandom().shuffle(deck);
     }
 
     override public function switchTo(nextState:FlxState):Bool
