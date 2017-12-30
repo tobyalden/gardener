@@ -26,6 +26,9 @@ class PlayState extends FlxState
     private var stackExecution:FlxTimer;
     private var harvestCountDisplay:FlxText;
 
+    private var dayCount:Int;
+    private var dayCountDisplay:FlxText;
+
     override public function create():Void
 	{
 		super.create();
@@ -61,6 +64,12 @@ class PlayState extends FlxState
 
         harvestCountDisplay = new FlxText(0, grid.height, 'HARVESTED: 0', 16);
         add(harvestCountDisplay);
+
+        dayCount = 1;
+        dayCountDisplay = new FlxText(
+            grid.width + 32, grid.height, 'DAY 1', 16
+        );
+        add(dayCountDisplay);
 
         robot = new Robot(5, 5);
         add(robot);
@@ -150,6 +159,7 @@ class PlayState extends FlxState
         }
 
         harvestCountDisplay.text = 'HARVESTED: ' + harvestCount;
+        dayCountDisplay.text = 'DAY ' + dayCount;
 
         if(stackExecution.active || stack.length != 5) {
             runButton.animation.play('inactive');
@@ -208,6 +218,7 @@ class PlayState extends FlxState
     }
 
     private function advanceDay() {
+        dayCount += 1;
         stack = new Array<Card>();
         hand = new Array<Card>();
         deck = getNewDeck();
