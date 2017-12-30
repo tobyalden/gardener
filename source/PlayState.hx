@@ -4,6 +4,7 @@ using flixel.util.FlxSpriteUtil;
 
 import flixel.*;
 import flixel.math.*;
+import flixel.text.*;
 import flixel.util.*;
 
 class PlayState extends FlxState
@@ -18,10 +19,12 @@ class PlayState extends FlxState
     public static var robot:Robot;
     public static var stackPosition = 0;
     public static var recursionCount = 0;
+    public static var harvestCount = 0;
 
     private var deck:Array<Card>;
     private var runButton:RunButton;
     private var stackExecution:FlxTimer;
+    private var harvestCountDisplay:FlxText;
 
     override public function create():Void
 	{
@@ -55,6 +58,9 @@ class PlayState extends FlxState
         grid.loadGraphic('assets/images/grid.png');
         grid.alpha = 0.5;
         add(grid);
+
+        harvestCountDisplay = new FlxText(0, grid.height, 'HARVESTED: 0', 16);
+        add(harvestCountDisplay);
 
         robot = new Robot(5, 5);
         add(robot);
@@ -142,6 +148,8 @@ class PlayState extends FlxState
         if(FlxG.keys.justPressed.N) {
             advanceDay();
         }
+
+        harvestCountDisplay.text = 'HARVESTED: ' + harvestCount;
 
         if(stackExecution.active || stack.length != 5) {
             runButton.animation.play('inactive');

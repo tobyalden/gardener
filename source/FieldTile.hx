@@ -97,10 +97,16 @@ class FieldTile extends FlxSprite
         isWet = false;
     }
 
-    public function plant() {
+    public function seedOrHarvest() {
         if(isTilled && plantProgress == 0) {
             plantProgress = 1;
             daysWithoutWater = 0;
+        }
+        else if(plantProgress == 5) {
+            plantProgress = 0;
+            isTilled = false;
+            daysWithoutWater = 0;
+            PlayState.harvestCount += 1;
         }
     }
 
