@@ -15,6 +15,7 @@ class FieldTile extends FlxSprite
     private var isWet:Bool;
     private var isTilled:Bool;
     private var plantProgress:Int;
+    private var daysWithoutWater:Int;
 
     public function new(x:Int, y:Int) {
         super(x * PlayState.TILE_SIZE, y * PlayState.TILE_SIZE);
@@ -33,8 +34,8 @@ class FieldTile extends FlxSprite
         animation.add('plant4wet', [11]);
         animation.add('plant5dry', [12]);
         animation.add('plant5wet', [13]);
-        animation.add('deadplant2dry', [24]);
-        animation.add('deadplant2wet', [25]);
+        animation.add('deadplant2dry', [14]);
+        animation.add('deadplant2wet', [15]);
         animation.add('deadplant3dry', [16]);
         animation.add('deadplant3wet', [17]);
         animation.add('deadplant4dry', [18]);
@@ -46,6 +47,7 @@ class FieldTile extends FlxSprite
         isWet = false;
         isTilled = false;
         plantProgress = 0;
+        daysWithoutWater = 0;
     }
 
     override public function update(elapsed:Float):Void {
@@ -58,26 +60,35 @@ class FieldTile extends FlxSprite
         }
         if(plantProgress > 0) {
             animationName = 'plant' + plantProgress + animationName;
+            if(plantProgress > 1 && daysWithoutWater > 0) {
+                animationName = 'dead' + animationName;
+            }
         }
         else if(isTilled) {
             animationName = 'tilled' + animationName;
         }
         animation.play(animationName);
+        super.update(elapsed);
     }
 
     public function water() {
         isWet = true;
+        daysWithoutWater = 0;
     }
 
     public function till() {
         isTilled = true;
         plantProgress = 0;
+        daysWithoutWater = 0;
     }
 
     public function advance() {
         if(plantProgress > 0) {
             if(isWet) {
                 plantProgress += 1;
+            }
+            else {
+                daysWithoutWater += 1;
             }
             if(plantProgress > 5) {
                 plantProgress = 5;
@@ -89,6 +100,7 @@ class FieldTile extends FlxSprite
     public function plant() {
         if(isTilled && plantProgress == 0) {
             plantProgress = 1;
+            daysWithoutWater = 0;
         }
     }
 
