@@ -205,6 +205,11 @@ class PlayState extends FlxState
         deck = getNewDeck();
         dealHand();
         stackPosition = 0;
+        for(x in 0...FIELD_SIZE) {
+            for(y in 0...FIELD_SIZE) {
+                FieldTile.getTile(x, y).advance();
+            }
+        }
     }
 
     private function dealHand() {

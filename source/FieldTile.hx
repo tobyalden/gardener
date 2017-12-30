@@ -74,6 +74,18 @@ class FieldTile extends FlxSprite
         plantProgress = 0;
     }
 
+    public function advance() {
+        if(plantProgress > 0) {
+            if(isWet) {
+                plantProgress += 1;
+            }
+            if(plantProgress > 5) {
+                plantProgress = 5;
+            }
+        }
+        isWet = false;
+    }
+
     public function plant() {
         if(isTilled && plantProgress == 0) {
             plantProgress = 1;
