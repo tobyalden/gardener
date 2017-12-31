@@ -15,6 +15,7 @@ class PlayState extends FlxState
     public static inline var HAND_SIZE = 7;
     public static inline var HOURS_IN_DAY = 24;
     public static inline var RUN_COST = 2;
+    public static inline var MULLIGAN_COST = 1;
 
     public static var stack:Array<Card> = new Array<Card>();
     public static var hand:Array<Card> = new Array<Card>();
@@ -32,6 +33,7 @@ class PlayState extends FlxState
     private var dayCountDisplay:FlxText;
 
     private var drawButton:FlxText;
+    private var mulliganButton:FlxText;
 
     private var hours:Int;
     private var hoursDisplay:FlxText;
@@ -101,6 +103,15 @@ class PlayState extends FlxState
         );
         drawButton.color = FlxColor.RED;
         add(drawButton);
+
+        mulliganButton = new FlxText(
+            dayCountDisplay.x + dayCountDisplay.width + 10,
+            grid.height - drawButton.height,
+            'MULLIGAN',
+            16
+        );
+        mulliganButton.color = FlxColor.MAGENTA;
+        add(mulliganButton);
 
         robot = new Robot(5, 5);
         add(robot);
@@ -204,6 +215,7 @@ class PlayState extends FlxState
 
         hoursDisplay.text = 'HOURS LEFT: ${hours}';
         drawButton.text = 'DRAW CARD (${drawCost} hour)';
+        mulliganButton.text = 'MULLIGAN (${MULLIGAN_COST} hour)';
 
         if(hours - drawCost < 0) {
             drawButton.color = FlxColor.GRAY;
@@ -213,6 +225,16 @@ class PlayState extends FlxState
         }
         else {
             drawButton.color = FlxColor.RED;
+        }
+        
+        if(hours < HOURS_IN_DAY) {
+            mulliganButton.kill();
+        }
+        else if(clicked(mulliganButton)) {
+            mulliganButton.color = FlxColor.PINK;
+        }
+        else {
+            mulliganButton.color = FlxColor.MAGENTA;
         }
 
         harvestCountDisplay.text = 'HARVESTED: ' + harvestCount;
@@ -264,6 +286,18 @@ class PlayState extends FlxState
                 }
             } 
 
+            // Check if mulligan button was pressed
+            if(clicked(mulliganButton)) {
+                if(hours == HOURS_IN_DAY) {
+                    var handSize = hand.length;
+                    hand = new Array<Card>();  
+                    for (i in 0...handSize) {
+                        drawCard();
+                    }
+                    hours -= MULLIGAN_COST;
+                }
+            }
+
         }
 	}
 
@@ -288,6 +322,8 @@ class PlayState extends FlxState
 
     private function advanceDay() {
         dayCount += 1;
+        hours = HOURS_IN_DAY;
+        mulliganButton.revive();
         stack = new Array<Card>();
         hand = new Array<Card>();
         deck = getNewDeck();
