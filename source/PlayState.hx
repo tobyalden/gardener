@@ -192,6 +192,12 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 
+        if(!stackExecution.active) {
+            for(card in stack) {
+                card.alpha = 1;
+            }
+        }
+
         if(FlxG.keys.justPressed.N) {
             advanceDay();
         }
@@ -212,7 +218,7 @@ class PlayState extends FlxState
         harvestCountDisplay.text = 'HARVESTED: ' + harvestCount;
         dayCountDisplay.text = 'DAY ' + dayCount;
 
-        if(stackExecution.active || stack.length != 5) {
+        if(stackExecution.active || stack.length != 5 || hours - runCost < 0) {
             runButton.animation.play('inactive');
         }
         else {
@@ -221,7 +227,11 @@ class PlayState extends FlxState
 
         if(FlxG.mouse.justPressed) {
             // Check if run button was pressed
-            if(clicked(runButton) && stack.length == 5) {
+            if(
+                clicked(runButton)
+                && stack.length == 5
+                && hours - runCost >= 0
+            ) {
                 recursionCount = 0;
                 stackPosition = 0;
                 executeStack();
@@ -266,7 +276,6 @@ class PlayState extends FlxState
 
     public function executeStack() {
         if(stackPosition >= stack.length) {
-            stack = new Array<Card>();
             stackExecution.cancel();
             return;
         }
