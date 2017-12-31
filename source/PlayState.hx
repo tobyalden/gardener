@@ -26,6 +26,8 @@ class PlayState extends FlxState
 
     private var deck:Array<Card>;
     private var runButton:RunButton;
+    private var runTwiceButton:RunTwiceButton;
+    private var runFourTimesButton:RunFourTimesButton;
     private var stackExecution:FlxTimer;
     private var harvestCountDisplay:FlxText;
 
@@ -129,7 +131,16 @@ class PlayState extends FlxState
         add(robot);
 
         runButton = new RunButton(500, 352);
+        runTwiceButton = new RunTwiceButton(
+            Std.int(runButton.x + runButton.width), 352
+        );
+        runFourTimesButton = new RunFourTimesButton(
+            Std.int(runButton.x + runButton.width),
+            Std.int(352 + runTwiceButton.height)
+        );
         add(runButton);
+        add(runTwiceButton);
+        add(runFourTimesButton);
 
         runCostDisplay = new FlxText(
             runButton.x + 15, runButton.y + runButton.height - 40, '${runCost} hour', 16
