@@ -12,7 +12,9 @@ class PlayState extends FlxState
     public static inline var FIELD_SIZE = 10;
     public static inline var TILE_SIZE = 32;
     public static inline var EXECUTION_TIME = 1;
-    public static inline var HAND_SIZE = 25;
+    public static inline var HAND_SIZE = 7;
+    public static inline var HOURS_IN_DAY = 24;
+    public static inline var RUN_COST = 2;
 
     public static var stack:Array<Card> = new Array<Card>();
     public static var hand:Array<Card> = new Array<Card>();
@@ -29,11 +31,22 @@ class PlayState extends FlxState
     private var dayCount:Int;
     private var dayCountDisplay:FlxText;
 
+    private var drawButton:FlxText;
+
+    private var hours:Int;
+    private var hoursDisplay:FlxText;
+    private var drawCost:Int;
+    private var runCost:Int;
+    private var runCostDisplay:FlxText;
+
     override public function create():Void
 	{
 		super.create();
 
+        hours = HOURS_IN_DAY;
         deck = getNewDeck();
+        drawCost = 1;
+        runCost = RUN_COST;
 
         // Add borders around hand
         var canvas = new FlxSprite();
@@ -65,17 +78,42 @@ class PlayState extends FlxState
         harvestCountDisplay = new FlxText(0, grid.height, 'HARVESTED: 0', 16);
         add(harvestCountDisplay);
 
+        hoursDisplay = new FlxText(
+            harvestCountDisplay.width + 20,
+            grid.height,
+            'HOURS LEFT: ${hours}',
+            16
+        );
+        hoursDisplay.color = FlxColor.CYAN;
+        add(hoursDisplay);
+
         dayCount = 1;
         dayCountDisplay = new FlxText(
             grid.width + 32, grid.height, 'DAY 1', 16
         );
         add(dayCountDisplay);
 
+        drawButton = new FlxText(
+            dayCountDisplay.x + dayCountDisplay.width + 10,
+            grid.height,
+            'DRAW CARD (${drawCost} hour)',
+            16
+        );
+        drawButton.color = FlxColor.RED;
+        add(drawButton);
+
         robot = new Robot(5, 5);
         add(robot);
 
         runButton = new RunButton(500, 352);
         add(runButton);
+
+        runCostDisplay = new FlxText(
+            runButton.x + 15, runButton.y + runButton.height - 40, '${runCost} hour', 16
+        );
+        runCostDisplay.alpha = 0.5;
+        add(runCostDisplay);
+
 
         dealHand();
 
@@ -158,6 +196,19 @@ class PlayState extends FlxState
             advanceDay();
         }
 
+        hoursDisplay.text = 'HOURS LEFT: ${hours}';
+        drawButton.text = 'DRAW CARD (${drawCost} hour)';
+
+        if(hours - drawCost < 0) {
+            drawButton.color = FlxColor.GRAY;
+        }
+        else if(clicked(drawButton)) {
+            drawButton.color = FlxColor.PINK;
+        }
+        else {
+            drawButton.color = FlxColor.RED;
+        }
+
         harvestCountDisplay.text = 'HARVESTED: ' + harvestCount;
         dayCountDisplay.text = 'DAY ' + dayCount;
 
@@ -193,6 +244,15 @@ class PlayState extends FlxState
                     return;
                 }
             }
+
+            // Check if draw button was pressed
+            if(clicked(drawButton)) {
+                if(hours - drawCost >= 0) {
+                    hours -= drawCost;
+                    drawCost += 1;
+                    drawCard();
+                }
+            } 
 
         }
 	}
@@ -233,10 +293,15 @@ class PlayState extends FlxState
 
     private function dealHand() {
         for(i in 0...HAND_SIZE) {
-            var card = deck.pop();
-            hand.push(card);
-            add(card);
+            drawCard();
         }
+    }
+
+    private function drawCard() {
+        var card = deck.pop();
+        hand.push(card);
+        card.x = FlxG.width;  // Hack so the card doesn't appear onscreen
+        add(card);
     }
 
     private function getNewDeckAndDeal() {
