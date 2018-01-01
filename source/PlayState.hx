@@ -111,16 +111,6 @@ class PlayState extends FlxState
         drawButton.color = FlxColor.RED;
         add(drawButton);
 
-        mulliganButton = new FlxText(
-            0,
-            grid.height - drawButton.height,
-            'MULLIGAN',
-            16
-        );
-        mulliganButton.x = FlxG.width - mulliganButton.width - 32;
-        mulliganButton.color = FlxColor.MAGENTA;
-        add(mulliganButton);
-
         advanceButton = new FlxText(
             grid.width + 16,
             grid.height - drawButton.height,
@@ -170,6 +160,15 @@ class PlayState extends FlxState
         add(runFourTimesCostDisplay);
 
         dealHand();
+
+        mulliganButton = new FlxText(
+            grid.width + 32,
+            128 * Math.floor(hand.length / 5) + 10,
+            'MULLIGAN (1 hour)',
+            16
+        );
+        mulliganButton.color = FlxColor.MAGENTA;
+        add(mulliganButton);
 
         stackExecution = new FlxTimer();
 	}
