@@ -15,6 +15,8 @@ class PlayState extends FlxState
     public static inline var HAND_SIZE = 7;
     public static inline var HOURS_IN_DAY = 24;
     public static inline var RUN_COST = 3;
+    public static inline var RUN_TWICE_COST = 5;
+    public static inline var RUN_FOUR_TIMES_COST = 8;
     public static inline var MULLIGAN_COST = 1;
 
     public static var stack:Array<Card> = new Array<Card>();
@@ -43,6 +45,8 @@ class PlayState extends FlxState
     private var drawCost:Int;
     private var runCost:Int;
     private var runCostDisplay:FlxText;
+    private var runTwiceCostDisplay:FlxText;
+    private var runFourTimesCostDisplay:FlxText;
 
     override public function create():Void
 	{
@@ -143,11 +147,27 @@ class PlayState extends FlxState
         add(runFourTimesButton);
 
         runCostDisplay = new FlxText(
-            runButton.x + 15, runButton.y + runButton.height - 40, '${runCost} hour', 16
+            runButton.x + 15, runButton.y + runButton.height - 40,
+            '${runCost} hour', 16
         );
         runCostDisplay.alpha = 0.5;
         add(runCostDisplay);
 
+        runTwiceCostDisplay = new FlxText(
+            runTwiceButton.x + 7,
+            runTwiceButton.y + runTwiceButton.height - 20,
+            '${RUN_TWICE_COST} hr', 8
+        );
+        runTwiceCostDisplay.alpha = 0.5;
+        add(runTwiceCostDisplay);
+
+        runFourTimesCostDisplay = new FlxText(
+            runFourTimesButton.x + 7,
+            runFourTimesButton.y + runFourTimesButton.height - 20,
+            '${RUN_FOUR_TIMES_COST} hr', 8
+        );
+        runFourTimesCostDisplay.alpha = 0.5;
+        add(runFourTimesCostDisplay);
 
         dealHand();
 
@@ -267,9 +287,23 @@ class PlayState extends FlxState
 
         if(stackExecution.active || stack.length != 5 || hours - runCost < 0) {
             runButton.animation.play('inactive');
+            runTwiceButton.animation.play('inactive');
+            runFourTimesButton.animation.play('inactive');
         }
         else {
             runButton.animation.play('active');
+            if(hours - RUN_TWICE_COST >= 0) {
+                runTwiceButton.animation.play('active');
+            }
+            else {
+                runTwiceButton.animation.play('inactive');
+            }
+            if(hours - RUN_FOUR_TIMES_COST >= 0) {
+                runFourTimesButton.animation.play('active');
+            }
+            else {
+                runFourTimesButton.animation.play('inactive');
+            }
         }
 
         if(FlxG.mouse.justPressed) {
