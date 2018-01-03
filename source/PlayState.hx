@@ -164,12 +164,14 @@ class PlayState extends FlxState
         mulliganButton = new FlxText(
             grid.width + 32,
             128 * Math.floor(hand.length / 5) + 10,
-            'MULLIGAN (1 hour)',
+            'REPLACE CARDS (1 hour)',
             16
         );
         mulliganButton.color = FlxColor.MAGENTA;
         add(mulliganButton);
 
+        // TODO: Add numbers to slots
+        // TODO: Should tilling not destroy seeds, only plants?
         stackExecution = new FlxTimer();
 	}
 
