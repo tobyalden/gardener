@@ -326,6 +326,16 @@ class PlayState extends FlxState
                 executeStack(2);
             }
 
+            // Check if run four times button was pressed
+            if(
+                clicked(runFourTimesButton)
+                && stack.length == 5
+                && hours - RUN_FOUR_TIMES_COST >= 0
+            ) {
+                hours -= RUN_FOUR_TIMES_COST;
+                executeStack(4);
+            }
+
             // Check if any cards in the hand were pressed
             for(card in hand) {
                 if(clicked(card) && stack.length < 5) {
