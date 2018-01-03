@@ -313,9 +313,17 @@ class PlayState extends FlxState
                 && hours - runCost >= 0
             ) {
                 hours -= runCost;
-                recursionCount = 0;
-                stackPosition = 0;
-                executeStack();
+                executeStack(1);
+            }
+
+            // Check if run twice button was pressed
+            if(
+                clicked(runTwiceButton)
+                && stack.length == 5
+                && hours - RUN_TWICE_COST >= 0
+            ) {
+                hours -= RUN_TWICE_COST;
+                executeStack(2);
             }
 
             // Check if any cards in the hand were pressed
@@ -372,15 +380,30 @@ class PlayState extends FlxState
         return e.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y));
     }
 
-    public function executeStack() {
+    public function executeStack(repeat:Int) {
+        recursionCount = 0;
+        stackPosition = 0;
+        executeStackHelper(repeat);
+    }
+
+    public function executeStackHelper(repeat:Int) {
         if(stackPosition >= stack.length) {
-            stackExecution.cancel();
-            return;
+            repeat -= 1;
+            if(repeat == 0) {
+                stackExecution.cancel();
+                return;
+            }
+            else {
+                stackPosition = 0;
+                for(card in stack) {
+                    card.alpha = 1;
+                }
+            }
         }
         stack[stackPosition].action(false);
         stackPosition++;
         stackExecution.start(EXECUTION_TIME, function(_:FlxTimer) {
-            executeStack();
+            executeStackHelper(repeat);
         });
     }
 
