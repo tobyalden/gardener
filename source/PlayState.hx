@@ -291,17 +291,46 @@ class PlayState extends FlxState
         }
         else {
             runButton.animation.play('active');
+            if(clicked(runButton)) {
+                runButton.color = 0xffffff;
+            }
+            else {
+                runButton.color = 0xececec;
+            }
             if(hours - RUN_TWICE_COST >= 0) {
                 runTwiceButton.animation.play('active');
+                if(clicked(runTwiceButton)) {
+                    runTwiceButton.color = 0xffffff;
+                }
+                else {
+                    runTwiceButton.color = 0xececec;
+                }
             }
             else {
                 runTwiceButton.animation.play('inactive');
             }
             if(hours - RUN_FOUR_TIMES_COST >= 0) {
                 runFourTimesButton.animation.play('active');
+                if(clicked(runFourTimesButton)) {
+                    runFourTimesButton.color = 0xffffff;
+                }
+                else {
+                    runFourTimesButton.color = 0xececec;
+                }
             }
             else {
                 runFourTimesButton.animation.play('inactive');
+            }
+        }
+
+        for(cards in [hand, stack]) {
+            for(card in cards) {
+                if(clicked(card)) {
+                   card.color = 0xffffff;
+                }
+                else {
+                   card.color = 0xececec;
+                }
             }
         }
 
