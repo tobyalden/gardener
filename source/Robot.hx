@@ -54,8 +54,13 @@ class Robot extends FlxSprite
                 tileX = Std.int(Math.max(0, tileX - 1));
             }
             setPosition(tileX * PlayState.TILE_SIZE, tileY * PlayState.TILE_SIZE);
-            FieldTile.getTile(tileX, tileY).seedOrHarvest();
+            // TODO: You can harvest dead plants...
+            seedOrHarvest();
         }
+    }
+
+    public function seedOrHarvest() {
+        FieldTile.getTile(tileX, tileY).seedOrHarvest();
     }
 
     public function turn(direction:String) {

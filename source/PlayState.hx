@@ -400,6 +400,7 @@ class PlayState extends FlxState
                 FieldTile.getTile(x, y).advance();
             }
         }
+        robot.seedOrHarvest();
     }
 
     private function dealHand() {

@@ -73,7 +73,6 @@ class FieldTile extends FlxSprite
 
     public function water() {
         isWet = true;
-        daysWithoutWater = 0;
     }
 
     public function till() {
@@ -86,6 +85,7 @@ class FieldTile extends FlxSprite
         if(plantProgress > 0) {
             if(isWet) {
                 plantProgress += 1;
+                daysWithoutWater = 0;
             }
             else {
                 daysWithoutWater += 1;
