@@ -180,6 +180,7 @@ class PlayState extends FlxState
             new MoveCard(1),
             new MoveCard(1),
             new MoveCard(1),
+            new MoveCard(1),
             new MoveCard(2),
             new MoveCard(2),
             new MoveCard(2),
@@ -200,6 +201,7 @@ class PlayState extends FlxState
             new TurnCard('right'),
             new TurnCard('right'),
             new TurnCard('right'),
+            new TurnCard('uturn'),
             new TurnCard('uturn'),
             new TurnCard('uturn'),
             new TillCard(1),
@@ -233,8 +235,8 @@ class PlayState extends FlxState
             new CopyCard(3),
             new CopyCard(4),
             new CopyCard(5),
-            new CopyCard(6),
-            new CopyCard(7)
+            //new CopyCard(6),
+            //new CopyCard(7)
         ];
         new FlxRandom().shuffle(newDeck);
         return newDeck;
