@@ -430,6 +430,7 @@ class PlayState extends FlxState
             repeat -= 1;
             if(repeat == 0) {
                 stackExecution.cancel();
+                moveStackToHand();
                 return;
             }
             else {
@@ -444,6 +445,14 @@ class PlayState extends FlxState
         stackExecution.start(EXECUTION_TIME, function(_:FlxTimer) {
             executeStackHelper(repeat);
         });
+    }
+
+    private function moveStackToHand() {
+        while(stack.length > 0) {
+            var card = stack.shift();
+            card.alpha = 1;
+            hand.push(card);
+        }
     }
 
     private function advanceDay() {
