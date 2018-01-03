@@ -102,7 +102,7 @@ class FieldTile extends FlxSprite
             plantProgress = 1;
             daysWithoutWater = 0;
         }
-        else if(plantProgress == 5) {
+        else if(plantProgress == 5 && daysWithoutWater == 0) {
             plantProgress = 0;
             isTilled = false;
             daysWithoutWater = 0;
