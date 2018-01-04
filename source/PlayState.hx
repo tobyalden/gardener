@@ -171,7 +171,7 @@ class PlayState extends FlxState
         add(mulliganButton);
 
         // TODO: Add numbers to slots
-        // TODO: Should tilling not destroy seeds, only plants?
+        // TODO: Add preview squares on card highlight
         stackExecution = new FlxTimer();
 	}
 
