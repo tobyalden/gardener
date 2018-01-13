@@ -16,7 +16,7 @@ class Diary extends FlxState
     override public function create():Void
 	{
 		super.create();
-        text = new FlxText(0, 0, '|', 16);
+        text = new FlxText(0, 0, 600, '|', 16);
         add(text);
         entries = [
             '"Bounds of Loyalty"
@@ -51,8 +51,11 @@ Exactly as intended -
     }
 
     private function onKeyDown(evt:KeyboardEvent) {
+        var allowed = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-=_+[]{}\\|;:\'",<.>/?';
         char = String.fromCharCode(evt.charCode);
-        trace(char);
+        if(allowed.indexOf(char) == -1) {
+            char = '';
+        }
     }
 
 	override public function update(elapsed:Float):Void
@@ -64,15 +67,31 @@ Exactly as intended -
             if(cursorShown) {
                 text.text = text.text.substr(0, text.text.length - 1);
             }
+
             // Add the next character
             if(PlayState.dayCount == 30) {
-                text.text += char;
+                if(FlxG.keys.justPressed.SPACE) {
+                    text.text += ' ';
+                }
+                else if(FlxG.keys.justPressed.ENTER) {
+                    text.text += '\n';
+                }
+                else if(FlxG.keys.justPressed.TAB) {
+                    text.text += '    ';
+                }
+                else if(FlxG.keys.justPressed.BACKSPACE) {
+                    text.text = text.text.substr(0, text.text.length - 1);
+                }
+                else {
+                    text.text += char;
+                }
             }
             else {
                 text.text += entries[PlayState.dayCount - 1].charAt(cursorPosition);
             }
 
             cursorPosition++;
+
             // Append the cursor
             if(cursorShown) {
                 text.text += '|';
