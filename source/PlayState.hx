@@ -7,6 +7,13 @@ import flixel.math.*;
 import flixel.text.*;
 import flixel.util.*;
 
+// TODO: Tutorial
+// TODO: Story + Ending
+// TODO: High score table
+// TODO: Main menu
+// TODO: Save / load
+// TODO: Music & SFX
+
 class PlayState extends FlxState
 {
     public static inline var FIELD_SIZE = 10;
@@ -51,6 +58,8 @@ class PlayState extends FlxState
     override public function create():Void
 	{
 		super.create();
+
+        //var socket = new haxe.Http("https://api.carbonintensity.org.uk/intensity");
 
         hours = HOURS_IN_DAY;
         deck = getNewDeck();
