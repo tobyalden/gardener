@@ -9,10 +9,8 @@ import flixel.util.*;
 
 // TODO: Tutorial
 // TODO: Story + Ending
-// TODO: High score table. 
-// I think the easiest way to do the server is to use node.js
-// and https://gardenerhighscores.firebaseio.com/. Make sure it has all the right fields and send an encrypted copy of the score to validate it.
-// to validate the payload. 
+// TODO: High score table. What's left:
+    // POST endpoint (on server & client)
 // TODO: Main menu
 // TODO: Save / load
 // TODO: Music & SFX
@@ -35,6 +33,7 @@ class PlayState extends FlxState
     public static var stackPosition = 0;
     public static var recursionCount = 0;
     public static var harvestCount = 0;
+    public static var dayCount = 1;
 
     private var deck:Array<Card>;
     private var runButton:RunButton;
@@ -43,7 +42,6 @@ class PlayState extends FlxState
     private var stackExecution:FlxTimer;
     private var harvestCountDisplay:FlxText;
 
-    private var dayCount:Int;
     private var dayCountDisplay:FlxText;
 
     private var drawButton:FlxText;
@@ -108,7 +106,6 @@ class PlayState extends FlxState
         hoursDisplay.color = FlxColor.CYAN;
         add(hoursDisplay);
 
-        dayCount = 1;
         dayCountDisplay = new FlxText(
             grid.width + 16, grid.height, 'DAY 1', 16
         );

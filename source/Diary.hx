@@ -56,7 +56,7 @@ Exactly as intended -
                 text.text = text.text.substr(0, text.text.length - 1);
             }
             // Add the next character
-            text.text += entries[0].charAt(cursorPosition);
+            text.text += entries[PlayState.dayCount - 1].charAt(cursorPosition);
             cursorPosition++;
             // Append the cursor
             if(cursorShown) {
