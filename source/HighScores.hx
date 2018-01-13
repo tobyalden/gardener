@@ -1,10 +1,6 @@
 import flixel.*;
 import flixel.text.*;
 
-typedef HighScoreFormat = {
-    var highScores:Array<HighScore>;
-}
-
 typedef HighScore = {
     var score:Int;
     var log:String;
@@ -21,15 +17,12 @@ class HighScores extends FlxState
 		super.create();
         text = new FlxText(0, 0, 'LOADING...', 16);
         add(text);
-        var socket = new haxe.Http("https://api.jsonbin.io/b/5a59a02d7cfd5a4dbc6b56e3");
-        socket.setHeader(
-            'secret-key',
-            "$2a$10$UK77c9/HLPRme0Y3mtwwfuV0d3..CVWziqKPx1M4j7PI8N6FYRQUe"
-        );
+        var socket = new haxe.Http("https://high-score-server.herokuapp.com");
         socket.onData = function(data) {
             trace('we got data: ${data}');
-            var dataDict:HighScoreFormat = haxe.Json.parse(data);
-            dataDict.highScores.sort(function(a, b):Int {
+            var dataDict:Array<HighScore> = haxe.Json.parse(data);
+            trace(dataDict);
+            dataDict.sort(function(a, b):Int {
                 if(a.score < b.score) {
                     return 1;
                 }
@@ -44,7 +37,7 @@ class HighScores extends FlxState
             formattedLog += '------------------------------------------------------------\n';
             formattedLog += 'HIGH SCORES\n';
             formattedLog += '------------------------------------------------------------\n\n\n';
-            for(highScore in dataDict.highScores) {
+            for(highScore in dataDict) {
                 var count = 0;
                 formattedLog += 'HARVESTED: ${highScore.score}\n';
                 while(count * LINE_LIMIT < highScore.log.length) {
