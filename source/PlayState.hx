@@ -9,7 +9,10 @@ import flixel.util.*;
 
 // TODO: Tutorial
 // TODO: Story + Ending
-// TODO: High score table
+// TODO: High score table. 
+// I think the easiest way to do the server is to use node.js
+// and https://gardenerhighscores.firebaseio.com/. Make sure it has all the right fields and send an encrypted copy of the score to validate it.
+// to validate the payload. 
 // TODO: Main menu
 // TODO: Save / load
 // TODO: Music & SFX
@@ -427,6 +430,9 @@ class PlayState extends FlxState
 
     private function clicked(e:FlxSprite) {
         if(stackExecution.active) {
+            return false;
+        }
+        if(e.alive == false) {
             return false;
         }
         return e.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y));
