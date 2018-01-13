@@ -8,8 +8,6 @@ typedef HighScore = {
 
 class HighScores extends FlxState
 {
-    public static inline var LINE_LIMIT = 40;
-
     private var text:FlxText;
 
     override public function create():Void
@@ -34,19 +32,14 @@ class HighScores extends FlxState
                 }
             });
             var formattedLog = '';
-            formattedLog += '------------------------------------------------------------\n';
+            formattedLog += '------------------------------------------------';
+            formattedLog += '------------\n';
             formattedLog += 'HIGH SCORES\n';
-            formattedLog += '------------------------------------------------------------\n\n\n';
+            formattedLog += '------------------------------------------------';
+            formattedLog += '------------\n\n\n';
             for(highScore in dataDict) {
-                var count = 0;
                 formattedLog += 'HARVESTED: ${highScore.score}\n';
-                while(count * LINE_LIMIT < highScore.log.length) {
-                    formattedLog += highScore.log.substr(
-                        count * LINE_LIMIT, LINE_LIMIT
-                    );
-                    formattedLog += '\n';
-                    count++;
-                }
+                formattedLog += highScore.log;
                 formattedLog += '\n\n';
             }
             text.text = formattedLog;
