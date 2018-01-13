@@ -27,8 +27,7 @@ class HighScores extends FlxState
             "$2a$10$UK77c9/HLPRme0Y3mtwwfuV0d3..CVWziqKPx1M4j7PI8N6FYRQUe"
         );
         socket.onData = function(data) {
-            trace('we got data');
-            trace(data); 
+            trace('we got data: ${data}');
             var dataDict:HighScoreFormat = haxe.Json.parse(data);
             dataDict.highScores.sort(function(a, b):Int {
                 if(a.score < b.score) {
@@ -41,9 +40,13 @@ class HighScores extends FlxState
                     return 0;
                 }
             });
+            var formattedLog = '';
+            formattedLog += '------------------------------------------------------------\n';
+            formattedLog += 'HIGH SCORES\n';
+            formattedLog += '------------------------------------------------------------\n\n\n';
             for(highScore in dataDict.highScores) {
                 var count = 0;
-                var formattedLog = '';
+                formattedLog += 'HARVESTED: ${highScore.score}\n';
                 while(count * LINE_LIMIT < highScore.log.length) {
                     formattedLog += highScore.log.substr(
                         count * LINE_LIMIT, LINE_LIMIT
@@ -51,17 +54,15 @@ class HighScores extends FlxState
                     formattedLog += '\n';
                     count++;
                 }
-                highScore.log = formattedLog;
+                formattedLog += '\n\n';
             }
-            text.text = Std.string(dataDict);
+            text.text = formattedLog;
         }
         socket.onStatus = function(data) {
-            trace('we got status');
-            trace(data); 
+            trace('we got status: ${data}');
         }
         socket.onError = function(data) {
-            trace('we got error');
-            trace(data); 
+            trace('we got error: ${data}');
         }
         socket.request();
     }
@@ -69,5 +70,11 @@ class HighScores extends FlxState
 	override public function update(elapsed:Float):Void
     {
 		super.update(elapsed);
+        if(text.text != 'LOADING...') {
+            text.y += FlxG.mouse.wheel;
+            if(text.y > 0) {
+                text.y = 0;
+            }
+        }
     }
 }
