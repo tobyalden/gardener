@@ -33,7 +33,7 @@ class PlayState extends FlxState
     public static var stackPosition = 0;
     public static var recursionCount = 0;
     public static var harvestCount = 0;
-    public static var dayCount = 1;
+    public static var dayCount = 30;
 
     private var deck:Array<Card>;
     private var runButton:RunButton;
