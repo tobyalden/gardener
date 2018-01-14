@@ -12,11 +12,13 @@ class Diary extends FlxState
     private var char:String;
     private var entries:Array<String>;
     private var cursorPosition:Int;
+    private var saveButton:SaveButton;
+    private var decoration:FlxSprite;
 
     override public function create():Void
 	{
 		super.create();
-        text = new FlxText(0, 0, 600, '|', 16);
+        text = new FlxText(0, 0, FlxG.width - 140, '|', 16);
         add(text);
         entries = [
             '"Bounds of Loyalty"
@@ -36,6 +38,17 @@ Exactly as intended -
         ];
         char = '';
         cursorPosition = 0;
+        saveButton = new SaveButton(0, 0);
+        saveButton.setPosition(
+            FlxG.width - saveButton.width,
+            FlxG.height - saveButton.height
+        );
+        add(saveButton);
+
+        decoration = new FlxSprite(saveButton.x, 0);
+        decoration.loadGraphic('assets/images/decoration.png');
+        add(decoration);
+
         new FlxTimer().start(0.5, blinkCursor, 0);
         FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
     }
@@ -51,7 +64,8 @@ Exactly as intended -
     }
 
     private function onKeyDown(evt:KeyboardEvent) {
-        var allowed = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()-=_+[]{}\\|;:\'",<.>/?';
+        var allowed = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ12';
+        allowed += '34567890!@#$%^&*()-=_+[]{}\\|;:\'",<.>/?';
         char = String.fromCharCode(evt.charCode);
         if(allowed.indexOf(char) == -1) {
             char = '';
