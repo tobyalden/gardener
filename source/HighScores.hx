@@ -31,12 +31,12 @@ class HighScores extends FlxState
                     return 0;
                 }
             });
-            var formattedLog = '';
+            var formattedLog = '\n';
             formattedLog += '------------------------------------------------';
             formattedLog += '------------\n';
             formattedLog += 'HIGH SCORES\n';
             formattedLog += '------------------------------------------------';
-            formattedLog += '------------\n\n\n';
+            formattedLog += '------------\n\n';
             for(highScore in dataDict) {
                 formattedLog += 'HARVESTED: ${highScore.score}\n';
                 formattedLog += highScore.log;

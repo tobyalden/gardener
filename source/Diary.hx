@@ -67,6 +67,10 @@ Exactly as intended -
         }
     }
 
+    private function clicked(e:FlxSprite) {
+        return e.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y));
+    }
+
     private function onKeyDown(evt:KeyboardEvent) {
         var allowed = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ12';
         allowed += '34567890!@#$%^&*()-=_+[]{}\\|;:\'",<.>/?';
@@ -79,9 +83,25 @@ Exactly as intended -
 	override public function update(elapsed:Float):Void
     {
 		super.update(elapsed);
+
+        var cursorShown = text.text.charAt(text.text.length - 1) == '|';
+
+        // Save & Continue
+        if(text.text.length == 0 || (text.text.length == 1 && cursorShown)) {
+            saveButton.animation.play('inactive');
+        }
+        else {
+            saveButton.animation.play('active');
+            if(clicked(saveButton)) {
+                saveButton.color = 0xffffff;
+            }
+            else {
+                saveButton.color = 0xececec;
+            }
+        }
+
         if(FlxG.keys.firstJustPressed() != -1) {
             // Pop off the cursor
-            var cursorShown = text.text.charAt(text.text.length - 1) == '|';
             if(cursorShown) {
                 text.text = text.text.substr(0, text.text.length - 1);
             }
