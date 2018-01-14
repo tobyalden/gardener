@@ -9,8 +9,7 @@ import flixel.util.*;
 
 // TODO: Tutorial
 // TODO: Story + Ending
-// TODO: High score table. What's left:
-    // POST endpoint (on server & client)
+// TODO: High score table. What's left: POST endpoint (on server & client)
 // TODO: Main menu
 // TODO: Save / load
 // TODO: Music & SFX
@@ -33,7 +32,7 @@ class PlayState extends FlxState
     public static var stackPosition = 0;
     public static var recursionCount = 0;
     public static var harvestCount = 0;
-    public static var dayCount = 30;
+    public static var dayCount = 1;
 
     private var deck:Array<Card>;
     private var runButton:RunButton;

@@ -6,6 +6,10 @@ import flixel.text.*;
 import flixel.util.*;
 import openfl.events.*;
 
+// TODO: I think I need to add a date / filename so it's apparent the user
+// is writing a diary entry. Don't include it in the payload tho - make it a
+// separate FlxText object.
+
 class Diary extends FlxState
 {
     private var text:FlxText;
@@ -101,10 +105,17 @@ Exactly as intended -
                 }
             }
             else {
-                text.text += entries[PlayState.dayCount - 1].charAt(cursorPosition);
+                if(FlxG.keys.justPressed.BACKSPACE) {
+                    text.text = text.text.substr(0, text.text.length - 1);
+                    cursorPosition--;
+                }
+                else {
+                    text.text += entries[PlayState.dayCount - 1].charAt(
+                        cursorPosition
+                    );
+                    cursorPosition++;
+                }
             }
-
-            cursorPosition++;
 
             // Append the cursor
             if(cursorShown) {
