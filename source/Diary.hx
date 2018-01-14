@@ -113,7 +113,9 @@ Exactly as intended -
                     text.text += entries[PlayState.dayCount - 1].charAt(
                         cursorPosition
                     );
-                    cursorPosition++;
+                    if(cursorPosition < entries[PlayState.dayCount - 1].length) {
+                        cursorPosition++;
+                    }
                 }
             }
 
