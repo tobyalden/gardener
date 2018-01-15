@@ -67,7 +67,9 @@ class Robot extends FlxSprite
     }
 
     public function seedOrHarvest() {
-        FieldTile.getTile(tileX, tileY).seedOrHarvest();
+        if(!isPreview) {
+            FieldTile.getTile(tileX, tileY).seedOrHarvest();
+        }
     }
 
     public function turn(direction:String) {
@@ -227,7 +229,12 @@ class Robot extends FlxSprite
         var tiles = getRelativeTiles(pattern);
         for(tile in tiles) {
             if(tile != null) {
-                tile.till();
+                if(isPreview) {
+                    tile.willTill = true;
+                }
+                else {
+                    tile.till();
+                }
             }
         }
     }

@@ -432,9 +432,10 @@ class PlayState extends FlxState
         }
 
         if(
-            previewRobot.tileX == robot.tileX
+            (previewRobot.tileX == robot.tileX
             && previewRobot.tileY == robot.tileY
-            && previewRobot.facing == robot.facing
+            && previewRobot.facing == robot.facing)
+            || stackExecution.active
         ) {
             previewRobot.kill();
         }
@@ -535,6 +536,7 @@ class PlayState extends FlxState
     public function executeStack(repeat:Int) {
         recursionCount = 0;
         stackPosition = 0;
+        clearPreview();
         executeStackHelper(repeat);
     }
 
@@ -554,6 +556,7 @@ class PlayState extends FlxState
         recursionCount = 0;
         stackPosition = 0;
         clearPreview();
+        previewRobot.revive();
         previewStackHelper(repeat); 
     }
 
