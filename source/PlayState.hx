@@ -446,8 +446,12 @@ class PlayState extends FlxState
                 runTwiceButton.animation.play('active');
                 if(clicked(runTwiceButton)) {
                     runTwiceButton.color = 0xffffff;
+                    previewStack(2);
                 }
                 else {
+                    if(stack.length > 0) {
+                        previewStack(1);
+                    }
                     runTwiceButton.color = 0xececec;
                 }
             }
@@ -458,8 +462,12 @@ class PlayState extends FlxState
                 runFourTimesButton.animation.play('active');
                 if(clicked(runFourTimesButton)) {
                     runFourTimesButton.color = 0xffffff;
+                    previewStack(4);
                 }
                 else {
+                    if(stack.length > 0 && !clicked(runTwiceButton)) {
+                        previewStack(1);
+                    }
                     runFourTimesButton.color = 0xececec;
                 }
             }
