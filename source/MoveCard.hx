@@ -16,4 +16,8 @@ class MoveCard extends Card
         PlayState.robot.move(steps);
         super.action(copy);
     }
+
+    override public function toolTip() {
+        return 'Moves the robot forward ${steps} spaces.';
+    }
 }

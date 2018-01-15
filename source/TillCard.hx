@@ -85,4 +85,8 @@ class TillCard extends Card
         }
         super.action(copy);
     }
+
+    override public function toolTip() {
+        return 'Tills the soil in the pattern shown on the card, relative to the robot\'s facing.';
+    }
 }

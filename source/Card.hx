@@ -36,5 +36,10 @@ class Card extends FlxSprite
             alpha = 0.5;
         }
     }
+
+    public function toolTip() {
+        return '';
+        // Overridden in child classes
+    }
 }
 

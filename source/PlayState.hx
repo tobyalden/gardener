@@ -32,7 +32,7 @@ class PlayState extends FlxState
     public static var stackPosition = 0;
     public static var recursionCount = 0;
     public static var harvestCount = 0;
-    public static var dayCount = 30;
+    public static var dayCount = 1;
 
     private var deck:Array<Card>;
     private var runButton:RunButton;
@@ -54,6 +54,8 @@ class PlayState extends FlxState
     private var runCostDisplay:FlxText;
     private var runTwiceCostDisplay:FlxText;
     private var runFourTimesCostDisplay:FlxText;
+
+    private var help:FlxText;
 
     override public function create():Void
 	{
@@ -128,6 +130,13 @@ class PlayState extends FlxState
         advanceButton.color = FlxColor.MAGENTA;
         add(advanceButton);
         advanceButton.kill();
+
+        help = new FlxText(
+            grid.width + 16, 192 + 4, FlxG.width - (grid.width + 32), '', 16
+        );
+        //help.color = FlxColor.WHITE;
+        help.alpha = 0.7;
+        add(help);
 
         robot = new Robot(5, 5);
         add(robot);
@@ -252,10 +261,63 @@ class PlayState extends FlxState
         return newDeck;
     }
 
+    private function updateTooltip() {
+        if(clicked(runButton)) {
+            help.text = 'Click to run the program.';
+        }
+        else if(clicked(mulliganButton)) {
+            help.text = 'Click to replace all the cards in your hand. Cards in the program won\'t be replaced.';
+        }
+        else if(clicked(runTwiceButton)) {
+            help.text = 'Click to run the program twice.';
+        }
+        else if(clicked(runFourTimesButton)) {
+            help.text = 'Click to run the program four times.';
+        }
+        else if(clicked(drawButton)) {
+            help.text = 'Click to add a card to your hand.';
+        }
+        else if(clicked(harvestCountDisplay)) {
+            help.text = 'The number of plants you\'ve harvested.';
+        }
+        else if(clicked(hoursDisplay)) {
+            help.text = 'The number of hours left in the day.';
+        }
+        else if(clicked(dayCountDisplay)) {
+            help.text = 'The day of the month.';
+        }
+        else if(clicked(robot)) {
+            help.text = 'The robot.';
+        }
+        else if(clicked(advanceButton)) {
+            help.text = 'Click to finish and go the next day.';
+        }
+        else {
+            help.text = '';
+        }
+
+        // check cards
+        for(card in hand) {
+            if(clicked(card)) {
+                help.text = card.toolTip();
+                help.text += ' Click to add to the program.';
+            }
+        }
+        for(card in stack) {
+            if(clicked(card)) {
+                help.text = card.toolTip();
+                help.text += ' Click to add to the program.';
+            }
+        }
+        // check field
+    }
+
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+
+        updateTooltip();
 
         if(!stackExecution.active) {
             for(card in stack) {

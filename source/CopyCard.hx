@@ -48,5 +48,18 @@ class CopyCard extends Card
 
         super.action(copy);
     }
+
+    override public function toolTip() {
+        var suffixes = [
+            1 => 'first',
+            2 => 'second',
+            3 => 'third',
+            4 => 'forth',
+            5 => 'fifth'
+        ];
+        return (
+            'Copies the effects of the ${suffixes[copyNum]} card in the program.'
+        );
+    }
 }
 

@@ -16,6 +16,15 @@ class TurnCard extends Card
         PlayState.robot.turn(direction);
         super.action(copy);
     }
+
+    override public function toolTip() {
+        if(direction == 'left' || direction == 'right') {
+            return 'Turns the robot to the ${direction}.';
+        }
+        else {
+            return 'Turns the robot around.';
+        }
+    }
 }
 
 
