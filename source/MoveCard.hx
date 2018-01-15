@@ -23,6 +23,6 @@ class MoveCard extends Card
             2 => 'two spaces',
             3 => 'three spaces'
         ];
-        return 'Moves the robot forward ${spaces[steps]}, planting seeds if it passes over tilled soil.';
+        return 'Moves the robot forward ${spaces[steps]}, planting seeds in tilled soil and harvesting plants that are ready.';
     }
 }

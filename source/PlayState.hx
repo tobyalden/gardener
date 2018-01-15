@@ -297,13 +297,13 @@ class PlayState extends FlxState
         for(card in hand) {
             if(clicked(card)) {
                 help.text = card.toolTip();
-                help.text += ' Click to add to the program.';
+                help.text += '\n\nClick to add to the program.';
             }
         }
         for(card in stack) {
             if(clicked(card)) {
                 help.text = card.toolTip();
-                help.text += ' Click to put back in your hand.';
+                help.text += '\n\nClick to put back in your hand.';
             }
         }
 
