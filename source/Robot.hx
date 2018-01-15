@@ -8,10 +8,13 @@ class Robot extends FlxSprite
     public var tileX:Int;
     public var tileY:Int;
 
+    private var isPreview:Bool;
+
     public function new(tileX:Int, tileY:Int, isPreview:Bool) {
         super(tileX * PlayState.TILE_SIZE, tileY * PlayState.TILE_SIZE);
         this.tileX = tileX;
         this.tileY = tileY;
+        this.isPreview = isPreview;
         if(isPreview) {
             loadGraphic('assets/images/previewrobot.png', true, 32, 32);
         }
@@ -233,7 +236,12 @@ class Robot extends FlxSprite
         var tiles = getRelativeTiles(pattern);
         for(tile in tiles) {
             if(tile != null) {
-                tile.water();
+                if(isPreview) {
+                    tile.willWater = true;
+                }
+                else {
+                    tile.water();
+                }
             }
         }
     }

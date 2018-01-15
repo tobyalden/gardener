@@ -13,8 +13,12 @@ class WaterCard extends Card
     }
 
     override public function action(copy:Bool, preview:Bool) {
+        var robot = PlayState.robot;
+        if(preview) {
+            robot = PlayState.previewRobot;
+        }
         if(patternNum == 1) {
-            PlayState.robot.water([
+            robot.water([
                 [0, 0, 0, 0, 0],
                 [0, 0, 1, 0, 0],
                 [0, 0, 0, 0, 0],
@@ -23,7 +27,7 @@ class WaterCard extends Card
             ]);
         }
         else if(patternNum == 2) {
-            PlayState.robot.water([
+            robot.water([
                 [0, 1, 0, 1, 0],
                 [0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0],
@@ -32,7 +36,7 @@ class WaterCard extends Card
             ]);
         }
         else if(patternNum == 3) {
-            PlayState.robot.water([
+            robot.water([
                 [0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0],
                 [0, 1, 0, 1, 0],
@@ -41,7 +45,7 @@ class WaterCard extends Card
             ]);
         }
         else if(patternNum == 4) {
-            PlayState.robot.water([
+            robot.water([
                 [0, 0, 1, 0, 0],
                 [0, 0, 1, 0, 0],
                 [0, 0, 0, 0, 0],
@@ -50,7 +54,7 @@ class WaterCard extends Card
             ]);
         }
         else if(patternNum == 5) {
-            PlayState.robot.water([
+            robot.water([
                 [0, 0, 0, 0, 0],
                 [0, 0, 1, 1, 0],
                 [0, 0, 0, 1, 0],
@@ -59,7 +63,7 @@ class WaterCard extends Card
             ]);
         }
         else if(patternNum == 6) {
-            PlayState.robot.water([
+            robot.water([
                 [0, 0, 0, 0, 0],
                 [0, 1, 1, 0, 0],
                 [0, 1, 0, 0, 0],
@@ -68,7 +72,7 @@ class WaterCard extends Card
             ]);
         }
         else if(patternNum == 7) {
-            PlayState.robot.water([
+            robot.water([
                 [0, 0, 0, 0, 0],
                 [0, 1, 1, 1, 0],
                 [0, 0, 0, 0, 0],
@@ -77,7 +81,7 @@ class WaterCard extends Card
             ]);
         }
         else if(patternNum == 8) {
-            PlayState.robot.water([
+            robot.water([
                 [0, 0, 0, 0, 0],
                 [0, 0, 1, 0, 0],
                 [0, 1, 0, 1, 0],
@@ -86,7 +90,7 @@ class WaterCard extends Card
             ]);
         }
         else if(patternNum == 9) {
-            PlayState.robot.water([
+            robot.water([
                 [0, 1, 0, 1, 0],
                 [0, 1, 0, 1, 0],
                 [0, 0, 0, 0, 0],
@@ -95,7 +99,7 @@ class WaterCard extends Card
             ]);
         }
         else if(patternNum == 10) {
-            PlayState.robot.water([
+            robot.water([
                 [0, 0, 1, 1, 0],
                 [0, 0, 1, 0, 0],
                 [0, 0, 0, 0, 0],
@@ -104,7 +108,7 @@ class WaterCard extends Card
             ]);
         }
         else if(patternNum == 11) {
-            PlayState.robot.water([
+            robot.water([
                 [0, 1, 1, 0, 0],
                 [0, 0, 1, 0, 0],
                 [0, 0, 0, 0, 0],

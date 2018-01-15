@@ -19,9 +19,8 @@ class FieldTile extends FlxSprite
     private var daysWithoutWater:Int;
 
     public var preview:FieldTilePreview;
-
-    private var willWater:Bool;
-    private var willTill:Bool;
+    public var willWater:Bool;
+    public var willTill:Bool;
 
     public function new(x:Int, y:Int) {
         super(x * PlayState.TILE_SIZE, y * PlayState.TILE_SIZE);

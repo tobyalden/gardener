@@ -431,7 +431,11 @@ class PlayState extends FlxState
             }
         }
 
-        if(stack.length == 0) {
+        if(
+            previewRobot.tileX == robot.tileX
+            && previewRobot.tileY == robot.tileY
+            && previewRobot.facing == robot.facing
+        ) {
             previewRobot.kill();
         }
         else {
@@ -534,14 +538,22 @@ class PlayState extends FlxState
         executeStackHelper(repeat);
     }
 
-    public function previewStack(repeat:Int) {
+    private function clearPreview() {
         previewRobot.x = robot.x;
         previewRobot.y= robot.y;
         previewRobot.tileX = robot.tileX;
         previewRobot.tileY= robot.tileY;
         previewRobot.facing = robot.facing;
+        for(tile in FieldTile.all) {
+            tile.willWater = false;
+            tile.willTill = false;
+        }
+    }
+
+    public function previewStack(repeat:Int) {
         recursionCount = 0;
         stackPosition = 0;
+        clearPreview();
         previewStackHelper(repeat); 
     }
 
@@ -566,6 +578,7 @@ class PlayState extends FlxState
             if(repeat == 0) {
                 stackExecution.cancel();
                 moveStackToHand();
+                clearPreview();
                 return;
             }
             else {
