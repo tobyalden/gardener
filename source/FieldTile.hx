@@ -84,7 +84,9 @@ class FieldTile extends FlxSprite
     public function advance() {
         if(plantProgress > 0) {
             if(isWet) {
-                plantProgress += 1;
+                if(daysWithoutWater == 0) {
+                    plantProgress += 1;
+                }
                 daysWithoutWater = 0;
             }
             else {
@@ -118,7 +120,7 @@ class FieldTile extends FlxSprite
         }
         if(plantProgress == 5) {
             // what if dry
-            if(daysWithoutWater > 0) {
+            if(condition == 'dying') {
                 tip += 'This plant can\'t be harvested because it\'s dying, but if it\'s watered it can be harvested tomorrow.';
             }
             else {
@@ -126,10 +128,21 @@ class FieldTile extends FlxSprite
             }
         }
         else if(plantProgress == 4) {
-            tip += 'This plant is ${condition}. It\'ll be ready to harvest tomorrow if it\'s watered.';
+            tip += 'This plant is ${condition}. ';
+            if(condition == 'dying') {
+                tip += "It won't grow again till it's watered.";
+            }
+            else {
+                tip += 'It\'ll be ready to harvest tomorrow if it\'s watered.';
+            }
         }
         else if(plantProgress == 3 || plantProgress == 2) {
-            tip += 'This plant is ${condition}. It\'ll be ready to harvest in ${5 - plantProgress} days if it\'s watered everyday.';
+            if(condition == 'dying') {
+                tip += 'This plant is ${condition}. It won\'t grow again till it\'s watered.';
+            }
+            else {
+                tip += 'This plant is ${condition}. It\'ll be ready to harvest in ${5 - plantProgress} days if it\'s watered everyday.';
+            }
         }
         else if(plantProgress == 1) {
             tip += 'This soil has been seeded. A plant will grow overnight if it\'s watered.';
