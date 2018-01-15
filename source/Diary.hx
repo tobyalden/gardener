@@ -18,6 +18,7 @@ class Diary extends FlxState
     private var cursorPosition:Int;
     private var saveButton:SaveButton;
     private var decoration:FlxSprite;
+    private var lock:Bool;
 
     override public function create():Void
 	{
@@ -53,6 +54,8 @@ Exactly as intended -
         decoration.loadGraphic('assets/images/decoration.png');
         add(decoration);
 
+        lock = false;
+
         new FlxTimer().start(0.5, blinkCursor, 0);
         FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
     }
@@ -87,17 +90,32 @@ Exactly as intended -
         var cursorShown = text.text.charAt(text.text.length - 1) == '|';
 
         // Save & Continue
-        if(text.text.length == 0 || (text.text.length == 1 && cursorShown)) {
+        if(
+            lock
+            || text.text.length == 0
+            || (text.text.length == 1 && cursorShown)
+        ) {
             saveButton.animation.play('inactive');
         }
         else {
             saveButton.animation.play('active');
             if(clicked(saveButton)) {
                 saveButton.color = 0xffffff;
+                if(FlxG.mouse.justPressed) {
+                    lock = true;
+                    FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
+                    {
+                        FlxG.switchState(new PlayState());
+                    });
+                }
             }
             else {
                 saveButton.color = 0xececec;
             }
+        }
+
+        if(lock) {
+            return;
         }
 
         if(FlxG.keys.firstJustPressed() != -1) {

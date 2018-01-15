@@ -11,8 +11,11 @@ import flixel.util.*;
 // TODO: Main menu
 // TODO: Ending
 // TODO: Handle POST (server & client)
+// TODO: Gracefully fail if high score table isn't available
+// TODO: Protect high score table
 // TODO: Save / load
 // TODO: Music & SFX
+// TODO: Remove debug functions, lock down high score DB
 
 class PlayState extends FlxState
 {
@@ -33,7 +36,7 @@ class PlayState extends FlxState
     public static var stackPosition = 0;
     public static var recursionCount = 0;
     public static var harvestCount = 0;
-    public static var dayCount = 1;
+    public static var dayCount = 30;
 
     private var deck:Array<Card>;
     private var runButton:RunButton;
