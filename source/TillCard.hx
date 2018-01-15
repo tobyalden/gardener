@@ -12,7 +12,7 @@ class TillCard extends Card
         loadGraphic('assets/images/till' + patternNum + '.png');
     }
 
-    override public function action(copy:Bool) {
+    override public function action(copy:Bool, preview:Bool) {
         if(patternNum == 1) {
             PlayState.robot.till([
                 [0, 1, 0],
@@ -83,7 +83,7 @@ class TillCard extends Card
                 [1, 1, 1]
             ]);
         }
-        super.action(copy);
+        super.action(copy, preview);
     }
 
     override public function toolTip() {

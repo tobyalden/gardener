@@ -7,12 +7,17 @@ import flixel.math.*;
 import flixel.text.*;
 import flixel.util.*;
 
-// TODO: Tutorial
-// TODO: Story + Ending
-// TODO: High score table. What's left: POST endpoint (on server & client)
+// TODO: Story
+// TODO: Ending
 // TODO: Main menu
+// TODO: Handle POST (server & client)
 // TODO: Save / load
 // TODO: Music & SFX
+// TODO: Show the move being constructed on the field as you add cards to the program
+// How it works: As you add cards to the program,
+// water and till previews get added to the field,
+// and the final player position is displayed as a ghost.
+// Also, if you hover over 2x/4x run buttons, the result will be displayed
 
 class PlayState extends FlxState
 {
@@ -87,6 +92,8 @@ class PlayState extends FlxState
             for(y in 0...FIELD_SIZE) {
                 var tile = new FieldTile(x, y);
                 add(tile);
+                add(tile.preview.water);
+                add(tile.preview.till);
             }
         }
 
@@ -509,6 +516,27 @@ class PlayState extends FlxState
         executeStackHelper(repeat);
     }
 
+    public function previewStack(repeat:Int) {
+        recursionCount = 0;
+        stackPosition = 0;
+        previewStackHelper(repeat); 
+    }
+
+    public function previewStackHelper(repeat:Int) {
+        if(stackPosition >= stack.length) {
+            repeat -= 1;
+            if(repeat == 0) {
+                return;
+            }
+            else {
+                stackPosition = 0;
+            }
+        }
+        stack[stackPosition].action(false, true);
+        stackPosition++;
+        previewStackHelper(repeat);
+    }
+
     public function executeStackHelper(repeat:Int) {
         if(stackPosition >= stack.length) {
             repeat -= 1;
@@ -524,7 +552,7 @@ class PlayState extends FlxState
                 }
             }
         }
-        stack[stackPosition].action(false);
+        stack[stackPosition].action(false, false);
         stackPosition++;
         stackExecution.start(EXECUTION_TIME, function(_:FlxTimer) {
             executeStackHelper(repeat);

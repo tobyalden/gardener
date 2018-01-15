@@ -23,7 +23,7 @@ class CopyCard extends Card
         loadGraphic('assets/images/copy' + imageName + '.png');
     }
 
-    override public function action(copy:Bool) {
+    override public function action(copy:Bool, preview:Bool) {
         if(PlayState.recursionCount > 100) {
             trace("breaking out of infinite loop...");
             return;
@@ -43,10 +43,10 @@ class CopyCard extends Card
             copyStackPosition >= 0
             && copyStackPosition < PlayState.stack.length
         ) {
-            PlayState.stack[copyStackPosition].action(true);
+            PlayState.stack[copyStackPosition].action(true, preview);
         }
 
-        super.action(copy);
+        super.action(copy, preview);
     }
 
     override public function toolTip() {

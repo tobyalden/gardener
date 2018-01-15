@@ -12,9 +12,9 @@ class MoveCard extends Card
         loadGraphic('assets/images/move' + steps + '.png');
     }
 
-    override public function action(copy:Bool) {
+    override public function action(copy:Bool, preview:Bool) {
         PlayState.robot.move(steps);
-        super.action(copy);
+        super.action(copy, preview);
     }
 
     override public function toolTip() {
@@ -23,6 +23,6 @@ class MoveCard extends Card
             2 => 'two spaces',
             3 => 'three spaces'
         ];
-        return 'Moves the robot forward ${spaces[steps]}, planting seeds in tilled soil and harvesting plants that are ready.';
+        return 'Moves the robot forward ${spaces[steps]}, planting seeds in tilled soil and harvesting fully grown plants.';
     }
 }

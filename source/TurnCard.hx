@@ -12,9 +12,9 @@ class TurnCard extends Card
         loadGraphic('assets/images/turn' + direction + '.png');
     }
 
-    override public function action(copy:Bool) {
+    override public function action(copy:Bool, preview:Bool) {
         PlayState.robot.turn(direction);
-        super.action(copy);
+        super.action(copy, preview);
     }
 
     override public function toolTip() {

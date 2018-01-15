@@ -1,6 +1,7 @@
 package;
 
 import flixel.*;
+import flixel.util.*;
 
 class FieldTile extends FlxSprite
 {
@@ -16,6 +17,11 @@ class FieldTile extends FlxSprite
     private var isTilled:Bool;
     private var plantProgress:Int;
     private var daysWithoutWater:Int;
+
+    public var preview:FieldTilePreview;
+
+    private var willWater:Bool;
+    private var willTill:Bool;
 
     public function new(x:Int, y:Int) {
         super(x * PlayState.TILE_SIZE, y * PlayState.TILE_SIZE);
@@ -48,9 +54,28 @@ class FieldTile extends FlxSprite
         isTilled = false;
         plantProgress = 0;
         daysWithoutWater = 0;
+        preview = new FieldTilePreview(
+            x * PlayState.TILE_SIZE, y * PlayState.TILE_SIZE
+        );
+        willWater = false;
+        willTill = false;
     }
 
     override public function update(elapsed:Float):Void {
+        if(willWater) {
+            preview.water.revive();
+        }
+        else {
+            preview.water.kill();
+        }
+
+        if(willTill) {
+            preview.till.revive();
+        }
+        else {
+            preview.till.kill();
+        }
+
         var animationName:String;
         if(isWet) {
             animationName = 'wet';
@@ -68,6 +93,7 @@ class FieldTile extends FlxSprite
             animationName = 'tilled' + animationName;
         }
         animation.play(animationName);
+
         super.update(elapsed);
     }
 
