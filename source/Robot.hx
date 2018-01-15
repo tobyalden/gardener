@@ -5,14 +5,19 @@ import flixel.math.*;
 
 class Robot extends FlxSprite
 {
-    private var tileX:Int;
-    private var tileY:Int;
+    public var tileX:Int;
+    public var tileY:Int;
 
-    public function new(tileX:Int, tileY:Int) {
+    public function new(tileX:Int, tileY:Int, isPreview:Bool) {
         super(tileX * PlayState.TILE_SIZE, tileY * PlayState.TILE_SIZE);
         this.tileX = tileX;
         this.tileY = tileY;
-        loadGraphic('assets/images/robot.png', true, 32, 32);
+        if(isPreview) {
+            loadGraphic('assets/images/previewrobot.png', true, 32, 32);
+        }
+        else {
+            loadGraphic('assets/images/robot.png', true, 32, 32);
+        }
         animation.add('up', [0]);
         animation.add('right', [1]);
         animation.add('down', [2]);

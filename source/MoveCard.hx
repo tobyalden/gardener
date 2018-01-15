@@ -13,7 +13,12 @@ class MoveCard extends Card
     }
 
     override public function action(copy:Bool, preview:Bool) {
-        PlayState.robot.move(steps);
+        if(preview) {
+            PlayState.previewRobot.move(steps);
+        }
+        else {
+            PlayState.robot.move(steps);
+        }
         super.action(copy, preview);
     }
 

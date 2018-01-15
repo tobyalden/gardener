@@ -13,7 +13,12 @@ class TurnCard extends Card
     }
 
     override public function action(copy:Bool, preview:Bool) {
-        PlayState.robot.turn(direction);
+        if(preview) {
+            PlayState.previewRobot.turn(direction);
+        }
+        else {
+            PlayState.robot.turn(direction);
+        }
         super.action(copy, preview);
     }
 

@@ -34,6 +34,7 @@ class PlayState extends FlxState
     public static var stack:Array<Card> = new Array<Card>();
     public static var hand:Array<Card> = new Array<Card>();
     public static var robot:Robot;
+    public static var previewRobot:Robot;
     public static var stackPosition = 0;
     public static var recursionCount = 0;
     public static var harvestCount = 0;
@@ -145,8 +146,11 @@ class PlayState extends FlxState
         help.alpha = 0.7;
         add(help);
 
-        robot = new Robot(5, 5);
+        robot = new Robot(5, 5, false);
         add(robot);
+        previewRobot = new Robot(5, 5, true);
+        previewRobot.alpha = 0.5;
+        add(previewRobot);
 
         runButton = new RunButton(500, 352);
         runTwiceButton = new RunTwiceButton(
@@ -304,7 +308,12 @@ class PlayState extends FlxState
         for(card in hand) {
             if(clicked(card)) {
                 help.text = card.toolTip();
-                help.text += '\n\nClick to add to the program.';
+                if(stack.length < 5) {
+                    help.text += '\n\nClick to add to the program.';
+                }
+                else {
+                    help.text += "\n\nYou can't add any more cards to the program.";
+                }
             }
         }
         for(card in stack) {
@@ -422,6 +431,13 @@ class PlayState extends FlxState
             }
         }
 
+        if(stack.length == 0) {
+            previewRobot.kill();
+        }
+        else {
+            previewRobot.revive();
+        }
+
         if(FlxG.mouse.justPressed) {
             // Check if run button was pressed
             if(
@@ -458,6 +474,7 @@ class PlayState extends FlxState
                 if(clicked(card) && stack.length < 5) {
                     hand.remove(card);
                     stack.push(card);
+                    previewStack(1);
                     return;
                 }
             }
@@ -467,6 +484,7 @@ class PlayState extends FlxState
                 if(clicked(card)) {
                     stack.remove(card);
                     hand.push(card);
+                    previewStack(1);
                     return;
                 }
             }
@@ -517,6 +535,11 @@ class PlayState extends FlxState
     }
 
     public function previewStack(repeat:Int) {
+        previewRobot.x = robot.x;
+        previewRobot.y= robot.y;
+        previewRobot.tileX = robot.tileX;
+        previewRobot.tileY= robot.tileY;
+        previewRobot.facing = robot.facing;
         recursionCount = 0;
         stackPosition = 0;
         previewStackHelper(repeat); 
