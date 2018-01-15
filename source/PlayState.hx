@@ -7,17 +7,12 @@ import flixel.math.*;
 import flixel.text.*;
 import flixel.util.*;
 
-// TODO: Story
-// TODO: Ending
+// TODO: Write diary entries
 // TODO: Main menu
+// TODO: Ending
 // TODO: Handle POST (server & client)
 // TODO: Save / load
 // TODO: Music & SFX
-// TODO: Show the move being constructed on the field as you add cards to the program
-// How it works: As you add cards to the program,
-// water and till previews get added to the field,
-// and the final player position is displayed as a ghost.
-// Also, if you hover over 2x/4x run buttons, the result will be displayed
 
 class PlayState extends FlxState
 {
