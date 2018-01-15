@@ -18,6 +18,11 @@ class MoveCard extends Card
     }
 
     override public function toolTip() {
-        return 'Moves the robot forward ${steps} spaces.';
+        var spaces = [
+            1 => 'one space',
+            2 => 'two spaces',
+            3 => 'three spaces'
+        ];
+        return 'Moves the robot forward ${spaces[steps]}, planting seeds if it passes over tilled soil.';
     }
 }

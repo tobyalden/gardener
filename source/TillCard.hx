@@ -87,6 +87,6 @@ class TillCard extends Card
     }
 
     override public function toolTip() {
-        return 'Tills the soil in the pattern shown on the card, relative to the robot\'s facing.';
+        return 'Tills the soil in the pattern shown on the card, relative to the robot\'s facing. Destroys plants.';
     }
 }

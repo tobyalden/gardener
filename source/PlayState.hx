@@ -132,7 +132,7 @@ class PlayState extends FlxState
         advanceButton.kill();
 
         help = new FlxText(
-            grid.width + 16, 192 + 4, FlxG.width - (grid.width + 32), '', 16
+            grid.width + 16, 192 + 4, FlxG.width - (grid.width + 32), '', 12
         );
         //help.color = FlxColor.WHITE;
         help.alpha = 0.7;
@@ -286,9 +286,6 @@ class PlayState extends FlxState
         else if(clicked(dayCountDisplay)) {
             help.text = 'The day of the month.';
         }
-        else if(clicked(robot)) {
-            help.text = 'The robot.';
-        }
         else if(clicked(advanceButton)) {
             help.text = 'Click to finish and go the next day.';
         }
@@ -309,7 +306,17 @@ class PlayState extends FlxState
                 help.text += ' Click to add to the program.';
             }
         }
-        // check field
+
+        // check tiles
+        for(tile in FieldTile.all) {
+            if(clicked(tile)) {
+                help.text = '';
+                if(clicked(robot)) {
+                    help.text += 'The robot is here. ';
+                }
+                help.text += tile.toolTip();
+            }
+        }
     }
 
 
