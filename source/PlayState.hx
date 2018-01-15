@@ -63,6 +63,8 @@ class PlayState extends FlxState
 
     private var help:FlxText;
 
+    private var previewPulseTimer:FlxTimer;
+
     override public function create():Void
 	{
 		super.create();
@@ -146,10 +148,12 @@ class PlayState extends FlxState
         help.alpha = 0.7;
         add(help);
 
+        previewPulseTimer = new FlxTimer();
+        previewPulseTimer.start(0.5, 0);
+
         robot = new Robot(5, 5, false);
         add(robot);
         previewRobot = new Robot(5, 5, true);
-        previewRobot.alpha = 0.5;
         add(previewRobot);
 
         runButton = new RunButton(500, 352);
@@ -335,10 +339,54 @@ class PlayState extends FlxState
         }
     }
 
+    private function updatePreview() {
+        // Pulse preview
+        for(tile in FieldTile.all) {
+            if(previewPulseTimer.elapsedLoops % 2 == 0) {
+                tile.preview.water.alpha = (
+                    previewPulseTimer.timeLeft / previewPulseTimer.time
+                ) * 2;
+                tile.preview.till.alpha = (
+                    previewPulseTimer.timeLeft / previewPulseTimer.time
+                ) * 2;
+            }
+            else {
+                tile.preview.water.alpha = (
+                    previewPulseTimer.elapsedTime / previewPulseTimer.time
+                ) * 2;
+                tile.preview.till.alpha = (
+                    previewPulseTimer.elapsedTime / previewPulseTimer.time
+                ) * 2;
+            }
+            tile.preview.water.alpha = Math.min(tile.preview.water.alpha, 1);
+            tile.preview.till.alpha = Math.min(tile.preview.till.alpha, 1);
+            previewRobot.alpha = tile.preview.water.alpha;
+        }
+
+        // Hide preview robot if not preview is showing
+        if(
+            (previewRobot.tileX == robot.tileX
+            && previewRobot.tileY == robot.tileY
+            && previewRobot.facing == robot.facing)
+            || stackExecution.active
+        ) {
+            previewRobot.kill();
+        }
+        else {
+            previewRobot.revive();
+        }
+    }
+
 
 	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
+
+        if(FlxG.keys.justReleased.R) {
+            for(tile in FieldTile.all) {
+                tile.plantProgress = new FlxRandom().int(0, 5);
+            }
+        }
 
         updateTooltip();
 
@@ -431,17 +479,7 @@ class PlayState extends FlxState
             }
         }
 
-        if(
-            (previewRobot.tileX == robot.tileX
-            && previewRobot.tileY == robot.tileY
-            && previewRobot.facing == robot.facing)
-            || stackExecution.active
-        ) {
-            previewRobot.kill();
-        }
-        else {
-            previewRobot.revive();
-        }
+        updatePreview();
 
         if(FlxG.mouse.justPressed) {
             // Check if run button was pressed
@@ -617,6 +655,7 @@ class PlayState extends FlxState
         deck = getNewDeck();
         dealHand();
         stackPosition = 0;
+        clearPreview();
         for(x in 0...FIELD_SIZE) {
             for(y in 0...FIELD_SIZE) {
                 FieldTile.getTile(x, y).advance();

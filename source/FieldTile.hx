@@ -13,9 +13,9 @@ class FieldTile extends FlxSprite
         return all.get(Std.string(tileX) + '-' + Std.string(tileY));
     }
 
+    public var plantProgress:Int;
     private var isWet:Bool;
     private var isTilled:Bool;
-    private var plantProgress:Int;
     private var daysWithoutWater:Int;
 
     public var preview:FieldTilePreview;

@@ -6,11 +6,11 @@ import flixel.util.*;
 
 class FieldTilePreview
 {
-    public var water:FlxSprite;
-    public var till:FlxSprite;
+    public var water:PreviewIcon;
+    public var till:PreviewIcon;
 
     public function new(x:Int, y:Int) {
-        water = new FlxSprite(x, y, 'assets/images/water_preview.png');
-        till = new FlxSprite(x, y, 'assets/images/till_preview.png');
+        water = new PreviewIcon(x, y, true);
+        till = new PreviewIcon(x, y, false);
     }
 }
