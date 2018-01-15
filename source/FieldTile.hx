@@ -142,10 +142,10 @@ class FieldTile extends FlxSprite
         }
 
         if(isWet) {
-            tip += ' It\'s been watered today.';
+            tip += ' It\'s been watered.';
         }
         else {
-            tip += ' It hasn\'t been watered today.';
+            tip += ' It hasn\'t been watered.';
         }
 
         return tip;
