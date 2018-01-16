@@ -15,11 +15,12 @@ class HighScores extends FlxState
 		super.create();
         text = new FlxText(0, 0, 'LOADING...', 16);
         add(text);
-        var socket = new haxe.Http("https://high-score-server.herokuapp.com");
+        var socket = new haxe.Http(
+            "https://gardenerhighscores.firebaseio.com/highScores.json"
+        );
         socket.onData = function(data) {
             trace('we got data: ${data}');
             var dataDict:Array<HighScore> = haxe.Json.parse(data);
-            trace(dataDict);
             dataDict.sort(function(a, b):Int {
                 if(a.score < b.score) {
                     return 1;
