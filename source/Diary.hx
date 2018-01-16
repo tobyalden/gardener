@@ -19,6 +19,8 @@ class Diary extends FlxState
     private var saveButton:SaveButton;
     private var decoration:FlxSprite;
     private var lock:Bool;
+    private var blinkTimer:FlxTimer;
+    private var log:String;
 
     override public function create():Void
 	{
@@ -56,7 +58,7 @@ Exactly as intended -
 
         lock = false;
 
-        new FlxTimer().start(0.5, blinkCursor, 0);
+        blinkTimer = new FlxTimer().start(0.5, blinkCursor, 0);
         FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
     }
 
@@ -83,6 +85,9 @@ Exactly as intended -
         }
     }
 
+    private function sendLog() {
+    }
+
 	override public function update(elapsed:Float):Void
     {
 		super.update(elapsed);
@@ -102,9 +107,13 @@ Exactly as intended -
             if(clicked(saveButton)) {
                 saveButton.color = 0xffffff;
                 if(FlxG.mouse.justPressed) {
+                    log = text.text;
+                    text.text = 'SAVING...';
+                    blinkTimer.cancel();
                     lock = true;
                     FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
                     {
+                        sendLog(log);
                         FlxG.switchState(new PlayState());
                     });
                 }
