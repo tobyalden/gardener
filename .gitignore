@@ -2,3 +2,4 @@ project.xml.hxml
 .DS_Store
 dump/
 export/
+source/Secrets.hx
