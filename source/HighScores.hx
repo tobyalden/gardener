@@ -16,7 +16,7 @@ class HighScores extends FlxState
         text = new FlxText(0, 0, 'LOADING...', 16);
         add(text);
         var socket = new haxe.Http(
-            "https://gardenerhighscores.firebaseio.com/highScores.json"
+            "https://high-score-server.herokuapp.com/"
         );
         socket.onData = function(data) {
             trace('we got data: ${data}');

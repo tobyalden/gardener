@@ -87,8 +87,9 @@ Exactly as intended -
 
     private function sendLog(log:String) {
         var socket = new haxe.Http(
-            "https://gardenerhighscores.firebaseio.com/highScores.json"
+            "https://high-score-server.herokuapp.com"
         );
+        socket.addHeader('Content-Type', 'application/json');
         var postData = {log: log, score: PlayState.harvestCount};
         socket.setPostData(haxe.Json.stringify(postData));
         socket.onData = function(data) {
