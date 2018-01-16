@@ -86,20 +86,19 @@ Exactly as intended -
     }
 
     private function sendLog(log:String) {
-        var socket = new haxe.Http(
-            "https://high-score-server.herokuapp.com"
-        );
+        var socket = new haxe.Http("https://high-score-server.herokuapp.com");
         socket.addHeader('Content-Type', 'application/json');
         var postData = {log: log, score: PlayState.harvestCount};
         socket.setPostData(haxe.Json.stringify(postData));
         socket.onData = function(data) {
             trace('we got data: ${data}');
+            text.text = 'SAVED.';
         }
         socket.onStatus = function(data) {
             trace('we got status: ${data}');
         }
         socket.onError = function(data) {
-            trace('we got error: ${data}');
+            text.text = 'ERROR: ${data}';
         }
         socket.request(true);
     }
@@ -127,10 +126,10 @@ Exactly as intended -
                     if(cursorShown) {
                         log = log.substr(0, log.length - 1);
                     }
-                    text.text = 'SAVING...';
                     sendLog(log);
                     blinkTimer.cancel();
                     lock = true;
+                    text.text = 'SAVING...';
                     FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
                     {
                         FlxG.switchState(new HighScores());

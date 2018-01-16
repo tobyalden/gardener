@@ -53,6 +53,7 @@ class HighScores extends FlxState
         }
         socket.onError = function(data) {
             trace('we got error: ${data}');
+            text.text = 'ERROR: ${data}';
         }
         socket.request();
     }
