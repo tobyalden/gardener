@@ -20,8 +20,13 @@ class HighScores extends FlxState
         );
         socket.onData = function(data) {
             trace('we got data: ${data}');
-            var dataDict:Array<HighScore> = haxe.Json.parse(data);
-            dataDict.sort(function(a, b):Int {
+            var dataDict:Map<String, HighScore> = haxe.Json.parse(data);
+            var dataArray = new Array<HighScore>();
+            var fields = Reflect.fields(dataDict);
+            for (field in fields) {
+                dataArray.push(Reflect.field(dataDict, field));
+            }
+            dataArray.sort(function(a, b):Int {
                 if(a.score < b.score) {
                     return 1;
                 }
@@ -38,7 +43,7 @@ class HighScores extends FlxState
             formattedLog += 'HIGH SCORES\n';
             formattedLog += '------------------------------------------------';
             formattedLog += '------------\n\n';
-            for(highScore in dataDict) {
+            for(highScore in dataArray) {
                 formattedLog += 'HARVESTED: ${highScore.score}\n';
                 formattedLog += highScore.log;
                 formattedLog += '\n\n';
