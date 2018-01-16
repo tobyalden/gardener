@@ -88,7 +88,11 @@ Exactly as intended -
     private function sendLog(log:String) {
         var socket = new haxe.Http("https://high-score-server.herokuapp.com");
         socket.addHeader('Content-Type', 'application/json');
-        var postData = {log: log, score: PlayState.harvestCount};
+        var postData = {
+            log: log,
+            score: PlayState.harvestCount,
+            scoreHash: Secrets.hashScore(PlayState.harvestCount)
+        };
         socket.setPostData(haxe.Json.stringify(postData));
         socket.onData = function(data) {
             trace('we got data: ${data}');
