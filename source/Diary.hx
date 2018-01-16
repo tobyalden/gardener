@@ -20,7 +20,6 @@ class Diary extends FlxState
     private var decoration:FlxSprite;
     private var lock:Bool;
     private var blinkTimer:FlxTimer;
-    private var log:String;
 
     override public function create():Void
 	{
@@ -59,6 +58,7 @@ Exactly as intended -
         lock = false;
 
         blinkTimer = new FlxTimer().start(0.5, blinkCursor, 0);
+
         FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
     }
 
@@ -85,7 +85,22 @@ Exactly as intended -
         }
     }
 
-    private function sendLog() {
+    private function sendLog(log:String) {
+        var socket = new haxe.Http(
+            "https://gardenerhighscores.firebaseio.com/highScores.json"
+        );
+        var postData = {log: log, score: PlayState.harvestCount};
+        socket.setPostData(haxe.Json.stringify(postData));
+        socket.onData = function(data) {
+            trace('we got data: ${data}');
+        }
+        socket.onStatus = function(data) {
+            trace('we got status: ${data}');
+        }
+        socket.onError = function(data) {
+            trace('we got error: ${data}');
+        }
+        socket.request(true);
     }
 
 	override public function update(elapsed:Float):Void
@@ -107,14 +122,14 @@ Exactly as intended -
             if(clicked(saveButton)) {
                 saveButton.color = 0xffffff;
                 if(FlxG.mouse.justPressed) {
-                    log = text.text;
+                    var log = text.text;
                     text.text = 'SAVING...';
+                    sendLog(log);
                     blinkTimer.cancel();
                     lock = true;
                     FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
                     {
-                        sendLog(log);
-                        FlxG.switchState(new PlayState());
+                        FlxG.switchState(new HighScores());
                     });
                 }
             }
