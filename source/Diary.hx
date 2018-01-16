@@ -124,6 +124,9 @@ Exactly as intended -
                 saveButton.color = 0xffffff;
                 if(FlxG.mouse.justPressed) {
                     var log = text.text;
+                    if(cursorShown) {
+                        log = log.substr(0, log.length - 1);
+                    }
                     text.text = 'SAVING...';
                     sendLog(log);
                     blinkTimer.cancel();

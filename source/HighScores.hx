@@ -15,9 +15,7 @@ class HighScores extends FlxState
 		super.create();
         text = new FlxText(0, 0, 'LOADING...', 16);
         add(text);
-        var socket = new haxe.Http(
-            "https://high-score-server.herokuapp.com/"
-        );
+        var socket = new haxe.Http("https://high-score-server.herokuapp.com/");
         socket.onData = function(data) {
             trace('we got data: ${data}');
             var dataDict:Map<String, HighScore> = haxe.Json.parse(data);
