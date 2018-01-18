@@ -1,6 +1,7 @@
 package;
 
 using flixel.util.FlxSpriteUtil;
+import FieldTile.SaveFormat;
 
 import flixel.*;
 import flixel.math.*;
@@ -13,7 +14,7 @@ import flixel.util.*;
 // TODO: Handle POST (server & client)
 // TODO: Gracefully fail if high score table isn't available
 // TODO: Protect high score table
-// TODO: Save / load
+// TODO: Transition between scenes and save
 // TODO: Music & SFX
 // TODO: Remove debug functions, lock down high score DB
 
@@ -36,7 +37,7 @@ class PlayState extends FlxState
     public static var stackPosition = 0;
     public static var recursionCount = 0;
     public static var harvestCount = 0;
-    public static var dayCount = 30;
+    public static var dayCount = 1;
 
     private var deck:Array<Card>;
     private var runButton:RunButton;
@@ -203,6 +204,10 @@ class PlayState extends FlxState
         // TODO: Add numbers to slots
         // TODO: Add preview squares on card highlight
         stackExecution = new FlxTimer();
+
+        if(FlxG.save.data.dayCount) {
+            loadGame();
+        }
 	}
 
     public function getNewDeck() {
@@ -380,10 +385,20 @@ class PlayState extends FlxState
 	{
 		super.update(elapsed);
 
+        // DEBUG
         if(FlxG.keys.justReleased.R) {
             for(tile in FieldTile.all) {
                 tile.plantProgress = new FlxRandom().int(0, 5);
             }
+        }
+        if(FlxG.keys.justReleased.S) {
+            saveGame();
+        }
+        if(FlxG.keys.justReleased.L) {
+            loadGame();
+        }
+        if(FlxG.keys.justReleased.D) {
+            FlxG.save.erase();
         }
 
         updateTooltip();
@@ -685,6 +700,54 @@ class PlayState extends FlxState
 
     private function getNewDeckAndDeal() {
         new FlxRandom().shuffle(deck);
+    }
+
+    private function saveGame() {
+        FlxG.save.data.dayCount = dayCount;
+        FlxG.save.data.harvestCount = harvestCount;
+        FlxG.save.data.robotTileX = robot.tileX;
+        FlxG.save.data.robotTileY = robot.tileY;
+        FlxG.save.data.robotFacing = robot.facing;
+        var field = new Array<SaveFormat>();
+        for(x in 0...FIELD_SIZE) {
+            for(y in 0...FIELD_SIZE) {
+                var tile = FieldTile.getTile(x, y);
+                var formattedTile:SaveFormat = {
+                    tileX: x,
+                    tileY:y,
+                    plantProgress: tile.plantProgress,
+                    isTilled: tile.isTilled,
+                    daysWithoutWater: tile.daysWithoutWater
+                }
+                field.push(formattedTile);
+            }
+        }
+        FlxG.save.data.field = field;
+        FlxG.save.flush();
+    }
+
+    private function loadGame() {
+        dayCount = FlxG.save.data.dayCount;
+        harvestCount = FlxG.save.data.harvestCount;
+        robot.tileX = FlxG.save.data.robotTileX;
+        robot.tileY = FlxG.save.data.robotTileY;
+        robot.setPosition(robot.tileX * TILE_SIZE, robot.tileY * TILE_SIZE);
+        robot.facing = FlxG.save.data.robotFacing;
+        previewRobot.x = robot.x;
+        previewRobot.y= robot.y;
+        previewRobot.tileX = robot.tileX;
+        previewRobot.tileY= robot.tileY;
+        previewRobot.facing = robot.facing;
+        // load field
+        for(i in 0...FIELD_SIZE*FIELD_SIZE) {
+            var formattedTile = FlxG.save.data.field[i];
+            var tile = FieldTile.getTile(
+                formattedTile.tileX, formattedTile.tileY
+            );
+            tile.plantProgress = formattedTile.plantProgress;
+            tile.isTilled = formattedTile.isTilled;
+            tile.daysWithoutWater = formattedTile.daysWithoutWater;
+        }
     }
 
     override public function switchTo(nextState:FlxState):Bool

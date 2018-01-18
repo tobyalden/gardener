@@ -3,6 +3,14 @@ package;
 import flixel.*;
 import flixel.util.*;
 
+typedef SaveFormat = {
+    var tileX:Int;
+    var tileY:Int;
+    var plantProgress:Int;
+    var isTilled:Bool;
+    var daysWithoutWater:Int;
+}
+
 class FieldTile extends FlxSprite
 {
     public static var all:Map<String, FieldTile> = (
@@ -13,10 +21,10 @@ class FieldTile extends FlxSprite
         return all.get(Std.string(tileX) + '-' + Std.string(tileY));
     }
 
+    public var isTilled:Bool;
+    public var daysWithoutWater:Int;
     public var plantProgress:Int;
     private var isWet:Bool;
-    private var isTilled:Bool;
-    private var daysWithoutWater:Int;
 
     public var preview:FieldTilePreview;
     public var willWater:Bool;
