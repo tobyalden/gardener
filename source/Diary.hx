@@ -27,20 +27,19 @@ class Diary extends FlxState
         text = new FlxText(0, 0, FlxG.width - 140, '|', 16);
         add(text);
         entries = [
-            '"Bounds of Loyalty"
-With my door closed
-The little feather may fall
-As intended
-
-Oil on my face
-I project an image
-me washing my face, later on
-
-Inclement Weather
-
-Exactly as intended - 
-    every piece,
-        every part.'
+            'this is day ${PlayState.dayCount}',
+            'this is day ${PlayState.dayCount}',
+            'this is day ${PlayState.dayCount}',
+            'this is day ${PlayState.dayCount}',
+            'this is day ${PlayState.dayCount}',
+            'this is day ${PlayState.dayCount}',
+            'this is day ${PlayState.dayCount}',
+            'this is day ${PlayState.dayCount}',
+            'this is day ${PlayState.dayCount}',
+            'this is day ${PlayState.dayCount}',
+            'this is day ${PlayState.dayCount}',
+            'this is day ${PlayState.dayCount}',
+            'this is day ${PlayState.dayCount}',
         ];
         char = '';
         cursorPosition = 0;
@@ -60,6 +59,7 @@ Exactly as intended -
         blinkTimer = new FlxTimer().start(0.5, blinkCursor, 0);
 
         FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+        FlxG.camera.fade(FlxColor.BLACK, 2, true);
     }
 
     private function blinkCursor(_:FlxTimer) {
@@ -136,7 +136,12 @@ Exactly as intended -
                     text.text = 'SAVING...';
                     FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
                     {
-                        FlxG.switchState(new HighScores());
+                        if(PlayState.dayCount == 30) {
+                            FlxG.switchState(new HighScores());
+                        }
+                        else {
+                            FlxG.switchState(new PlayState());
+                        }
                     });
                 }
             }

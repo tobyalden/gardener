@@ -11,10 +11,6 @@ import flixel.util.*;
 // TODO: Write diary entries
 // TODO: Main menu
 // TODO: Ending
-// TODO: Handle POST (server & client)
-// TODO: Gracefully fail if high score table isn't available
-// TODO: Protect high score table
-// TODO: Transition between scenes and save
 // TODO: Music & SFX
 // TODO: Remove debug functions, lock down high score DB
 
@@ -61,8 +57,9 @@ class PlayState extends FlxState
     private var runFourTimesCostDisplay:FlxText;
 
     private var help:FlxText;
-
     private var previewPulseTimer:FlxTimer;
+
+    private var isFading:Bool;
 
     override public function create():Void
 	{
@@ -150,6 +147,8 @@ class PlayState extends FlxState
         previewPulseTimer = new FlxTimer();
         previewPulseTimer.start(0.5, 0);
 
+        isFading = false;
+
         robot = new Robot(5, 5, false);
         add(robot);
         previewRobot = new Robot(5, 5, true);
@@ -208,6 +207,7 @@ class PlayState extends FlxState
         if(FlxG.save.data.dayCount) {
             loadGame();
         }
+        FlxG.camera.fade(FlxColor.BLACK, 2, true);
 	}
 
     public function getNewDeck() {
@@ -564,7 +564,12 @@ class PlayState extends FlxState
 
             // Check if advance button was pressed
             if(clicked(advanceButton)) {
-                advanceDay();
+                isFading = true;
+                FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
+                {
+                    advanceDay();
+                    FlxG.switchState(new Diary());
+                });
             } 
 
             // Check if mulligan button was pressed
@@ -583,6 +588,9 @@ class PlayState extends FlxState
 	}
 
     private function clicked(e:FlxSprite) {
+        if(isFading) {
+            return false;
+        }
         if(stackExecution.active) {
             return false;
         }
@@ -683,6 +691,7 @@ class PlayState extends FlxState
             }
         }
         robot.seedOrHarvest();
+        saveGame();
     }
 
     private function dealHand() {
