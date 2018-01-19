@@ -126,11 +126,13 @@ class Diary extends FlxState
             if(clicked(saveButton)) {
                 saveButton.color = 0xffffff;
                 if(FlxG.mouse.justPressed) {
-                    var log = text.text;
-                    if(cursorShown) {
-                        log = log.substr(0, log.length - 1);
+                    if(PlayState.dayCount == 30) {
+                        var log = text.text;
+                        if(cursorShown) {
+                            log = log.substr(0, log.length - 1);
+                        }
+                        sendLog(log);
                     }
-                    sendLog(log);
                     blinkTimer.cancel();
                     lock = true;
                     text.text = 'SAVING...';
