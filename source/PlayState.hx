@@ -204,7 +204,7 @@ class PlayState extends FlxState
         // TODO: Add preview squares on card highlight
         stackExecution = new FlxTimer();
 
-        if(FlxG.save.data.dayCount) {
+        if(FlxG.save.data.dayCount != null) {
             loadGame();
         }
         FlxG.camera.fade(FlxColor.BLACK, 2, true);
