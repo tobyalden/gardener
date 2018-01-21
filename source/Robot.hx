@@ -232,6 +232,9 @@ class Robot extends FlxSprite
     }
 
     public function till(pattern:Array<Array<Int>>) {
+        if(!isPreview) {
+            FlxG.sound.play(AssetPaths.till__wav);
+        }
         var tiles = getRelativeTiles(pattern);
         for(tile in tiles) {
             if(tile != null) {
@@ -240,13 +243,15 @@ class Robot extends FlxSprite
                 }
                 else {
                     tile.till();
-                    FlxG.sound.play(AssetPaths.till__wav);
                 }
             }
         }
     }
 
     public function water(pattern:Array<Array<Int>>) {
+        if(!isPreview) {
+            FlxG.sound.play(AssetPaths.water__wav);
+        }
         var tiles = getRelativeTiles(pattern);
         for(tile in tiles) {
             if(tile != null) {
@@ -255,7 +260,6 @@ class Robot extends FlxSprite
                 }
                 else {
                     tile.water();
-                    FlxG.sound.play(AssetPaths.water__wav);
                 }
             }
         }
