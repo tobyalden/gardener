@@ -416,6 +416,9 @@ class PlayState extends FlxState
             drawButton.color = FlxColor.GRAY;
         }
         else if(clicked(drawButton)) {
+            if(drawButton.color == FlxColor.RED) {
+                FlxG.sound.play(AssetPaths.mouseover__wav);
+            }
             drawButton.color = FlxColor.PINK;
         }
         else {
@@ -426,6 +429,9 @@ class PlayState extends FlxState
             mulliganButton.kill();
             advanceButton.revive();
             if(clicked(advanceButton)) {
+                if(advanceButton.color == FlxColor.LIME) {
+                    FlxG.sound.play(AssetPaths.mouseover__wav);
+                }
                 advanceButton.color = FlxColor.PINK;
             }
             else {
@@ -433,6 +439,9 @@ class PlayState extends FlxState
             }
         }
         else if(clicked(mulliganButton)) {
+            if(mulliganButton.color == FlxColor.MAGENTA) {
+                FlxG.sound.play(AssetPaths.mouseover__wav);
+            }
             mulliganButton.color = FlxColor.PINK;
         }
         else {
@@ -450,6 +459,9 @@ class PlayState extends FlxState
         else {
             runButton.animation.play('active');
             if(clicked(runButton)) {
+                if(runButton.color == 0xececec) {
+                    FlxG.sound.play(AssetPaths.mouseover__wav);
+                }
                 runButton.color = 0xffffff;
             }
             else {
@@ -458,6 +470,9 @@ class PlayState extends FlxState
             if(hours - RUN_TWICE_COST >= 0) {
                 runTwiceButton.animation.play('active');
                 if(clicked(runTwiceButton)) {
+                    if(runTwiceButton.color == 0xececec) {
+                        FlxG.sound.play(AssetPaths.mouseover__wav);
+                    }
                     runTwiceButton.color = 0xffffff;
                     previewStack(2);
                 }
@@ -474,6 +489,9 @@ class PlayState extends FlxState
             if(hours - RUN_FOUR_TIMES_COST >= 0) {
                 runFourTimesButton.animation.play('active');
                 if(clicked(runFourTimesButton)) {
+                    if(runFourTimesButton.color == 0xececec) {
+                        FlxG.sound.play(AssetPaths.mouseover__wav);
+                    }
                     runFourTimesButton.color = 0xffffff;
                     previewStack(4);
                 }
@@ -492,6 +510,14 @@ class PlayState extends FlxState
         for(cards in [hand, stack]) {
             for(card in cards) {
                 if(clicked(card)) {
+                    if(
+                        card.color == 0xececec
+                        && !FlxG.mouse.justPressed
+                        && !FlxG.mouse.pressed
+                        && !FlxG.mouse.justReleased
+                    ) {
+                        FlxG.sound.play(AssetPaths.mouseover__wav);
+                    }
                    card.color = 0xffffff;
                 }
                 else {
@@ -509,6 +535,7 @@ class PlayState extends FlxState
                 && stack.length == 5
                 && hours - runCost >= 0
             ) {
+                FlxG.sound.play(AssetPaths.click__wav);
                 hours -= runCost;
                 executeStack(1);
             }
@@ -519,6 +546,7 @@ class PlayState extends FlxState
                 && stack.length == 5
                 && hours - RUN_TWICE_COST >= 0
             ) {
+                FlxG.sound.play(AssetPaths.click__wav);
                 hours -= RUN_TWICE_COST;
                 executeStack(2);
             }
@@ -529,6 +557,7 @@ class PlayState extends FlxState
                 && stack.length == 5
                 && hours - RUN_FOUR_TIMES_COST >= 0
             ) {
+                FlxG.sound.play(AssetPaths.click__wav);
                 hours -= RUN_FOUR_TIMES_COST;
                 executeStack(4);
             }
@@ -536,6 +565,7 @@ class PlayState extends FlxState
             // Check if any cards in the hand were pressed
             for(card in hand) {
                 if(clicked(card) && stack.length < 5) {
+                    FlxG.sound.play(AssetPaths.click__wav);
                     hand.remove(card);
                     stack.push(card);
                     previewStack(1);
@@ -546,6 +576,7 @@ class PlayState extends FlxState
             // Check if any cards in the stack were pressed
             for(card in stack) {
                 if(clicked(card)) {
+                    FlxG.sound.play(AssetPaths.click__wav);
                     stack.remove(card);
                     hand.push(card);
                     previewStack(1);
@@ -556,6 +587,7 @@ class PlayState extends FlxState
             // Check if draw button was pressed
             if(clicked(drawButton)) {
                 if(hours - drawCost >= 0) {
+                    FlxG.sound.play(AssetPaths.click__wav);
                     hours -= drawCost;
                     drawCost += 1;
                     drawCard();
@@ -564,6 +596,7 @@ class PlayState extends FlxState
 
             // Check if advance button was pressed
             if(clicked(advanceButton)) {
+                FlxG.sound.play(AssetPaths.click__wav);
                 isFading = true;
                 FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
                 {
@@ -575,6 +608,7 @@ class PlayState extends FlxState
             // Check if mulligan button was pressed
             if(clicked(mulliganButton)) {
                 if(hours == HOURS_IN_DAY) {
+                    FlxG.sound.play(AssetPaths.click__wav);
                     var handSize = hand.length;
                     hand = new Array<Card>();  
                     for (i in 0...handSize) {
