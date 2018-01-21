@@ -156,7 +156,7 @@ class Diary extends FlxState
                 saveButton.color = 0xffffff;
                 if(FlxG.mouse.justPressed) {
                     FlxG.sound.play('assets/sounds/click.wav');
-                    if(PlayState.dayCount == 30) {
+                    if(PlayState.dayCount == 31) {
                         var log = text.text;
                         if(cursorShown) {
                             log = log.substr(0, log.length - 1);
@@ -168,7 +168,7 @@ class Diary extends FlxState
                     text.text = 'SAVING...';
                     FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
                     {
-                        if(PlayState.dayCount == 30) {
+                        if(PlayState.dayCount == 31) {
                             FlxG.switchState(new HighScores());
                         }
                         else {
@@ -193,7 +193,7 @@ class Diary extends FlxState
             }
 
             // Add the next character
-            if(PlayState.dayCount == 30) {
+            if(PlayState.dayCount == 31) {
                 if(FlxG.keys.justPressed.SPACE) {
                     text.text += ' ';
                 }
