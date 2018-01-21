@@ -151,11 +151,11 @@ class Diary extends FlxState
             saveButton.animation.play('active');
             if(clicked(saveButton)) {
                 if(saveButton.color == 0xececec) {
-                    FlxG.sound.play(AssetPaths.mouseover__wav);
+                    FlxG.sound.play('assets/sounds/mouseover.wav');
                 }
                 saveButton.color = 0xffffff;
                 if(FlxG.mouse.justPressed) {
-                    FlxG.sound.play(AssetPaths.click__wav);
+                    FlxG.sound.play('assets/sounds/click.wav');
                     if(PlayState.dayCount == 30) {
                         var log = text.text;
                         if(cursorShown) {
@@ -214,7 +214,7 @@ class Diary extends FlxState
                 if(FlxG.keys.justPressed.BACKSPACE) {
                     text.text = text.text.substr(0, text.text.length - 1);
                     cursorPosition--;
-                    FlxG.sound.play(AssetPaths.type__wav);
+                    FlxG.sound.play('assets/sounds/type.wav');
                 }
                 else {
                     text.text += entries[PlayState.dayCount - 1].charAt(
@@ -222,7 +222,7 @@ class Diary extends FlxState
                     );
                     if(cursorPosition < entries[PlayState.dayCount - 1].length) {
                         cursorPosition++;
-                        FlxG.sound.play(AssetPaths.type__wav);
+                        FlxG.sound.play('assets/sounds/type.wav');
                     }
                 }
             }

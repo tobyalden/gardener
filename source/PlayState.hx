@@ -417,7 +417,7 @@ class PlayState extends FlxState
         }
         else if(clicked(drawButton)) {
             if(drawButton.color == FlxColor.RED) {
-                FlxG.sound.play(AssetPaths.mouseover__wav);
+                FlxG.sound.play('assets/sounds/mouseover.wav');
             }
             drawButton.color = FlxColor.PINK;
         }
@@ -430,7 +430,7 @@ class PlayState extends FlxState
             advanceButton.revive();
             if(clicked(advanceButton)) {
                 if(advanceButton.color == FlxColor.LIME) {
-                    FlxG.sound.play(AssetPaths.mouseover__wav);
+                    FlxG.sound.play('assets/sounds/mouseover.wav');
                 }
                 advanceButton.color = FlxColor.PINK;
             }
@@ -440,7 +440,7 @@ class PlayState extends FlxState
         }
         else if(clicked(mulliganButton)) {
             if(mulliganButton.color == FlxColor.MAGENTA) {
-                FlxG.sound.play(AssetPaths.mouseover__wav);
+                FlxG.sound.play('assets/sounds/mouseover.wav');
             }
             mulliganButton.color = FlxColor.PINK;
         }
@@ -460,7 +460,7 @@ class PlayState extends FlxState
             runButton.animation.play('active');
             if(clicked(runButton)) {
                 if(runButton.color == 0xececec) {
-                    FlxG.sound.play(AssetPaths.mouseover__wav);
+                    FlxG.sound.play('assets/sounds/mouseover.wav');
                 }
                 runButton.color = 0xffffff;
             }
@@ -471,7 +471,7 @@ class PlayState extends FlxState
                 runTwiceButton.animation.play('active');
                 if(clicked(runTwiceButton)) {
                     if(runTwiceButton.color == 0xececec) {
-                        FlxG.sound.play(AssetPaths.mouseover__wav);
+                        FlxG.sound.play('assets/sounds/mouseover.wav');
                     }
                     runTwiceButton.color = 0xffffff;
                     previewStack(2);
@@ -490,7 +490,7 @@ class PlayState extends FlxState
                 runFourTimesButton.animation.play('active');
                 if(clicked(runFourTimesButton)) {
                     if(runFourTimesButton.color == 0xececec) {
-                        FlxG.sound.play(AssetPaths.mouseover__wav);
+                        FlxG.sound.play('assets/sounds/mouseover.wav');
                     }
                     runFourTimesButton.color = 0xffffff;
                     previewStack(4);
@@ -516,7 +516,7 @@ class PlayState extends FlxState
                         && !FlxG.mouse.pressed
                         && !FlxG.mouse.justReleased
                     ) {
-                        FlxG.sound.play(AssetPaths.mouseover__wav);
+                        FlxG.sound.play('assets/sounds/mouseover.wav');
                     }
                    card.color = 0xffffff;
                 }
@@ -535,7 +535,7 @@ class PlayState extends FlxState
                 && stack.length == 5
                 && hours - runCost >= 0
             ) {
-                FlxG.sound.play(AssetPaths.click__wav);
+                FlxG.sound.play('assets/sounds/click.wav');
                 hours -= runCost;
                 executeStack(1);
             }
@@ -546,7 +546,7 @@ class PlayState extends FlxState
                 && stack.length == 5
                 && hours - RUN_TWICE_COST >= 0
             ) {
-                FlxG.sound.play(AssetPaths.click__wav);
+                FlxG.sound.play('assets/sounds/click.wav');
                 hours -= RUN_TWICE_COST;
                 executeStack(2);
             }
@@ -557,7 +557,7 @@ class PlayState extends FlxState
                 && stack.length == 5
                 && hours - RUN_FOUR_TIMES_COST >= 0
             ) {
-                FlxG.sound.play(AssetPaths.click__wav);
+                FlxG.sound.play('assets/sounds/click.wav');
                 hours -= RUN_FOUR_TIMES_COST;
                 executeStack(4);
             }
@@ -565,7 +565,7 @@ class PlayState extends FlxState
             // Check if any cards in the hand were pressed
             for(card in hand) {
                 if(clicked(card) && stack.length < 5) {
-                    FlxG.sound.play(AssetPaths.click__wav);
+                    FlxG.sound.play('assets/sounds/click.wav');
                     hand.remove(card);
                     stack.push(card);
                     previewStack(1);
@@ -576,7 +576,7 @@ class PlayState extends FlxState
             // Check if any cards in the stack were pressed
             for(card in stack) {
                 if(clicked(card)) {
-                    FlxG.sound.play(AssetPaths.click__wav);
+                    FlxG.sound.play('assets/sounds/click.wav');
                     stack.remove(card);
                     hand.push(card);
                     previewStack(1);
@@ -587,7 +587,7 @@ class PlayState extends FlxState
             // Check if draw button was pressed
             if(clicked(drawButton)) {
                 if(hours - drawCost >= 0) {
-                    FlxG.sound.play(AssetPaths.click__wav);
+                    FlxG.sound.play('assets/sounds/click.wav');
                     hours -= drawCost;
                     drawCost += 1;
                     drawCard();
@@ -596,7 +596,7 @@ class PlayState extends FlxState
 
             // Check if advance button was pressed
             if(clicked(advanceButton)) {
-                FlxG.sound.play(AssetPaths.click__wav);
+                FlxG.sound.play('assets/sounds/click.wav');
                 isFading = true;
                 FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
                 {
@@ -608,7 +608,7 @@ class PlayState extends FlxState
             // Check if mulligan button was pressed
             if(clicked(mulliganButton)) {
                 if(hours == HOURS_IN_DAY) {
-                    FlxG.sound.play(AssetPaths.click__wav);
+                    FlxG.sound.play('assets/sounds/click.wav');
                     var handSize = hand.length;
                     hand = new Array<Card>();  
                     for (i in 0...handSize) {

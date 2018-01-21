@@ -136,14 +136,14 @@ class FieldTile extends FlxSprite
         if(isTilled && plantProgress == 0) {
             plantProgress = 1;
             daysWithoutWater = 0;
-            FlxG.sound.play(AssetPaths.seed__wav);
+            FlxG.sound.play('assets/sounds/seed.wav');
         }
         else if(plantProgress == 5 && daysWithoutWater == 0) {
             plantProgress = 0;
             isTilled = false;
             daysWithoutWater = 0;
             PlayState.harvestCount += 1;
-            FlxG.sound.play(AssetPaths.harvest__wav);
+            FlxG.sound.play('assets/sounds/harvest.wav');
         }
     }
 

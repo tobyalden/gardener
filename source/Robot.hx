@@ -49,7 +49,7 @@ class Robot extends FlxSprite
 
     public function move(steps:Int) {
         if(!isPreview) {
-            FlxG.sound.play(AssetPaths.move__wav);
+            FlxG.sound.play('assets/sounds/move.wav');
         }
         for(i in 0...steps) {
             if(facing == FlxObject.UP) {
@@ -77,7 +77,7 @@ class Robot extends FlxSprite
 
     public function turn(direction:String) {
         if(!isPreview) {
-            FlxG.sound.play(AssetPaths.turn__wav);
+            FlxG.sound.play('assets/sounds/turn.wav');
         }
         if(direction == 'left') {
             if(facing == FlxObject.UP) {
@@ -233,7 +233,7 @@ class Robot extends FlxSprite
 
     public function till(pattern:Array<Array<Int>>) {
         if(!isPreview) {
-            FlxG.sound.play(AssetPaths.till__wav);
+            FlxG.sound.play('assets/sounds/till.wav');
         }
         var tiles = getRelativeTiles(pattern);
         for(tile in tiles) {
@@ -250,7 +250,7 @@ class Robot extends FlxSprite
 
     public function water(pattern:Array<Array<Int>>) {
         if(!isPreview) {
-            FlxG.sound.play(AssetPaths.water__wav);
+            FlxG.sound.play('assets/sounds/water.wav');
         }
         var tiles = getRelativeTiles(pattern);
         for(tile in tiles) {
