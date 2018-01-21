@@ -34,6 +34,9 @@ class MainMenu extends FlxState
         super.update(elapsed);
         for(button in [newGameButton, continueButton]) {
             if(clicked(button)) {
+                if(button.color == 0xd6d6d6) {
+                    FlxG.sound.play(AssetPaths.mouseover__wav);
+                }
                 button.color = 0xffffff;
             }
             else {
@@ -51,6 +54,7 @@ class MainMenu extends FlxState
 
         if(FlxG.mouse.justPressed) {
             if(clicked(newGameButton)) {
+                FlxG.sound.play(AssetPaths.click__wav);
                 isFading = true;
                 FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
                 {
@@ -63,6 +67,7 @@ class MainMenu extends FlxState
                 FlxG.save.data.dayCount != null
                 && clicked(continueButton)
             ) {
+                FlxG.sound.play(AssetPaths.click__wav);
                 isFading = true;
                 FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
                 {
