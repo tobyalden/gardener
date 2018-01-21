@@ -48,6 +48,9 @@ class Robot extends FlxSprite
     }
 
     public function move(steps:Int) {
+        if(!isPreview) {
+            FlxG.sound.play(AssetPaths.move__wav);
+        }
         for(i in 0...steps) {
             if(facing == FlxObject.UP) {
                 tileY = Std.int(Math.max(0, tileY - 1));
@@ -73,6 +76,9 @@ class Robot extends FlxSprite
     }
 
     public function turn(direction:String) {
+        if(!isPreview) {
+            FlxG.sound.play(AssetPaths.turn__wav);
+        }
         if(direction == 'left') {
             if(facing == FlxObject.UP) {
                 facing = FlxObject.LEFT;
@@ -234,6 +240,7 @@ class Robot extends FlxSprite
                 }
                 else {
                     tile.till();
+                    FlxG.sound.play(AssetPaths.till__wav);
                 }
             }
         }
@@ -248,6 +255,7 @@ class Robot extends FlxSprite
                 }
                 else {
                     tile.water();
+                    FlxG.sound.play(AssetPaths.water__wav);
                 }
             }
         }
