@@ -12,7 +12,7 @@ import flixel.util.*;
 // TODO: Main menu
 // TODO: Ending
 // TODO: Music & SFX
-// TODO: Remove debug functions, lock down high score DB
+// TODO: Remove debug functions, lock down high score DB, delete game after 31st day
 
 class PlayState extends FlxState
 {
@@ -33,7 +33,7 @@ class PlayState extends FlxState
     public static var stackPosition = 0;
     public static var recursionCount = 0;
     public static var harvestCount = 0;
-    public static var dayCount = 1;
+    public static var dayCount = 30;
 
     private var deck:Array<Card>;
     private var runButton:RunButton;

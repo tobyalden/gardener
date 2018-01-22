@@ -5,13 +5,18 @@ import flixel.math.*;
 import flixel.text.*;
 import flixel.util.*;
 import openfl.events.*;
+import openfl.net.*;
+
 
 // TODO: I think I need to add a date / filename so it's apparent the user
 // is writing a diary entry. Don't include it in the payload tho - make it a
 // separate FlxText object.
 
+//openfl.Lib.getURL(new URLRequest('http://www.youhole.tv'));
+
 class Diary extends FlxState
 {
+    private var header:FlxText;
     private var text:FlxText;
     private var char:String;
     private var entries:Array<String>;
@@ -24,7 +29,19 @@ class Diary extends FlxState
     override public function create():Void
 	{
 		super.create();
-        text = new FlxText(0, 0, FlxG.width - 140, '|', 16);
+        var headerText = 'DiaryKeeper v.1.2';
+        if(PlayState.dayCount == 31) {
+            headerText = 'FarmBBS v.4.3.4 (Unregistered)';
+        }
+        header = new FlxText(0, 0, FlxG.width - 140, headerText, 16);
+        header.color = FlxColor.BLACK;
+        var headerBg = new FlxSprite(0, 0);
+        headerBg.makeGraphic(FlxG.width, Std.int(header.height), FlxColor.WHITE);
+        add(headerBg);
+        //header.borderColor = FlxColor.WHITE;
+        //header.borderStyle = OUTLINE;
+        add(header);
+        text = new FlxText(0, header.height + 6, FlxG.width - 140, '|', 16);
         add(text);
         entries = [
             'this is day ${PlayState.dayCount}',
@@ -77,7 +94,12 @@ class Diary extends FlxState
         add(saveButton);
 
         decoration = new FlxSprite(saveButton.x, 0);
-        decoration.loadGraphic('assets/images/decoration.png');
+        if(PlayState.dayCount == 31) {
+            decoration.loadGraphic('assets/images/decoration2.png');
+        }
+        else{
+            decoration.loadGraphic('assets/images/decoration.png');
+        }
         add(decoration);
 
         lock = false;
@@ -122,7 +144,7 @@ class Diary extends FlxState
         socket.setPostData(haxe.Json.stringify(postData));
         socket.onData = function(data) {
             trace('we got data: ${data}');
-            text.text = 'SAVED.';
+            text.text = 'POST SUBMITTED!';
         }
         socket.onStatus = function(data) {
             trace('we got status: ${data}');
@@ -165,7 +187,15 @@ class Diary extends FlxState
                     }
                     blinkTimer.cancel();
                     lock = true;
-                    text.text = 'SAVING...';
+                    if(PlayState.dayCount == 31) {
+                        text.text = 'SUBMITTING...';
+                    }
+                    else {
+                        text.text = 'SAVING...';
+                        new FlxTimer().start(1, function(_:FlxTimer) {
+                            text.text = 'SAVED.';
+                        });
+                    }
                     FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
                     {
                         if(PlayState.dayCount == 31) {
