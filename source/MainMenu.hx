@@ -28,6 +28,10 @@ class MainMenu extends FlxState
         add(newGameButton);
         add(continueButton);
         isFading = false;
+        if(FlxG.save.data.dayCount != null && FlxG.save.data.dayCount > 30) {
+            FlxG.save.data.dayCount = null;
+            FlxG.save.flush();
+        }
     }
 
     override public function update(elapsed:Float) {

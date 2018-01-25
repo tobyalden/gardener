@@ -1,5 +1,7 @@
 import flixel.*;
+import flixel.math.*;
 import flixel.text.*;
+import flixel.util.*;
 
 typedef HighScore = {
     var score:Int;
@@ -8,13 +10,35 @@ typedef HighScore = {
 
 class HighScores extends FlxState
 {
+    private var header:FlxText;
     private var text:FlxText;
+    private var decoration:FlxSprite;
+    private var backToMenu:MenuButton;
+    private var lock:Bool;
 
     override public function create():Void
 	{
 		super.create();
-        text = new FlxText(0, 0, 'LOADING...', 16);
+        lock = false;
+        var headerText = 'HighScores v.0.8 (CrAcKeD bY MKz3lite)';
+        header = new FlxText(0, 0, FlxG.width - 140, headerText, 16);
+        header.color = FlxColor.BLACK;
+        var headerBg = new FlxSprite(0, 0);
+        headerBg.makeGraphic(FlxG.width, Std.int(header.height), FlxColor.WHITE);
+        text = new FlxText(0, header.height + 6, FlxG.width - 140, 'LOADING...', 16);
         add(text);
+        add(headerBg);
+        add(header);
+        backToMenu = new MenuButton(0, 0);
+        backToMenu.setPosition(
+            FlxG.width - backToMenu.width,
+            FlxG.height - backToMenu.height
+        );
+        add(backToMenu);
+        decoration = new FlxSprite(backToMenu.x, 0);
+        decoration.loadGraphic('assets/images/decoration3.png');
+        add(decoration);
+
         var socket = new haxe.Http("https://high-score-server.herokuapp.com/");
         socket.onData = function(data) {
             trace('we got data: ${data}');
@@ -36,11 +60,6 @@ class HighScores extends FlxState
                 }
             });
             var formattedLog = '\n';
-            formattedLog += '------------------------------------------------';
-            formattedLog += '------------\n';
-            formattedLog += 'HIGH SCORES\n';
-            formattedLog += '------------------------------------------------';
-            formattedLog += '------------\n\n';
             for(highScore in dataArray) {
                 formattedLog += 'HARVESTED: ${highScore.score}\n';
                 formattedLog += highScore.log;
@@ -61,11 +80,32 @@ class HighScores extends FlxState
 	override public function update(elapsed:Float):Void
     {
 		super.update(elapsed);
-        if(text.text != 'LOADING...') {
-            text.y += FlxG.mouse.wheel;
-            if(text.y > 0) {
-                text.y = 0;
+        if(clicked(backToMenu) && !lock) {
+            if(backToMenu.color == 0xececec) {
+                FlxG.sound.play('assets/sounds/mouseover.wav');
+            }
+            backToMenu.color = 0xffffff;
+            if(FlxG.mouse.justPressed) {
+                FlxG.sound.play('assets/sounds/click.wav');
+                lock = true;
+                FlxG.camera.fade(FlxColor.BLACK, 3, false, function() {
+                    FlxG.switchState(new MainMenu());
+                });
             }
         }
+        else {
+            backToMenu.color = 0xececec;
+        }
+
+        if(text.text != 'LOADING...') {
+            text.y += FlxG.mouse.wheel;
+            if(text.y > header.height + 6) {
+                text.y = header.height + 6;
+            }
+        }
+    }
+
+    private function clicked(e:FlxSprite) {
+        return e.overlapsPoint(new FlxPoint(FlxG.mouse.x, FlxG.mouse.y));
     }
 }
