@@ -30,7 +30,7 @@ class Diary extends FlxState
 	{
 		super.create();
         var headerText = 'DiaryKeeper v.1.2';
-        if(PlayState.dayCount == 31) {
+        if(PlayState.dayCount == 32) {
             headerText = 'FarmBBS v.4.3.4 (Unregistered)';
         }
         header = new FlxText(0, 0, FlxG.width - 140, headerText, 16);
@@ -38,10 +38,16 @@ class Diary extends FlxState
         var headerBg = new FlxSprite(0, 0);
         headerBg.makeGraphic(FlxG.width, Std.int(header.height), FlxColor.WHITE);
         add(headerBg);
-        //header.borderColor = FlxColor.WHITE;
-        //header.borderStyle = OUTLINE;
         add(header);
+        var prompt:FlxText = new FlxText(0, header.height + 6, '', 16);
+        prompt.color = FlxColor.LIME;
+        add(prompt);
         text = new FlxText(0, header.height + 6, FlxG.width - 140, '|', 16);
+        if(PlayState.dayCount == 32) {
+            var rand = new FlxRandom().int(0, 100);
+            prompt.text = 'Posting in comp.agri.chat (${rand} online)\n\nENTER POST:';
+            text.y += prompt.height;
+        }
         add(text);
         entries = [
             'this is day ${PlayState.dayCount}',
@@ -94,7 +100,7 @@ class Diary extends FlxState
         add(saveButton);
 
         decoration = new FlxSprite(saveButton.x, 0);
-        if(PlayState.dayCount == 31) {
+        if(PlayState.dayCount == 32) {
             decoration.loadGraphic('assets/images/decoration2.png');
         }
         else{
@@ -178,7 +184,7 @@ class Diary extends FlxState
                 saveButton.color = 0xffffff;
                 if(FlxG.mouse.justPressed) {
                     FlxG.sound.play('assets/sounds/click.wav');
-                    if(PlayState.dayCount == 31) {
+                    if(PlayState.dayCount == 32) {
                         var log = text.text;
                         if(cursorShown) {
                             log = log.substr(0, log.length - 1);
@@ -187,7 +193,7 @@ class Diary extends FlxState
                     }
                     blinkTimer.cancel();
                     lock = true;
-                    if(PlayState.dayCount == 31) {
+                    if(PlayState.dayCount == 32) {
                         text.text = 'SUBMITTING...';
                     }
                     else {
@@ -198,8 +204,12 @@ class Diary extends FlxState
                     }
                     FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
                     {
-                        if(PlayState.dayCount == 31) {
+                        if(PlayState.dayCount == 32) {
                             FlxG.switchState(new HighScores());
+                        }
+                        else if(PlayState.dayCount == 31) {
+                            PlayState.dayCount++;
+                            FlxG.switchState(new Diary());
                         }
                         else {
                             FlxG.switchState(new PlayState());
@@ -223,7 +233,7 @@ class Diary extends FlxState
             }
 
             // Add the next character
-            if(PlayState.dayCount == 31) {
+            if(PlayState.dayCount == 32) {
                 if(FlxG.keys.justPressed.SPACE) {
                     text.text += ' ';
                 }

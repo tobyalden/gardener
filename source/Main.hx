@@ -11,8 +11,8 @@ class Main extends Sprite
 		super();
         //addChild(new FlxGame(0, 0, Diary, 1, 60, 60, true));
         //addChild(new FlxGame(0, 0, HighScores, 1, 60, 60, true));
-        addChild(new FlxGame(0, 0, PlayState, 1, 60, 60, true));
-        //addChild(new FlxGame(0, 0, MainMenu, 1, 60, 60, true));
+        //addChild(new FlxGame(0, 0, PlayState, 1, 60, 60, true));
+        addChild(new FlxGame(0, 0, MainMenu, 1, 60, 60, true));
         FlxG.mouse.visible = true;
         var sprite = new FlxSprite();
         sprite.loadGraphic('assets/images/pointer.png');

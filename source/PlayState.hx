@@ -12,7 +12,6 @@ import flixel.util.*;
 // TODO: Ending(s)
 // TODO: Make main menu look nice
 // TODO: Music & SFX
-// TODO: Add animations
 // TODO: Make high score table look nice + add a link back to main menu
 // TODO: Remove debug functions, lock down high score DB, delete game after 31st day
 

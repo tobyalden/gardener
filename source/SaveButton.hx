@@ -9,7 +9,7 @@ class SaveButton extends FlxSprite
     public function new(x:Int, y:Int) {
         super(x, y);
         loadGraphic('assets/images/saveandcontinue.png', true, 135, 80);
-        if(PlayState.dayCount == 31) {
+        if(PlayState.dayCount == 32) {
             animation.add('active', [2]);
             animation.add('inactive', [3]);
         }
