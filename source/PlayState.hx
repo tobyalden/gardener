@@ -12,7 +12,7 @@ import flixel.util.*;
 // TODO: Ending(s)
 // TODO: Make main menu look nice
 // TODO: Music & SFX
-// TODO: Remove debug functions, lock down high score DB, delete game after 31st day
+// TODO: Remove debug functions, clear high score table
 
 class PlayState extends FlxState
 {
