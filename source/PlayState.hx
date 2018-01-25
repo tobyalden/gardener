@@ -8,10 +8,12 @@ import flixel.math.*;
 import flixel.text.*;
 import flixel.util.*;
 
-// TODO: Write diary entries
-// TODO: Main menu
-// TODO: Ending
+// TODO: Finish diary entries
+// TODO: Ending(s)
+// TODO: Make main menu look nice
 // TODO: Music & SFX
+// TODO: Add animations
+// TODO: Make high score table look nice + add a link back to main menu
 // TODO: Remove debug functions, lock down high score DB, delete game after 31st day
 
 class PlayState extends FlxState
