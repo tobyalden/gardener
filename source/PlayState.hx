@@ -8,8 +8,7 @@ import flixel.math.*;
 import flixel.text.*;
 import flixel.util.*;
 
-// TODO: Finish diary entries
-// TODO: Ending(s)
+// TODO: Finish diary entries / ending(s)
 // TODO: Make main menu look nice
 // TODO: Music & SFX
 // TODO: Remove debug functions, clear high score table
