@@ -8,9 +8,9 @@ import flixel.math.*;
 import flixel.text.*;
 import flixel.util.*;
 
-// TODO: Finish diary entries / ending(s)
+// TODO: Finish writing endings and add them to game
 // TODO: Make main menu look nice
-// TODO: Music & SFX
+// TODO: Add music (still need max's last song)
 // TODO: Remove debug functions, clear high score table
 
 class PlayState extends FlxState
