@@ -90,7 +90,7 @@ class HighScores extends FlxState
                 lock = true;
                 FlxG.camera.fade(FlxColor.BLACK, 3, false, function() {
                     FlxG.switchState(new MainMenu());
-                });
+                }, true);
             }
         }
         else {

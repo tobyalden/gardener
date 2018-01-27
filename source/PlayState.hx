@@ -11,6 +11,7 @@ import flixel.util.*;
 // TODO: Finish writing endings and add them to game
 // TODO: Make main menu look nice
 // TODO: Add music (still need max's last song)
+// TODO: Increase speed for x2 x4 actions
 // TODO: Remove debug functions, clear high score table
 
 class PlayState extends FlxState
@@ -32,7 +33,7 @@ class PlayState extends FlxState
     public static var stackPosition = 0;
     public static var recursionCount = 0;
     public static var harvestCount = 0;
-    public static var dayCount = 30;
+    public static var dayCount = 1;
 
     private var deck:Array<Card>;
     private var runButton:RunButton;
@@ -385,20 +386,20 @@ class PlayState extends FlxState
 		super.update(elapsed);
 
         // DEBUG
-        if(FlxG.keys.justReleased.R) {
-            for(tile in FieldTile.all) {
-                tile.plantProgress = new FlxRandom().int(0, 5);
-            }
-        }
-        if(FlxG.keys.justReleased.S) {
-            saveGame();
-        }
-        if(FlxG.keys.justReleased.L) {
-            loadGame();
-        }
-        if(FlxG.keys.justReleased.D) {
-            FlxG.save.erase();
-        }
+        //if(FlxG.keys.justReleased.R) {
+            //for(tile in FieldTile.all) {
+                //tile.plantProgress = new FlxRandom().int(0, 5);
+            //}
+        //}
+        //if(FlxG.keys.justReleased.S) {
+            //saveGame();
+        //}
+        //if(FlxG.keys.justReleased.L) {
+            //loadGame();
+        //}
+        //if(FlxG.keys.justReleased.D) {
+            //FlxG.save.erase();
+        //}
 
         updateTooltip();
 
@@ -601,7 +602,7 @@ class PlayState extends FlxState
                 {
                     advanceDay();
                     FlxG.switchState(new Diary());
-                });
+                }, true);
             } 
 
             // Check if mulligan button was pressed

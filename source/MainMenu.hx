@@ -64,8 +64,8 @@ class MainMenu extends FlxState
                 {
                     FlxG.save.data.dayCount = null;
                     FlxG.save.flush();
-                    FlxG.switchState(new PlayState());
-                });
+                    FlxG.switchState(new Diary());
+                }, true);
             }
             else if(
                 FlxG.save.data.dayCount != null
@@ -75,8 +75,8 @@ class MainMenu extends FlxState
                 isFading = true;
                 FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
                 {
-                    FlxG.switchState(new PlayState());
-                });
+                    FlxG.switchState(new Diary());
+                }, true);
             }
         }
     }
