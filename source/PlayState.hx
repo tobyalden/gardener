@@ -8,11 +8,11 @@ import flixel.math.*;
 import flixel.text.*;
 import flixel.util.*;
 
-// TODO: Finish writing endings and add them to game
-// TODO: Make main menu look nice
+// TODO: Finish adding diary to game
 // TODO: Add music (still need max's last song)
-// TODO: Increase speed for x2 x4 actions
+// TODO: Improve card visibility
 // TODO: Remove debug functions, clear high score table
+// TODO: Create HTML5 version
 
 class PlayState extends FlxState
 {
@@ -34,6 +34,8 @@ class PlayState extends FlxState
     public static var recursionCount = 0;
     public static var harvestCount = 0;
     public static var dayCount = 1;
+
+    private var executionTime:Float;
 
     private var deck:Array<Card>;
     private var runButton:RunButton;
@@ -64,6 +66,8 @@ class PlayState extends FlxState
     override public function create():Void
 	{
 		super.create();
+
+        executionTime = EXECUTION_TIME;
 
         //var socket = new haxe.Http("https://api.carbonintensity.org.uk/intensity");
 
@@ -537,6 +541,7 @@ class PlayState extends FlxState
             ) {
                 FlxG.sound.play('assets/sounds/click.wav');
                 hours -= runCost;
+                executionTime = EXECUTION_TIME;
                 executeStack(1);
             }
 
@@ -548,6 +553,7 @@ class PlayState extends FlxState
             ) {
                 FlxG.sound.play('assets/sounds/click.wav');
                 hours -= RUN_TWICE_COST;
+                executionTime = EXECUTION_TIME * 0.75;
                 executeStack(2);
             }
 
@@ -559,6 +565,7 @@ class PlayState extends FlxState
             ) {
                 FlxG.sound.play('assets/sounds/click.wav');
                 hours -= RUN_FOUR_TIMES_COST;
+                executionTime = EXECUTION_TIME * 0.5;
                 executeStack(4);
             }
 
@@ -694,7 +701,7 @@ class PlayState extends FlxState
         }
         stack[stackPosition].action(false, false);
         stackPosition++;
-        stackExecution.start(EXECUTION_TIME, function(_:FlxTimer) {
+        stackExecution.start(executionTime, function(_:FlxTimer) {
             executeStackHelper(repeat);
         });
     }

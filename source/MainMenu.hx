@@ -7,7 +7,7 @@ import flixel.util.*;
 
 class MainMenu extends FlxState
 {
-    private var title:FlxText;
+    private var title:FlxSprite;
     private var newGameButton:FlxText;
     private var continueButton:FlxText;
     private var isFading:Bool;
@@ -20,10 +20,10 @@ class MainMenu extends FlxState
         continueButton = new FlxText(0, 0, 'CONTINUE', 24);
         continueButton.screenCenter();
         continueButton.y += newGameButton.height;
-        title = new FlxText(0, 0, FlxG.width, 'GARDENER\n-----------', 32);
-        title.alignment = CENTER;
-        title.screenCenter();
-        title.y -= title.height;
+        title = new FlxSprite(0, 0);
+        title.loadGraphic('assets/images/title.png', true, 640, 480);
+        title.animation.add('idle', [0, 1, 2], 6);
+        title.animation.play('idle');
         add(title);
         add(newGameButton);
         add(continueButton);
