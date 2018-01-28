@@ -7,11 +7,6 @@ import flixel.util.*;
 import openfl.events.*;
 import openfl.net.*;
 
-
-// TODO: I think I need to add a date / filename so it's apparent the user
-// is writing a diary entry. Don't include it in the payload tho - make it a
-// separate FlxText object.
-
 //openfl.Lib.getURL(new URLRequest('http://www.youhole.tv'));
 
 class Diary extends FlxState
