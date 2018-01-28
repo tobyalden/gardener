@@ -146,7 +146,7 @@ I don't even know if I'll be able to harvest enough food in time, I could starve
 
 Easier to think today.
 
-Did some math. I'm going to need to harvest 30 plants before my 30 days are up and winter hits. That'll be enough to feed myself through winter.
+Did some math. I'm going to need to harvest 25 plants before my 30 days are up and winter hits. That'll be enough to feed myself through winter.
 
 Then, assuming they're not totally full of it, the company is going to pick me up when the next warm cycle starts.
 
@@ -224,8 +224,7 @@ I know how odd this would sound to someone reading this, but it feels perfectly 
 
 I think - when I accidentally opened the vents - if I had left the vents open longer... I don't think I would have died.
 
-Lately I've been feeling more and more like there's something this planet has in common with me - some secret our bodies share. I can't place it with my mind, but I can feel it.
-Something that's whole, and that's always there.",
+Lately I've been feeling more and more like there's something this planet has in common with me - some secret our bodies share. I can't place it with my mind, but I can feel it. Something that's whole, and that's always there.",
 "Sunday, 10/27/43:
 
 Three days left. Last night I sat on the floor and felt the sun pass over me, grateful for every ray.",
@@ -404,11 +403,50 @@ One day left."
                 }
                 else {
                     var rand = new FlxRandom().int(1, 4);
+                    var entry:String;
+                    if(PlayState.dayCount == 31) {
+                        if(PlayState.harvestCount >= 50) {
+                            // Best end
+                            entry = "Wednesday, 9/30/47:
+
+Hi parents! Today it's been four years since I landed on this planet. When I first left, I couldn't have imagined I'd want to come back. You probably thought I was crazy.
+
+But I'm happy. Every day I wake up and see the sun rise on all the life I've grown. I've got the atmosphere to the point where all you need to wear outside is a filter, so I've been going on hikes around the trailer. Last week I found a cave full of mushrooms!
+
+I know you're probably worried that I'm sad or depressed, out here all alone. But I don't feel alone. You just have to trust me when I say that I've never felt more at peace than I do out here, gardening.
+
+I love you a lot, and think about you all the time.
+Hugs, your kid";
+                        }
+                        else if(PlayState.harvestCount >= 25) {
+                            // Good end
+                            entry = "Wednesday, 10/30/43:
+
+So, the good news is I'm not going to starve to death :)
+The bad news is I can't leave either :(
+
+The only thing to do now is to hunker down for winter. Just me and my plants and a cold field.
+
+At least I have internet.";
+                        }
+                        else {
+                            // Bad end
+                            entry = "Wednesday, 10/30/43:
+Well, I tried. I really did. I guess it just wasn't in the cards for me.
+
+Everything's ready. They'll all open when I say go. It's funny, but I don't feel scared.
+
+Actually, all I can think about is the dream I had last night.
+
+I hope I have it again.";
+                        }
+                    }
+                    else {
+                        entry = entries[PlayState.dayCount - 1];
+                    }
                     for(i in 0...rand) {
-                        text.text += entries[PlayState.dayCount - 1].charAt(
-                            cursorPosition
-                        );
-                        if(cursorPosition < entries[PlayState.dayCount - 1].length) {
+                        text.text += entry.charAt(cursorPosition);
+                        if(cursorPosition < entry.length) {
                             cursorPosition++;
                         }
                     }
