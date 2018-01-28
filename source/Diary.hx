@@ -354,6 +354,8 @@ One day left."
                         }
                         else if(PlayState.dayCount == 31) {
                             PlayState.dayCount++;
+                            FlxG.save.data.dayCount = PlayState.dayCount;
+                            FlxG.save.flush();
                             FlxG.switchState(new Diary());
                         }
                         else {
@@ -423,6 +425,7 @@ Hugs, your kid";
                             entry = "Wednesday, 10/30/43:
 
 So, the good news is I'm not going to starve to death :)
+
 The bad news is I can't leave either :(
 
 The only thing to do now is to hunker down for winter. Just me and my plants and a cold field.
@@ -432,9 +435,12 @@ At least I have internet.";
                         else {
                             // Bad end
                             entry = "Wednesday, 10/30/43:
+
 Well, I tried. I really did. I guess it just wasn't in the cards for me.
 
-Everything's ready. They'll all open when I say go. It's funny, but I don't feel scared.
+Everything's ready. The vents will all open when I say go.
+
+It's funny, but I don't feel scared.
 
 Actually, all I can think about is the dream I had last night.
 
