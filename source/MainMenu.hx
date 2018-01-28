@@ -32,6 +32,7 @@ class MainMenu extends FlxState
             FlxG.save.data.dayCount = null;
             FlxG.save.flush();
         }
+        FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
     }
 
     override public function update(elapsed:Float) {

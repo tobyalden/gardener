@@ -15,6 +15,7 @@ class HighScores extends FlxState
     private var decoration:FlxSprite;
     private var backToMenu:MenuButton;
     private var lock:Bool;
+    private var lastMouseY:Float;
 
     override public function create():Void
 	{
@@ -38,6 +39,8 @@ class HighScores extends FlxState
         decoration = new FlxSprite(backToMenu.x, 0);
         decoration.loadGraphic('assets/images/decoration3.png');
         add(decoration);
+
+        FlxG.camera.fade(FlxColor.BLACK, 2, true);
 
         var socket = new haxe.Http("https://high-score-server.herokuapp.com/");
         socket.onData = function(data) {
@@ -75,6 +78,8 @@ class HighScores extends FlxState
             text.text = 'ERROR: ${data}';
         }
         socket.request();
+
+        lastMouseY = FlxG.mouse.y;
     }
 
 	override public function update(elapsed:Float):Void
@@ -98,11 +103,15 @@ class HighScores extends FlxState
         }
 
         if(text.text != 'LOADING...') {
-            text.y += FlxG.mouse.wheel;
+            text.y -= FlxG.mouse.wheel;
+            if(FlxG.mouse.pressed && clicked(text)) {
+                text.y += FlxG.mouse.y - lastMouseY;
+            }
             if(text.y > header.height + 6) {
                 text.y = header.height + 6;
             }
         }
+        lastMouseY = FlxG.mouse.y;
     }
 
     private function clicked(e:FlxSprite) {
