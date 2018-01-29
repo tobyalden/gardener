@@ -2,8 +2,10 @@ package;
 
 import flixel.*;
 import flixel.math.*;
+import flixel.system.*;
 import flixel.text.*;
 import flixel.util.*;
+
 import flixel.addons.display.*;
 
 class MainMenu extends FlxState
@@ -40,6 +42,11 @@ class MainMenu extends FlxState
             FlxG.save.flush();
         }
         FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
+        FlxG.sound.playMusic(
+            FlxAssets.getSound("assets/music/mainmenu"),
+            0.5,
+            true
+        );
     }
 
     override public function update(elapsed:Float) {
@@ -68,6 +75,7 @@ class MainMenu extends FlxState
             if(clicked(newGameButton)) {
                 FlxG.sound.play('assets/sounds/click.wav');
                 isFading = true;
+                FlxG.sound.music.fadeOut(2);
                 FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
                 {
                     FlxG.save.data.dayCount = null;
@@ -81,6 +89,7 @@ class MainMenu extends FlxState
             ) {
                 FlxG.sound.play('assets/sounds/click.wav');
                 isFading = true;
+                FlxG.sound.music.fadeOut(2);
                 FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
                 {
                     FlxG.switchState(new Diary());

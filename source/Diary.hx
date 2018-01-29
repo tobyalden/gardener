@@ -2,6 +2,7 @@ package;
 
 import flixel.*;
 import flixel.math.*;
+import flixel.system.*;
 import flixel.text.*;
 import flixel.util.*;
 import openfl.events.*;
@@ -24,6 +25,7 @@ class Diary extends FlxState
     override public function create():Void
 	{
 		super.create();
+
         var headerText = 'DiaryKeeper v.1.2';
         if(FlxG.save.data.dayCount != null) {
             PlayState.dayCount = FlxG.save.data.dayCount;
@@ -176,7 +178,7 @@ Woke up early today and got right to work, then spent the evening with my head p
 
 Today I had a very strange experience.
 
-I had my head pressed to the window, just like last night. The sun had just gone down and I had closed my eyes when I felt myself float out of my body and fall through the wall, out of the trailer. I opened my eyes and saw I was gliding low to the ground, between plants through the field. I crested the hill I saw so often from my window and went up, up, up into the sky.
+I had my head pressed to the window, just like last night. The sun had just gone down and I had closed my eyes when I felt myself float out of my body and fall through the wall, out of the trailer. I opened my eyes and saw I was gliding low to the ground, between plants through the field. I crested the hill I see so often from my window and went up, up, up into the sky.
 
 And when I looked down I saw something unbelievable.
 
@@ -259,6 +261,13 @@ One day left."
 
         FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
         FlxG.camera.fade(FlxColor.BLACK, 2, true);
+
+        FlxG.sound.playMusic(
+            FlxAssets.getSound("assets/music/diary"),
+            0,
+            true
+        );
+        FlxG.sound.music.fadeIn(2, 0, 0.5);
     }
 
     private function blinkCursor(_:FlxTimer) {
@@ -347,6 +356,7 @@ One day left."
                             text.text = 'SAVED.';
                         });
                     }
+                    FlxG.sound.music.fadeOut(3);
                     FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
                     {
                         if(PlayState.dayCount == 32) {

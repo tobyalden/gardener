@@ -5,6 +5,7 @@ import FieldTile.SaveFormat;
 
 import flixel.*;
 import flixel.math.*;
+import flixel.system.*;
 import flixel.text.*;
 import flixel.util.*;
 
@@ -31,7 +32,7 @@ class PlayState extends FlxState
     public static var stackPosition = 0;
     public static var recursionCount = 0;
     public static var harvestCount = 0;
-    public static var dayCount = 1;
+    public static var dayCount = 14;
 
     private var executionTime:Float;
 
@@ -66,6 +67,31 @@ class PlayState extends FlxState
 		super.create();
 
         executionTime = EXECUTION_TIME;
+
+        if(dayCount <= 15) {
+            FlxG.sound.play('assets/sounds/rooster.wav');
+            FlxG.sound.playMusic(
+                FlxAssets.getSound("assets/music/gardening1"),
+                0.5,
+                true
+            );
+        }
+        else if(dayCount <= 20) {
+            FlxG.sound.play('assets/sounds/sadrooster.wav');
+            FlxG.sound.playMusic(
+                FlxAssets.getSound("assets/music/gardening2"),
+                0.5,
+                true
+            );
+        }
+        else {
+            FlxG.sound.play('assets/sounds/weirdrooster.wav');
+            FlxG.sound.playMusic(
+                FlxAssets.getSound("assets/music/gardening3"),
+                0.5,
+                true
+            );
+        }
 
         //var socket = new haxe.Http("https://api.carbonintensity.org.uk/intensity");
 
@@ -603,6 +629,7 @@ class PlayState extends FlxState
             if(clicked(advanceButton)) {
                 FlxG.sound.play('assets/sounds/click.wav');
                 isFading = true;
+                FlxG.sound.music.fadeOut(2);
                 FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
                 {
                     advanceDay();
