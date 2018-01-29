@@ -31,8 +31,8 @@ class PlayState extends FlxState
     public static var previewRobot:Robot;
     public static var stackPosition = 0;
     public static var recursionCount = 0;
-    public static var harvestCount = 0;
-    public static var dayCount = 14;
+    public static var harvestCount = 50;
+    public static var dayCount = 30;
 
     private var executionTime:Float;
 
@@ -85,12 +85,12 @@ class PlayState extends FlxState
             );
         }
         else {
-            FlxG.sound.play('assets/sounds/weirdrooster.wav');
-            FlxG.sound.playMusic(
-                FlxAssets.getSound("assets/music/gardening3"),
-                0.5,
-                true
-            );
+            //FlxG.sound.play('assets/sounds/weirdrooster.wav');
+            //FlxG.sound.playMusic(
+                //FlxAssets.getSound("assets/music/gardening3"),
+                //0.5,
+                //true
+            //);
         }
 
         //var socket = new haxe.Http("https://api.carbonintensity.org.uk/intensity");

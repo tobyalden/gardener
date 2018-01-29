@@ -93,6 +93,7 @@ class HighScores extends FlxState
             if(FlxG.mouse.justPressed) {
                 FlxG.sound.play('assets/sounds/click.wav');
                 lock = true;
+                FlxG.sound.music.fadeOut(3);
                 FlxG.camera.fade(FlxColor.BLACK, 3, false, function() {
                     FlxG.switchState(new MainMenu());
                 }, true);

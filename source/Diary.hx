@@ -262,12 +262,28 @@ One day left."
         FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
         FlxG.camera.fade(FlxColor.BLACK, 2, true);
 
-        FlxG.sound.playMusic(
-            FlxAssets.getSound("assets/music/diary"),
-            0,
-            true
-        );
-        FlxG.sound.music.fadeIn(2, 0, 0.5);
+        if(PlayState.dayCount == 31) {
+            var ending = "bad";
+            if(PlayState.harvestCount >= 50) {
+                ending = "best";
+            }
+            else if(PlayState.harvestCount >= 25) {
+                ending = "good";
+            }
+            FlxG.sound.playMusic(
+                FlxAssets.getSound("assets/music/" + ending + "end"),
+                1,
+                false
+            );
+        }
+        else if(PlayState.dayCount < 31) {
+            FlxG.sound.playMusic(
+                FlxAssets.getSound("assets/music/diary"),
+                0,
+                true
+            );
+            FlxG.sound.music.fadeIn(2, 0, 0.5);
+        }
     }
 
     private function blinkCursor(_:FlxTimer) {
@@ -305,12 +321,20 @@ One day left."
         socket.onData = function(data) {
             trace('we got data: ${data}');
             text.text = 'POST SUBMITTED!';
+            FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
+            {
+                FlxG.switchState(new HighScores());
+            }, true);
         }
         socket.onStatus = function(data) {
             trace('we got status: ${data}');
         }
         socket.onError = function(data) {
             text.text = 'ERROR: ${data}';
+            FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
+            {
+                FlxG.switchState(new HighScores());
+            }, true);
         }
         socket.request(true);
     }
@@ -356,22 +380,23 @@ One day left."
                             text.text = 'SAVED.';
                         });
                     }
-                    FlxG.sound.music.fadeOut(3);
-                    FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
-                    {
-                        if(PlayState.dayCount == 32) {
-                            FlxG.switchState(new HighScores());
-                        }
-                        else if(PlayState.dayCount == 31) {
-                            PlayState.dayCount++;
-                            FlxG.save.data.dayCount = PlayState.dayCount;
-                            FlxG.save.flush();
-                            FlxG.switchState(new Diary());
-                        }
-                        else {
-                            FlxG.switchState(new PlayState());
-                        }
-                    }, true);
+                    if(PlayState.dayCount < 31) {
+                        FlxG.sound.music.fadeOut(3);
+                    }
+                    if(PlayState.dayCount < 32) {
+                        FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
+                        {
+                            if(PlayState.dayCount == 31) {
+                                PlayState.dayCount++;
+                                FlxG.save.data.dayCount = PlayState.dayCount;
+                                FlxG.save.flush();
+                                FlxG.switchState(new Diary());
+                            }
+                            else {
+                                FlxG.switchState(new PlayState());
+                            }
+                        }, true);
+                    }
                 }
             }
             else {
@@ -406,6 +431,7 @@ One day left."
                 else {
                     text.text += char;
                 }
+                FlxG.sound.play('assets/sounds/type.wav');
             }
             else {
                 if(FlxG.keys.justPressed.BACKSPACE) {
@@ -428,7 +454,7 @@ But I'm happy. Every day I wake up and see the sun rise on all the life I've gro
 I know you're probably worried that I'm sad or depressed, out here all alone. But I don't feel alone. You just have to trust me when I say that I've never felt more at peace than I do out here, gardening.
 
 I love you a lot, and think about you all the time.
-Hugs, your kid";
+Hugs, your kid.";
                         }
                         else if(PlayState.harvestCount >= 25) {
                             // Good end
