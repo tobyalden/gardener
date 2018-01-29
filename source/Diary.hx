@@ -321,8 +321,11 @@ One day left."
         socket.onData = function(data) {
             trace('we got data: ${data}');
             text.text = 'POST SUBMITTED!';
+            FlxG.save.data.dayCount = null;
+            FlxG.save.flush();
             FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
             {
+                PlayState.dayCount = 1;
                 FlxG.switchState(new HighScores());
             }, true);
         }
@@ -331,8 +334,11 @@ One day left."
         }
         socket.onError = function(data) {
             text.text = 'ERROR: ${data}';
+            FlxG.save.data.dayCount = null;
+            FlxG.save.flush();
             FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
             {
+                PlayState.dayCount = 1;
                 FlxG.switchState(new HighScores());
             }, true);
         }
