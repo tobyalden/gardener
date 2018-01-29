@@ -4,17 +4,24 @@ import flixel.*;
 import flixel.math.*;
 import flixel.text.*;
 import flixel.util.*;
+import flixel.addons.display.*;
 
 class MainMenu extends FlxState
 {
+    public static inline var BACKDROP_SCROLL_SPEED = 100;
+
     private var title:FlxSprite;
     private var newGameButton:FlxText;
     private var continueButton:FlxText;
     private var isFading:Bool;
+    private var backdrop:FlxBackdrop;
 
     override public function create():Void
 	{
 		super.create();
+        backdrop = new FlxBackdrop('assets/images/rainbow.png');
+        backdrop.velocity.set(BACKDROP_SCROLL_SPEED, 0);
+        add(backdrop);
         newGameButton = new FlxText(0, 0, 'NEW GAME', 24);
         newGameButton.screenCenter();
         continueButton = new FlxText(0, 0, 'CONTINUE', 24);

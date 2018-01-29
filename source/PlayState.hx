@@ -8,11 +8,9 @@ import flixel.math.*;
 import flixel.text.*;
 import flixel.util.*;
 
-// TODO: Finish adding diary to game
-// TODO: Add music (still need max's last song)
-// TODO: Improve card visibility
-// TODO: Remove debug functions, clear high score table
-// TODO: Create HTML5 version
+// TODO: Add music & roosters (still need max's last song)
+// TODO: Remove non-HTML5 files from build
+// TODO: Clear high score table
 
 class PlayState extends FlxState
 {
