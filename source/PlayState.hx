@@ -9,9 +9,6 @@ import flixel.system.*;
 import flixel.text.*;
 import flixel.util.*;
 
-// TODO: Add gardening3 + rooster
-// TODO: Refactor save/load logic (seems dodgy...)
-// TODO: Remove non-HTML5 files from build
 // TODO: Clear high score table
 
 class PlayState extends FlxState
@@ -86,12 +83,12 @@ class PlayState extends FlxState
             );
         }
         else {
-            //FlxG.sound.play('assets/sounds/weirdrooster.wav');
-            //FlxG.sound.playMusic(
-                //FlxAssets.getSound("assets/music/gardening3"),
-                //0.5,
-                //true
-            //);
+            FlxG.sound.play('assets/sounds/weirdrooster.wav');
+            FlxG.sound.playMusic(
+                FlxAssets.getSound("assets/music/gardening3"),
+                0.5,
+                true
+            );
         }
 
         //var socket = new haxe.Http("https://api.carbonintensity.org.uk/intensity");
