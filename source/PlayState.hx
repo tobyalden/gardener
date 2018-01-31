@@ -9,7 +9,8 @@ import flixel.system.*;
 import flixel.text.*;
 import flixel.util.*;
 
-// TODO: Add music & roosters (still need max's last song)
+// TODO: Add gardening3 + rooster
+// TODO: Refactor save/load logic (seems dodgy...)
 // TODO: Remove non-HTML5 files from build
 // TODO: Clear high score table
 
@@ -31,8 +32,8 @@ class PlayState extends FlxState
     public static var previewRobot:Robot;
     public static var stackPosition = 0;
     public static var recursionCount = 0;
-    public static var harvestCount = 50;
-    public static var dayCount = 30;
+    public static var harvestCount = 0;
+    public static var dayCount = 1;
 
     private var executionTime:Float;
 

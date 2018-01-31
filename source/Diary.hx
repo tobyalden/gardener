@@ -72,6 +72,7 @@ Sent an email about it this morning, but haven't gotten a response back yet. Who
 
 Hope they see it. Otherwise they're gonna be pretty annoyed when they come pick me up.",
 "Thursday, 10/3/43:
+
 Got a response back, finally. Apparently they're \"looking into it\". Very helpful.
 
 I have to admit though, it's nice having a place to myself finally. Especially after sharing bunkbeds on the ship in. Those dudes made me seriously uncomfortable. So great to finally get a good night's sleep.",
