@@ -9,7 +9,7 @@ class TillCard extends Card
     public function new(patternNum:Int) {
         super();
         this.patternNum = patternNum;
-        loadGraphic('assets/images/till' + patternNum + '.png');
+        animation.play('till' + patternNum);
     }
 
     override public function action(copy:Bool, preview:Bool) {

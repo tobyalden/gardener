@@ -9,7 +9,7 @@ class TurnCard extends Card
     public function new(direction:String) {
         super();
         this.direction = direction;
-        loadGraphic('assets/images/turn' + direction + '.png');
+        animation.play('turn' + direction);
     }
 
     override public function action(copy:Bool, preview:Bool) {

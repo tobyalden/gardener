@@ -117,7 +117,7 @@ class FieldTile extends FlxSprite
     public function advance() {
         if(plantProgress > 0) {
             if(isWet) {
-                if(daysWithoutWater == 0) {
+                if(daysWithoutWater == 0 || plantProgress == 1) {
                     plantProgress += 1;
                 }
                 daysWithoutWater = 0;

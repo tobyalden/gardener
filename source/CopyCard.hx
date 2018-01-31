@@ -19,8 +19,7 @@ class CopyCard extends Card
         if(copyNum == COPY_RIGHT) {
             imageName = 'right';
         }
-
-        loadGraphic('assets/images/copy' + imageName + '.png');
+        animation.play('copy' + imageName);
     }
 
     override public function action(copy:Bool, preview:Bool) {

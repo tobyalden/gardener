@@ -9,7 +9,7 @@ class WaterCard extends Card
     public function new(patternNum:Int) {
         super();
         this.patternNum = patternNum;
-        loadGraphic('assets/images/water' + patternNum + '.png');
+        animation.play('water' + patternNum);
     }
 
     override public function action(copy:Bool, preview:Bool) {

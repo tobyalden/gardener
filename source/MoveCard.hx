@@ -9,7 +9,7 @@ class MoveCard extends Card
     public function new(steps:Int) {
         super();
         this.steps = steps;
-        loadGraphic('assets/images/move' + steps + '.png');
+        animation.play('move' + steps);
     }
 
     override public function action(copy:Bool, preview:Bool) {
