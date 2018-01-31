@@ -17,12 +17,18 @@ class HighScores extends FlxState
     private var lock:Bool;
     private var lastMouseY:Float;
 
+    private var save:FlxSave;
+
     override public function create():Void
 	{
 		super.create();
-        FlxG.save.data.dayCount = null;
+
+        save = new FlxSave();
+        save.bind("GardenerSave");
+
+        save.data.dayCount = null;
         PlayState.dayCount = 1;
-        FlxG.save.flush();
+        save.flush();
         lock = false;
         var headerText = 'HighScores v.0.8 (CrAcKeD bY MKz3lite)';
         header = new FlxText(0, 0, FlxG.width - 140, headerText, 16);

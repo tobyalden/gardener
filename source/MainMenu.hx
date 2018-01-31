@@ -18,9 +18,13 @@ class MainMenu extends FlxState
     private var isFading:Bool;
     private var backdrop:FlxBackdrop;
 
+    private var save:FlxSave;
+
     override public function create():Void
 	{
 		super.create();
+        save = new FlxSave();
+        save.bind("GardenerSave");
         backdrop = new FlxBackdrop('assets/images/rainbow.png');
         backdrop.velocity.set(BACKDROP_SCROLL_SPEED, 0);
         add(backdrop);
@@ -37,9 +41,9 @@ class MainMenu extends FlxState
         add(newGameButton);
         add(continueButton);
         isFading = false;
-        if(FlxG.save.data.dayCount != null && FlxG.save.data.dayCount > 30) {
-            FlxG.save.data.dayCount = null;
-            FlxG.save.flush();
+        if(save.data.dayCount != null && save.data.dayCount > 30) {
+            save.data.dayCount = null;
+            save.flush();
         }
         FlxG.camera.fade(FlxColor.BLACK, 0.5, true);
         FlxG.sound.playMusic(
@@ -62,11 +66,11 @@ class MainMenu extends FlxState
                 button.color = 0xd6d6d6;
             }
         }
-        if(FlxG.save.data.dayCount == null) {
+        if(save.data.dayCount == null) {
             continueButton.color = 0x777777;
         }
         else {
-            continueButton.text = 'CONTINUE (DAY ${FlxG.save.data.dayCount})';
+            continueButton.text = 'CONTINUE (DAY ${save.data.dayCount})';
             continueButton.screenCenter();
             continueButton.y += newGameButton.height;
         }
@@ -78,13 +82,13 @@ class MainMenu extends FlxState
                 FlxG.sound.music.fadeOut(2);
                 FlxG.camera.fade(FlxColor.BLACK, 2, false, function()
                 {
-                    FlxG.save.data.dayCount = null;
-                    FlxG.save.flush();
+                    save.data.dayCount = null;
+                    save.flush();
                     FlxG.switchState(new Diary());
                 }, true);
             }
             else if(
-                FlxG.save.data.dayCount != null
+                save.data.dayCount != null
                 && clicked(continueButton)
             ) {
                 FlxG.sound.play('assets/sounds/click.wav');

@@ -60,9 +60,14 @@ class PlayState extends FlxState
 
     private var isFading:Bool;
 
+    private var save:FlxSave;
+
     override public function create():Void
 	{
 		super.create();
+
+        save = new FlxSave();
+        save.bind("GardenerSave");
 
         executionTime = EXECUTION_TIME;
 
@@ -230,7 +235,7 @@ class PlayState extends FlxState
         // TODO: Add preview squares on card highlight
         stackExecution = new FlxTimer();
 
-        if(FlxG.save.data.dayCount != null) {
+        if(save.data.dayCount != null) {
             loadGame();
         }
         FlxG.camera.fade(FlxColor.BLACK, 2, true);
@@ -424,7 +429,7 @@ class PlayState extends FlxState
             //loadGame();
         //}
         //if(FlxG.keys.justReleased.D) {
-            //FlxG.save.erase();
+            //save.erase();
         //}
 
         updateTooltip();
@@ -776,11 +781,11 @@ class PlayState extends FlxState
     }
 
     private function saveGame() {
-        FlxG.save.data.dayCount = dayCount;
-        FlxG.save.data.harvestCount = harvestCount;
-        FlxG.save.data.robotTileX = robot.tileX;
-        FlxG.save.data.robotTileY = robot.tileY;
-        FlxG.save.data.robotFacing = robot.facing;
+        save.data.dayCount = dayCount;
+        save.data.harvestCount = harvestCount;
+        save.data.robotTileX = robot.tileX;
+        save.data.robotTileY = robot.tileY;
+        save.data.robotFacing = robot.facing;
         var field = new Array<SaveFormat>();
         for(x in 0...FIELD_SIZE) {
             for(y in 0...FIELD_SIZE) {
@@ -795,17 +800,17 @@ class PlayState extends FlxState
                 field.push(formattedTile);
             }
         }
-        FlxG.save.data.field = field;
-        FlxG.save.flush();
+        save.data.field = field;
+        save.flush();
     }
 
     private function loadGame() {
-        dayCount = FlxG.save.data.dayCount;
-        harvestCount = FlxG.save.data.harvestCount;
-        robot.tileX = FlxG.save.data.robotTileX;
-        robot.tileY = FlxG.save.data.robotTileY;
+        dayCount = save.data.dayCount;
+        harvestCount = save.data.harvestCount;
+        robot.tileX = save.data.robotTileX;
+        robot.tileY = save.data.robotTileY;
         robot.setPosition(robot.tileX * TILE_SIZE, robot.tileY * TILE_SIZE);
-        robot.facing = FlxG.save.data.robotFacing;
+        robot.facing = save.data.robotFacing;
         previewRobot.x = robot.x;
         previewRobot.y= robot.y;
         previewRobot.tileX = robot.tileX;
@@ -813,7 +818,7 @@ class PlayState extends FlxState
         previewRobot.facing = robot.facing;
         // load field
         for(i in 0...FIELD_SIZE*FIELD_SIZE) {
-            var formattedTile = FlxG.save.data.field[i];
+            var formattedTile = save.data.field[i];
             var tile = FieldTile.getTile(
                 formattedTile.tileX, formattedTile.tileY
             );

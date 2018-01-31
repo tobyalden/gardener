@@ -22,13 +22,18 @@ class Diary extends FlxState
     private var lock:Bool;
     private var blinkTimer:FlxTimer;
 
+    private var save:FlxSave;
+
     override public function create():Void
 	{
 		super.create();
 
+        save = new FlxSave();
+        save.bind("GardenerSave");
+
         var headerText = 'DiaryKeeper v.1.2';
-        if(FlxG.save.data.dayCount != null) {
-            PlayState.dayCount = FlxG.save.data.dayCount;
+        if(save.data.dayCount != null) {
+            PlayState.dayCount = save.data.dayCount;
         }
         if(PlayState.dayCount == 32) {
             headerText = 'FarmBBS v.4.3.4 (Unregistered)';
@@ -322,8 +327,8 @@ One day left."
         socket.onData = function(data) {
             trace('we got data: ${data}');
             text.text = 'POST SUBMITTED!';
-            FlxG.save.data.dayCount = null;
-            FlxG.save.flush();
+            save.data.dayCount = null;
+            save.flush();
             FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
             {
                 PlayState.dayCount = 1;
@@ -335,8 +340,8 @@ One day left."
         }
         socket.onError = function(data) {
             text.text = 'ERROR: ${data}';
-            FlxG.save.data.dayCount = null;
-            FlxG.save.flush();
+            save.data.dayCount = null;
+            save.flush();
             FlxG.camera.fade(FlxColor.BLACK, 3, false, function()
             {
                 PlayState.dayCount = 1;
@@ -395,8 +400,8 @@ One day left."
                         {
                             if(PlayState.dayCount == 31) {
                                 PlayState.dayCount++;
-                                FlxG.save.data.dayCount = PlayState.dayCount;
-                                FlxG.save.flush();
+                                save.data.dayCount = PlayState.dayCount;
+                                save.flush();
                                 FlxG.switchState(new Diary());
                             }
                             else {
